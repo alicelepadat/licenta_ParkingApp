@@ -14,6 +14,16 @@ body {
   height: 100vh;
 }
 
+.search-area {
+  cursor: pointer;
+}
+
+.outside-card {
+  background-color: aliceblue;
+  width: 9rem;
+  color: cornflowerblue;
+}
+
 .form-control:focus {
   box-shadow: none;
 }
@@ -28,5 +38,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: aliceblue;
+  color: rgb(1, 48, 90);
+  background-color: white;
+  border-top: 1px solid rgb(1, 48, 90);
 }

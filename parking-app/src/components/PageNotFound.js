@@ -7,23 +7,19 @@ class PageNotFound extends React.Component {
     render() {
         return (
             <div className="container w-100 h-100 text-center">
-                <div className="row">
-                    <div className="col-sm ml-4">
-                        4
-                    </div>
-                    <div className="col-sm">
+                <div className="error-page row justify-content-center">
+                    4
+                    <div>
                         <GiCartwheel />
                     </div>
-                    <div className="col-sm mr-4">
-                        4
-                    </div>
+                    4
                 </div>
                 <div className="msg">
-                    <p>Oops, page not found!</p>
-                    <p>Go <Link to='/'>home</Link> instead.
+                    <p>Oops, pagina pe care o cauti nu poate fi accesata!</p>
+                    <p>Mergi inapoi <Link to='/'>acasa</Link>.
                     </p>
                 </div>
-            </div>
+            </div >
         );
     };
 }

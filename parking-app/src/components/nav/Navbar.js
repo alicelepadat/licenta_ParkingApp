@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaRegWindowClose } from "react-icons/fa";
-import { SidebarData } from './Sidebar.Data';
+import { NavbarData } from './Navbar.Data';
 import '../../styles/Navbar.css';
 import { IconContext } from 'react-icons';
 
@@ -25,7 +25,7 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                <IconContext.Provider value={{ color: 'cornflowerblue' }}>
+                <IconContext.Provider value={{ color: 'aliceblue' }}>
                     <div className="navbar h-100">
                         <Link to='#' className="menu-bars" onClick={this.showSidebar}>
                             <FaBars />
@@ -38,7 +38,7 @@ class Navbar extends Component {
                                     <FaRegWindowClose />
                                 </Link>
                             </li>
-                            {SidebarData.map((item, index) => {
+                            {NavbarData.map((item, index) => {
                                 return (
                                     <li key={index} className="nav-text">
                                         <Link to={item.path}>

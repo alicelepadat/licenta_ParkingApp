@@ -2,7 +2,7 @@ import React from 'react';
 import { FaUserAlt } from "react-icons/fa";
 import { AiFillHome } from 'react-icons/ai';
 
-export const SidebarData = [
+export const NavbarData = [
     {
         title: 'Acasa',
         path: '/',
