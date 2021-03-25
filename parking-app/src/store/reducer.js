@@ -6,9 +6,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_SELECTED_PARKING_AREA:
             return {
                 ...state,
-                parkingArea: {
-                    ...state.parkingAreas
-                },
+                parkingAreas: state.parkingAreas,
                 selectedArea: action.selectedArea
             }
         default:
