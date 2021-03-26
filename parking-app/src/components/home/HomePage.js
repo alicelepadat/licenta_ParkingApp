@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { FaSearch } from 'react-icons/fa';
 import ParkingAreaInfo from "../info/ParkingAreaInfo";
 
+
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
 class HomeContainer extends React.Component {
@@ -28,6 +29,7 @@ class HomeContainer extends React.Component {
 
         this.getUserLocation = this.getUserLocation.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleInfoClose = this.handleInfoClose.bind(this);
     }
 
     handleChange(event) {
@@ -68,6 +70,10 @@ class HomeContainer extends React.Component {
                 isInfoClicked: true
             })
         })
+    }
+
+    handleInfoClose() {
+        this.setState({ isInfoClicked: false, zoom: 12, search: '' });
     }
 
     componentDidMount() {
@@ -135,16 +141,16 @@ class HomeContainer extends React.Component {
                         }
                         {
                             this.state.markers.map((marker, index) => {
-                                return <Marker key={index} position={marker} />
+                                return <Marker key={index} position={marker} onClick={() => this.setState({ isInfoClicked: true })} />
                             })
-                        }
-                        {
-                            this.state.isInfoClicked && (
-                                <ParkingAreaInfo parkingArea={this.state.search} />
-                            )
                         }
                     </Map>
                 </section>
+                {
+                    this.state.isInfoClicked && (
+                        <ParkingAreaInfo parkingArea={this.state.search} handleClose={this.handleInfoClose} />
+                    )
+                }
             </div >
         )
     }

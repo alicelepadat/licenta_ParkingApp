@@ -3,7 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import HomePage from './home/HomePage';
 import PageNotFound from './PageNotFound';
 import Navbar from './nav/Navbar';
-import Reservation from './reservation/Reservation';
+import ReservationList from './reservation/ReservationList';
+import Vehicles from './vehicles/Vehicles';
+import Authenticate from './authentication/Authenticate';
 
 class App extends Component {
   render() {
@@ -12,7 +14,9 @@ class App extends Component {
         <Navbar />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/reservation" component={Reservation} />
+          <Route exact path="/reservations" component={ReservationList} />
+          <Route exact path="/vehicles" component={Vehicles} />
+          <Route exact path="/profile" component={Authenticate} />
           <Route component={PageNotFound} />
         </Switch>
       </div>

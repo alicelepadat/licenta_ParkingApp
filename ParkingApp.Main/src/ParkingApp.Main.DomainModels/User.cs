@@ -20,7 +20,7 @@ namespace ParkingApp.Main.DomainModels
 
         [Required]
         [MinLength(8)]
-        [MaxLength(50)]
+        [MaxLength(20)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

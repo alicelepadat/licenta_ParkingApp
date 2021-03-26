@@ -25,7 +25,7 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                <IconContext.Provider value={{ color: 'aliceblue' }}>
+                <IconContext.Provider value={{ color: 'white' }}>
                     <div className="navbar h-100">
                         <Link to='#' className="menu-bars" onClick={this.showSidebar}>
                             <FaBars />
