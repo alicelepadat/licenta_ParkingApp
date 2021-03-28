@@ -24,6 +24,6 @@ namespace ParkingApp.Main.DomainModels
 
         public Admin Admin { get; set; }
 
-        public List<Reservation> Reservations { get; set; }
+        //public List<Reservation> Reservations { get; set; }
     }
 }

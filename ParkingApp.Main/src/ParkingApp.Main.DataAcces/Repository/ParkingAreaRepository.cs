@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.DomainModels;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParkingApp.Main.DataAcces.Repository
@@ -15,6 +16,7 @@ namespace ParkingApp.Main.DataAcces.Repository
         {
             return await _parkingMainContext.ParkingAreas
                 .Include(a => a.Address)
+                .Include(a=>a.Company)
                 .ToListAsync();
         }
     }

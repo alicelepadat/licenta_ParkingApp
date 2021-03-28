@@ -1,6 +1,4 @@
-﻿using ParkingApp.Main.DomainModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ParkingApp.Main.Dtos
@@ -21,6 +19,6 @@ namespace ParkingApp.Main.Dtos
 
         public AdminDto Admin { get; set; }
 
-        public List<ReservationDto> Reservations { get; set; }
+        //public List<ReservationDto> Reservations { get; set; }
     }
 }

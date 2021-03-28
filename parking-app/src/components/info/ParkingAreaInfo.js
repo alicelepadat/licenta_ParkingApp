@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Row, Col, Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../store/actions';
-import Dialog from '@material-ui/core/Dialog';
-import Reservation from '../reservation/Reservation';
 import { FaParking } from 'react-icons/fa';
+import { AiFillCar } from 'react-icons/ai';
+import { MdAttachMoney, MdLocationOn } from 'react-icons/md';
 
 class ParkingAreaInfo extends Component {
     state = {
@@ -13,52 +12,56 @@ class ParkingAreaInfo extends Component {
             hour: new Date().getHours(),
             minutes: new Date().getMinutes()
         },
-        open: false
     };
-
-    onChange = (ev) => this.setState({ value: ev.target.value });
-    handleClickOpen = () => { this.setState({ open: true }) }
-    handleClose = () => this.setState({ open: false });
 
     render() {
         return (
             <div>
-                <Modal show={true} onHide={() => this.props.handleClose()} centered className="text-center">
+                <Modal show={true} onHide={() => this.props.handleClose()} centered className="text-center" backdrop="static">
                     <Modal.Header closeButton>
-                        <Modal.Title><FaParking color="rgb(1, 48, 90)" /> {this.props.parkingArea}</Modal.Title>
+                        <Modal.Title>
+                            <h4><FaParking color="rgb(1, 48, 90)" /> {this.props.selectedArea.address.street} </h4>
+                        </Modal.Title>
                     </Modal.Header>
+                    <Modal.Body>
+                        <Card>
+                            <Card.Body>
+                                <Row>
+                                    <Col xs={6} md={6}>
+                                        <AiFillCar /> Nr. locuri: {this.props.selectedArea.availableSpots}
+                                    </Col>
+                                    <Col xs={6} md={6}>
+                                        <MdAttachMoney /> Pret/ora: {this.props.selectedArea.pricePerHour} lei
+                                    </Col>
+                                </Row>
+                            </Card.Body>
+                            <Card.Text>
+                                {this.props.selectedArea.address.directions} <br />
+                                <MdLocationOn /> {this.props.selectedArea.address.city} - {this.props.selectedArea.address.county}
+                            </Card.Text>
+                        </Card>
+                    </Modal.Body>
                     <Modal.Footer>
-                        <Button className="m-2 text-center" onClick={() => this.props.handleClose()} variant="danger">
+                        <Button className="m-2 text-center" variant="danger"
+                            onClick={() => { this.props.handleClose(); this.props.onCancelParkinArea(); }}>
                             Inchide
-                    </Button>
+                        </Button>
                         <Button className="m-2 text-center" variant="primary"
-                            onClick={() => {
-                                this.props.onSelectedParkingArea(this.props.parkingArea);
-                                this.handleClickOpen();
-                            }}
+                            onClick={() => { this.props.onReserve() }}
                         >
                             Parcheaza
-                    </Button>
+                        </Button>
                     </Modal.Footer>
                 </Modal >
-                <Dialog fullScreen open={this.state.open} onClose={() => { this.handleClose(); this.props.handleClose() }}>
-                    <Reservation onClose={() => { this.handleClose(); this.props.handleClose() }} />
-                </Dialog>
-            </div>
+            </div >
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        selectedArea: state.selectedArea
+        selectedArea: state.parkingAreas.selectedArea
     };
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onSelectedParkingArea: (selectedArea) => dispatch({ type: actionTypes.SET_SELECTED_PARKING_AREA, selectedArea: selectedArea })
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ParkingAreaInfo);
+export default connect(mapStateToProps)(ParkingAreaInfo);

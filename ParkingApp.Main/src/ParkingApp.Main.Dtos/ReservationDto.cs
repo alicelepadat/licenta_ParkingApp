@@ -6,16 +6,15 @@ namespace ParkingApp.Main.Dtos
     public class ReservationDto
     {
         public int Id { get; set; }
-
-        [Required]
-        public DateTime ReservationTime { get; set; }
-
+        
         [Required]
         public DateTime ReservationDate { get; set; }
-
+        
         [Required]
-        [Range(30, 24 * 60)]
-        public int Duration { get; set; }
+        public DateTime StartTime{ get; set; }
+        
+        [Required]
+        public DateTime EndTime{ get; set; }
 
         [Required]
         public bool Finished { get; set; }

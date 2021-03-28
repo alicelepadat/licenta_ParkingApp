@@ -7,15 +7,14 @@ namespace ParkingApp.Main.DomainModels
     public class Reservation : BaseEntity
     {
         [Required]
-        public DateTime ReservationTime { get; set; }
-
-        [Required]
         public DateTime ReservationDate { get; set; }
 
         [Required]
-        [Range(30, 24*60)]
-        public int Duration { get; set; }
-
+        public DateTime StartTime{ get; set; }
+        
+        [Required]
+        public DateTime EndTime{ get; set; }
+        
         [Required]
         [Column(TypeName = "bit")]
         public bool Finished { get; set; }

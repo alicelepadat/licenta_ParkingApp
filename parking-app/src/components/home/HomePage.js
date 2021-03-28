@@ -5,7 +5,11 @@ import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { FaSearch } from 'react-icons/fa';
 import ParkingAreaInfo from "../info/ParkingAreaInfo";
-
+import * as actionCreators from '../../store/actions/index';
+import Dialog from '@material-ui/core/Dialog';
+import Reservation from '../reservation/Reservation';
+import { Modal } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
@@ -20,12 +24,12 @@ class HomeContainer extends React.Component {
         search: '',
         isSuggestionDisplay: false,
         isInfoClicked: false,
+        isReservationClicked: false,
+        isAuthRequired: true,
     }
 
     constructor(props) {
         super(props);
-
-        this.mapRef = React.createRef();
 
         this.getUserLocation = this.getUserLocation.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -52,14 +56,6 @@ class HomeContainer extends React.Component {
         }
     }
 
-    setMarkers() {
-        this.props.parkingAreas.map((area) => this.getCoordinates(area.address).then((result) => {
-            this.setState({
-                markers: [...this.state.markers, result]
-            })
-        }));
-    }
-
     setCenter(address) {
         this.getCoordinates(address).then((result) => {
             this.setState({
@@ -72,13 +68,17 @@ class HomeContainer extends React.Component {
         })
     }
 
-    handleInfoClose() {
-        this.setState({ isInfoClicked: false, zoom: 12, search: '' });
-    }
+    handleInfoClose() { this.setState({ isInfoClicked: false, zoom: 12, search: '' }); }
+
+    handleReserve = () => { this.setState({ isReservationClicked: true, isInfoClicked: false }) }
+
+    closeReserve = () => { this.setState({ isReservationClicked: false, zoom: 12, search: '' }) }
+
+    handleAuthClose = () => { this.setState({ isAuthRequired: false }) }
 
     componentDidMount() {
         this.getUserLocation();
-        this.setMarkers();
+        this.props.onInitParkingAreas();
     }
 
     render() {
@@ -107,15 +107,18 @@ class HomeContainer extends React.Component {
                         <div className="container">
                             <ul className="list-group list-group-flush">
                                 {
-                                    this.props.parkingAreas
-                                        .filter(({ address }) => (address.toLowerCase()).includes(this.state.search.toLowerCase()))
+                                    !this.props.isError && this.props.parkingAreas
+                                        .filter((area) => (area.address.street.toLowerCase()).includes(this.state.search.toLowerCase()))
                                         .map((area, index) => {
                                             return (
                                                 <li className="search-area list-group-item"
                                                     key={index}
-                                                    onClick={() => this.setCenter(area.address)}
+                                                    onClick={() => {
+                                                        this.setCenter(area.address.street);
+                                                        this.props.onSelectedParkingArea(area);
+                                                    }}
                                                 >
-                                                    {area.address}
+                                                    {area.address.street}
                                                 </li>
                                             );
                                         })
@@ -139,17 +142,27 @@ class HomeContainer extends React.Component {
                             this.state.userLocation.lat && this.state.userLocation.lng &&
                             <Marker position={this.state.userLocation} />
                         }
-                        {
-                            this.state.markers.map((marker, index) => {
-                                return <Marker key={index} position={marker} onClick={() => this.setState({ isInfoClicked: true })} />
-                            })
-                        }
                     </Map>
                 </section>
                 {
                     this.state.isInfoClicked && (
-                        <ParkingAreaInfo parkingArea={this.state.search} handleClose={this.handleInfoClose} />
+                        <ParkingAreaInfo handleClose={this.handleInfoClose} onReserve={this.handleReserve} />
                     )
+                }
+                {
+                    this.state.isReservationClicked && (
+                        // this.props.isLoggedIn ?
+                        <Dialog open={this.state.isReservationClicked} scroll='body'>
+                            <Reservation onClose={() => { this.props.onCancelParkinArea(); this.closeReserve() }} />
+                        </Dialog>
+                        // : <Modal show={this.state.isAuthRequired} centered onHide={this.handleAuthClose}>
+                        //     <Modal.Header closeButton>
+                        //         <Modal.Title>Autentificare necesara</Modal.Title>
+                        //     </Modal.Header>
+                        //     <Modal.Body><Link to="/profile">Autentificati-va</Link> pentru a rezerva un loc de parcare.</Modal.Body>
+                        // </Modal>
+                    )
+
                 }
             </div >
         )
@@ -158,11 +171,22 @@ class HomeContainer extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        parkingAreas: state.parkingAreas
+        selectedArea: state.parkingAreas.selectedArea,
+        parkingAreas: state.parkingAreas.parkingAreas,
+        isError: state.parkingAreas.isError,
+        isLoggedIn: state.user.isLoggedIn,
     };
 }
 
-export default connect(mapStateToProps)(GoogleApiWrapper({
+const mapDispatchToProps = dispatch => {
+    return {
+        onInitParkingAreas: () => dispatch(actionCreators.initParkingAreas()),
+        onSelectedParkingArea: (selectedArea) => dispatch(actionCreators.selectArea(selectedArea)),
+        onCancelParkinArea: () => dispatch(actionCreators.unselectArea()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleApiWrapper({
     apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"]
 })(HomeContainer));

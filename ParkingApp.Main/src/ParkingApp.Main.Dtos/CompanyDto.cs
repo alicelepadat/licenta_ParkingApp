@@ -12,9 +12,5 @@ namespace ParkingApp.Main.Dtos
         [Required]
         [MaxLength(200)]
         public string CompanyName { get; set; }
-
-        public List<ParkingAreaDto> ParkingAreas { get; set; }
-
-        public List<AdminDto> Admins { get; set; }
     }
 }

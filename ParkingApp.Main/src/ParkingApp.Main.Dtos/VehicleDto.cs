@@ -13,6 +13,6 @@ namespace ParkingApp.Main.Dtos
 
         public DriverDto Driver { get; set; }
 
-        public ReservationDto DriverReservation { get; set; }
+        public NewReservationDto DriverReservation { get; set; }
     }
 }

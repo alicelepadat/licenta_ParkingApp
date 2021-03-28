@@ -13,6 +13,6 @@ namespace ParkingApp.Main.Dtos
 
         public DrivingLicenseDto License { get; set; }
 
-        //public List<VehicleDto> Vehicles { get; set; }
+        public List<VehicleDto> Vehicles { get; set; }
     }
 }

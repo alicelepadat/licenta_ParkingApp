@@ -88,7 +88,7 @@ class Register extends Component {
                                             <option>Emitent2...</option>
                                         </Form.Control>
                                     </Form.Group>
-                                    <Form.Group as={Col} md="4">
+                                    <Form.Group as={Col} md="3">
                                         <Form.Label>Copie scanata permis</Form.Label>
                                         <Form.File
                                             id="license-file"

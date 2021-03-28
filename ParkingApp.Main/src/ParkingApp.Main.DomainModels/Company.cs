@@ -9,9 +9,5 @@ namespace ParkingApp.Main.DomainModels
         [Required]
         [MaxLength(200)]
         public string CompanyName { get; set; }
-
-        public List<ParkingArea> ParkingAreas { get; set; }
-
-        public List<Admin> Admins { get; set; }
     }
 }

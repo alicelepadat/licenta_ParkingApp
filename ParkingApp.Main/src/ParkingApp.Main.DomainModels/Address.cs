@@ -11,8 +11,6 @@ namespace ParkingApp.Main.DomainModels
         [MaxLength(150)]
         public string Street { get; set; }
 
-        public int Number { get; set; }
-
         [MaxLength(300)]
         public string Directions { get; set; }
 

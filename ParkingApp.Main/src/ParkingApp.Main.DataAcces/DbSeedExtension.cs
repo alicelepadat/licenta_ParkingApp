@@ -43,9 +43,8 @@ namespace ParkingApp.Main.DataAcces
                     Id = id,
                     City = dataTable.Rows[row][3].ToString(),
                     Street = dataTable.Rows[row][4].ToString(),
-                    Number = dataTable.Rows[row][5].ToString().Length > 0 ? Int32.Parse(dataTable.Rows[row][5].ToString()) : 0,
-                    Directions = dataTable.Rows[row][6].ToString(),
-                    County = dataTable.Rows[row][7].ToString(),
+                    Directions = dataTable.Rows[row][5].ToString(),
+                    County = dataTable.Rows[row][6].ToString(),
                     CreatedOn = DateTime.Now
                 };
 

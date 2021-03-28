@@ -15,6 +15,5 @@ namespace ParkingApp.Main.DomainModels
         public ParkingArea ParkingArea { get; set; }
 
         public int? ParkingAreaId { get; set; }
-
     }
 }

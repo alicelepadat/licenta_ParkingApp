@@ -7,6 +7,7 @@ namespace ParkingApp.Main.Dtos.Mappers
         public ReservationProfile()
         {
             CreateMap<Reservation, ReservationDto>().ReverseMap();
+            CreateMap<Reservation, NewReservationDto>().ReverseMap();
         }
     }
 }
