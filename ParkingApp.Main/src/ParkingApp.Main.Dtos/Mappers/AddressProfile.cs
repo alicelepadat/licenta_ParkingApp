@@ -7,6 +7,7 @@ namespace ParkingApp.Main.Dtos.Mappers
         public AddressProfile()
         {
             CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Coordinates, CoordinatesDto>();
         }
         
     }

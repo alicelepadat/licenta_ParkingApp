@@ -16,6 +16,7 @@ namespace ParkingApp.Main.DataAcces.Repository
         {
             return await _parkingMainContext.ParkingAreas
                 .Include(a => a.Address)
+                .ThenInclude(a=>a.Coordinates)
                 .Include(a=>a.Company)
                 .ToListAsync();
         }

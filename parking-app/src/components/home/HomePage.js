@@ -1,6 +1,6 @@
 import React from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
-import mapStyles from '../../styles/mapStyles';
+import mapStyles from './mapStyles';
 import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { FaSearch } from 'react-icons/fa';
@@ -10,6 +10,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Reservation from '../reservation/Reservation';
 import { Modal } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import './HomePage.css';
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
@@ -142,11 +143,23 @@ class HomeContainer extends React.Component {
                             this.state.userLocation.lat && this.state.userLocation.lng &&
                             <Marker position={this.state.userLocation} />
                         }
+                        {
+                            this.props.parkingAreas !== null && (
+                                this.props.parkingAreas.map((area, index) => {
+                                    return <Marker key={index}
+                                        position={{ lat: area.address.coordinates.latitude, lng: area.address.coordinates.longitude, }}
+                                        onClick={() => {
+                                            this.setCenter(area.address.street);
+                                            this.props.onSelectedParkingArea(area);
+                                        }} />
+                                })
+                            )
+                        }
                     </Map>
                 </section>
                 {
                     this.state.isInfoClicked && (
-                        <ParkingAreaInfo handleClose={this.handleInfoClose} onReserve={this.handleReserve} />
+                        <ParkingAreaInfo handleClose={() => { this.handleInfoClose(); this.props.onCancelParkinArea(); }} onReserve={this.handleReserve} />
                     )
                 }
                 {

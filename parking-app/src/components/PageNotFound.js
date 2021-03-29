@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { GiCartwheel } from 'react-icons/gi';
-import '../styles/PageNotFound.css';
+import './PageNotFound.css';
 
 class PageNotFound extends React.Component {
     render() {

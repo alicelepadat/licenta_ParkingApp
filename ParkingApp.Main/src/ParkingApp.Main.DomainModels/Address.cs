@@ -16,7 +16,12 @@ namespace ParkingApp.Main.DomainModels
 
         [MaxLength(15)]
         public string County { get; set; }
+        
+        public Coordinates Coordinates { get; set; }
+
+        public int? CoordinatesId { get; set; }
 
         public ParkingArea ParkingArea { get; set; }
     }
+    
 }

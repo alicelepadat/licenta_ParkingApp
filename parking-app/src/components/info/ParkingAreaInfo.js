@@ -43,7 +43,7 @@ class ParkingAreaInfo extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button className="m-2 text-center" variant="danger"
-                            onClick={() => { this.props.handleClose(); this.props.onCancelParkinArea(); }}>
+                            onClick={() => { this.props.handleClose() }}>
                             Inchide
                         </Button>
                         <Button className="m-2 text-center" variant="primary"

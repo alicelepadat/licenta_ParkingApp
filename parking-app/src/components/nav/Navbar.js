@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaRegWindowClose } from "react-icons/fa";
 import { NavbarData } from './Navbar.Data';
-import '../../styles/Navbar.css';
+import './Navbar.css';
 import { IconContext } from 'react-icons';
 
 class Navbar extends Component {

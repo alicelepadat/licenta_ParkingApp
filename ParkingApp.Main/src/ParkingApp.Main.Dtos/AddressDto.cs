@@ -18,6 +18,8 @@ namespace ParkingApp.Main.Dtos
 
         [MaxLength(15)]
         public string County { get; set; }
+        
+        public CoordinatesDto Coordinates { get; set; }
 
         public ParkingAreaDto ParkingArea { get; set; }
     }

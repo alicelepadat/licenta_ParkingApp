@@ -2,13 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.DomainModels;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Geocoding;
+using Geocoding.Google;
+using Address = ParkingApp.Main.DomainModels.Address;
 
 namespace ParkingApp.Main.DataAcces
 {
     public static class DbSeedExtension
     {
         private static readonly string file = @"..\ParkingApp.Main.Common\Files\PublicParkingSpots.xlsx";
+        private static IGeocoder geocoder = new GoogleGeocoder(){ApiKey = "AIzaSyAkKQ5U4KELNFirW47GVfOp-n4ds9YzqXk"};
         private static Company company;
         private static int id = 2;
 
@@ -26,6 +33,11 @@ namespace ParkingApp.Main.DataAcces
             ImportAsync(builder, file);
         }
 
+        private static async Task<IEnumerable<Geocoding.Address>> getCoordinates(string address)
+        {
+            return await geocoder.GeocodeAsync(address);
+        }
+        
         private static void ImportAsync(ModelBuilder builder, string filename)
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -48,6 +60,16 @@ namespace ParkingApp.Main.DataAcces
                     CreatedOn = DateTime.Now
                 };
 
+                var coordinates = getCoordinates(address.Street);
+                var addressCoord = new Coordinates
+                {
+                    Id = id,
+                    Latitude = coordinates.Result.First().Coordinates.Latitude,
+                    Longitude = coordinates.Result.First().Coordinates.Longitude
+                };
+
+                address.CoordinatesId = addressCoord.Id;
+
                 var parkingArea = new ParkingArea
                 {
                     Id = id,
@@ -58,7 +80,10 @@ namespace ParkingApp.Main.DataAcces
                     CreatedOn = DateTime.Now
                 };
                 id += 1;
+                //builder.Entity<Address>().HasData(address);
+                builder.Entity<Coordinates>().HasData(addressCoord);
                 builder.Entity<Address>().HasData(address);
+
                 builder.Entity<ParkingArea>().HasData(parkingArea);
             }
         }
