@@ -6,6 +6,7 @@ using ParkingApp.Main.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BC = BCrypt.Net.BCrypt;
 
 namespace ParkingApp.Main.Services
 {
@@ -20,10 +21,24 @@ namespace ParkingApp.Main.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        public async Task<DriverDto> AuthenticateAsync(AuthenticationRequestDto request)
+        {
+            var account = await _unitOfWork.DriverRepository.GetDriverAsync(request.Email);
+
+            if (account == null || !BC.Verify(request.Password, account.User.Password))
+            {
+                throw new UnauthorizedAccessException("Email-ul sau parola sunt incorecte.");
+            }
+
+            return _mapper.Map<Driver, DriverDto>(account);
+        }
+
         public async Task<DriverDto> CreateAsync(NewDriverDto driver)
         {
             var model = _mapper.Map<NewDriverDto, Driver>(driver);
 
+            model.User.Password = BC.HashPassword(driver.User.Password);
+            
             await _unitOfWork.DriverRepository.AddAsync(model);
 
             await _unitOfWork.CommitAsync();
@@ -31,75 +46,12 @@ namespace ParkingApp.Main.Services
             return _mapper.Map<Driver, DriverDto>(model);
         }
 
-        public async Task DeleteAsync(int driverId)
+        public async Task<bool> DriverExistsAsync(string driverEmail)
         {
-            var modelToBeDeleted = await _unitOfWork.DriverRepository.GetWithDrivingLicenseByIdAsync(driverId);
-
-            //modelToBeDeleted.Vehicles.ForEach(vehicle =>
-            //{
-            //    _unitOfWork.ReservationRepository.Remove(vehicle.DriverReservation);
-            //    _unitOfWork.VehicleRepository.Remove(vehicle);
-            //});
-
-            _unitOfWork.IssuerRepository.Remove(modelToBeDeleted.License.Issuer);
-            _unitOfWork.DrivingLicenseRepository.Remove(modelToBeDeleted.License);
-            _unitOfWork.UserRepository.Remove(modelToBeDeleted.User);
-
-            _unitOfWork.DriverRepository.Remove(modelToBeDeleted);
-
-            await _unitOfWork.CommitAsync();
-
-        }
-
-        public async Task<bool> DriverExistsAsync(string driverName)
-        {
-            var driverFound = await _unitOfWork.DriverRepository.SingleOrDefaultAsync(x => x.User.Name.ToLower() == driverName.ToLower());
+            var driverFound = await _unitOfWork.DriverRepository.GetDriverAsync(driverEmail);
 
             return driverFound != null;
         }
 
-        public async Task<IEnumerable<DriverDto>> GetAllAsync(bool includeDrivingLicense = false, bool includeVehicles = false)
-        {
-            IEnumerable<Driver> models;
-
-            if (includeDrivingLicense)
-                models = await _unitOfWork.DriverRepository.GetAllWithDrivingLicenseAsync();
-            else if (includeVehicles)
-                models = await _unitOfWork.DriverRepository.GetAllWithVehiclesAsync();
-            else
-                models = await _unitOfWork.DriverRepository.GetAllDriversAsync();
-
-            return _mapper.Map<IEnumerable<Driver>, IEnumerable<DriverDto>>(models);
-        }
-
-        public async Task<DriverDto> GetByIdAsync(int driverId)
-        {
-            Driver model = await _unitOfWork.DriverRepository.GetWithDrivingLicenseByIdAsync(driverId);
-
-            return _mapper.Map<Driver, DriverDto>(model);
-        }
-
-        public async Task<DriverDto> GetWithVehiclesByIdAsync(int driverId, bool includeVehicles = false)
-        {
-            Driver model;
-
-            if (includeVehicles)
-                model = await _unitOfWork.DriverRepository.GetWithVehiclesByIdAsync(driverId);
-            else
-                model = await _unitOfWork.DriverRepository.GetByIdAsync(driverId);
-
-            return _mapper.Map<Driver, DriverDto>(model);
-        }
-
-        public async Task UpdateAsync(DriverDto driver)
-        {
-            var entity = await _unitOfWork.DriverRepository.SingleOrDefaultAsync(x => x.Id == driver.Id);
-
-            entity.User.Name = driver.User.Name;
-            entity.User.Phone = driver.User.Phone;
-            entity.User.Password = driver.User.Password;
-
-            await _unitOfWork.CommitAsync();
-        }
     }
 }

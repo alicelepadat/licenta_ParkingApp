@@ -18,13 +18,21 @@ namespace ParkingApp.Main.API.Controllers
             _driverService = driverService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllDrivers()
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate(AuthenticationRequestDto request)
         {
             try
             {
-                var drivers = await _driverService.GetAllAsync(true, true);
-                return Ok(drivers);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var driver = await _driverService.AuthenticateAsync(request);
+
+                return Ok();
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
             }
             catch (Exception)
             {
@@ -32,35 +40,17 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "GetDriver")]
-        public async Task<IActionResult> GetDriver(int id)
-        {
-            try
-            {
-                var driver = await _driverService.GetByIdAsync(id);
-
-                if (driver == null)
-                    return NotFound("Nu exista soferul cu id-ul specificat.");
-
-                return Ok(driver);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateProvider(NewDriverDto driver)
+        [HttpPost("register")]
+        public async Task<IActionResult> CreateDriver(NewDriverDto driver)
         {
             try
             {
 
-                if (await _driverService.DriverExistsAsync(driver.User.Name))
+                if (await _driverService.DriverExistsAsync(driver.User.Email))
                 {
                     ModelState.AddModelError(
-                        "Name",
-                        "Nu puteti adauga un sofer existent");
+                        "Email",
+                        "Email-ul corespunde unui cont existent.");
                 }
 
                 if (!ModelState.IsValid)
@@ -70,62 +60,11 @@ namespace ParkingApp.Main.API.Controllers
                 var inserted = await _driverService.CreateAsync(driver);
 
                 if (inserted == null)
+                {
                     return Problem();
-
-                return CreatedAtRoute("GetDriver", new { id = inserted.Id }, inserted);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
-            }
-
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDriver(int id, [FromBody] DriverDto driver)
-        {
-            try
-            {
-                if (driver.Id != id)
-                {
-                    ModelState.AddModelError(
-                        "Identifier",
-                        "Id incorect");
                 }
 
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                if (await _driverService.GetByIdAsync(id) == null)
-                {
-                    return NotFound("Nu exista soferul cu id-ul specificat.");
-                }
-
-                await _driverService.UpdateAsync(driver);
-
-                return NoContent();
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDriver(int id)
-        {
-            try
-            {
-                if (await _driverService.GetByIdAsync(id) == null)
-                {
-                    return NotFound("Nu exista soferul cu id-ul specificat.");
-                }
-
-                await _driverService.DeleteAsync(id);
-
-                return NoContent();
+                return Ok(inserted);
             }
             catch (Exception)
             {

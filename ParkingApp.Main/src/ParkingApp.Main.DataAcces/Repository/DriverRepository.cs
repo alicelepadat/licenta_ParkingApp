@@ -12,53 +12,13 @@ namespace ParkingApp.Main.DataAcces.Repository
         {
         }
 
-        public async Task<IEnumerable<Driver>> GetAllDriversAsync()
-        {
-            return await _parkingMainContext.Drivers
-               .Include(d => d.User)
-               .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Driver>> GetAllWithDrivingLicenseAsync()
+        public async Task<Driver> GetDriverAsync(string email)
         {
             return await _parkingMainContext.Drivers
                 .Include(d => d.User)
                 .Include(d => d.License)
                 .ThenInclude(l => l.Issuer)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Driver>> GetAllWithVehiclesAsync()
-        {
-            return await _parkingMainContext.Drivers
-               .Include(d => d.User)
-               .Include(d => d.Vehicles)
-               .ToListAsync();
-        }
-
-        public async Task<Driver> GetByIdAsync(int driverId)
-        {
-            return await _parkingMainContext.Drivers
-                .Include(d => d.User)
-                .SingleOrDefaultAsync(d => d.Id == driverId);
-        }
-
-        public async Task<Driver> GetWithDrivingLicenseByIdAsync(int driverId)
-        {
-            return await _parkingMainContext.Drivers
-                .Include(d => d.User)
-                .Include(d => d.License)
-                .ThenInclude(l => l.Issuer)
-                .SingleOrDefaultAsync(d => d.Id == driverId);
-        }
-
-        public async Task<Driver> GetWithVehiclesByIdAsync(int driverId)
-        {
-            return await _parkingMainContext.Drivers
-               .Include(d => d.User)
-               .Include(d => d.Vehicles)
-               .SingleOrDefaultAsync(d => d.Id == driverId);
-
+                .SingleOrDefaultAsync(d => d.User.Email.ToLower() == email.ToLower());
         }
     }
 }

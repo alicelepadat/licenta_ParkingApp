@@ -7,16 +7,6 @@ namespace ParkingApp.Main.DataAcces.Repository
 {
     public interface IDriverRepository : IRepository<Driver>
     {
-        Task<IEnumerable<Driver>> GetAllDriversAsync();
-
-        Task<IEnumerable<Driver>> GetAllWithDrivingLicenseAsync();
-
-        Task<IEnumerable<Driver>> GetAllWithVehiclesAsync();
-
-        Task<Driver> GetByIdAsync(int driverId);
-
-        Task<Driver> GetWithDrivingLicenseByIdAsync(int driverId);
-
-        Task<Driver> GetWithVehiclesByIdAsync(int driverId);
+        Task<Driver> GetDriverAsync(string email);
     }
 }
