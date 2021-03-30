@@ -28,11 +28,12 @@ namespace ParkingApp.Main.API.Controllers
 
                 var driver = await _driverService.AuthenticateAsync(request);
 
-                return Ok();
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+                if(driver == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(driver);
             }
             catch (Exception)
             {

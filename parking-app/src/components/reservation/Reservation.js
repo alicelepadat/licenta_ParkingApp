@@ -15,7 +15,7 @@ class Reservation extends Component {
     };
 
     render() {
-        const todayDate = format(this.state.date, "dd.MM.yyyy");
+        const todayDate = format(new Date(), "yyyy-MM-dd");
         return (
             <div>
                 <AppBar style={{ position: 'relative', backgroundColor: 'rgb(1, 48, 90)' }}>
@@ -36,7 +36,7 @@ class Reservation extends Component {
                                 <Form.Row>
                                     <Form.Group as={Col} md="4">
                                         <Form.Label htmlFor="inputReservationDate">Data</Form.Label>
-                                        <Form.Control type="text" id="inputReservationDate" defaultValue={todayDate} disabled />
+                                        <Form.Control type="date" id="inputReservationDate" defaultValue={todayDate} disabled />
                                     </Form.Group>
                                     <Form.Group as={Col} md="4">
                                         <Form.Label htmlFor="inputReservationStartTime">De la</Form.Label>

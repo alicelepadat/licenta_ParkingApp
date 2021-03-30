@@ -164,18 +164,16 @@ class HomeContainer extends React.Component {
                 }
                 {
                     this.state.isReservationClicked && (
-                        // this.props.isLoggedIn ?
-                        <Dialog open={this.state.isReservationClicked} scroll='body'>
-                            <Reservation onClose={() => { this.props.onCancelParkinArea(); this.closeReserve() }} />
-                        </Dialog>
-                        // : <Modal show={this.state.isAuthRequired} centered onHide={this.handleAuthClose}>
-                        //     <Modal.Header closeButton>
-                        //         <Modal.Title>Autentificare necesara</Modal.Title>
-                        //     </Modal.Header>
-                        //     <Modal.Body><Link to="/profile">Autentificati-va</Link> pentru a rezerva un loc de parcare.</Modal.Body>
-                        // </Modal>
-                    )
-
+                        this.props.isLoggedIn ?
+                            <Dialog open={this.state.isReservationClicked} scroll='body'>
+                                <Reservation onClose={() => { this.props.onCancelParkinArea(); this.closeReserve() }} />
+                            </Dialog>
+                            : <Modal show={this.state.isAuthRequired} centered onHide={this.handleAuthClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Autentificare necesara</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body><Link to="/profile">Autentificati-va</Link> pentru a rezerva un loc de parcare.</Modal.Body>
+                            </Modal>)
                 }
             </div >
         )
@@ -187,7 +185,7 @@ const mapStateToProps = state => {
         selectedArea: state.parkingAreas.selectedArea,
         parkingAreas: state.parkingAreas.parkingAreas,
         isError: state.parkingAreas.isError,
-        isLoggedIn: state.user.isLoggedIn,
+        isLoggedIn: state.auth.isLoggedIn,
     };
 }
 

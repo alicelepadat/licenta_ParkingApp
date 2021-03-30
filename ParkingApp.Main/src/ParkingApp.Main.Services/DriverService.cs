@@ -27,7 +27,7 @@ namespace ParkingApp.Main.Services
 
             if (account == null || !BC.Verify(request.Password, account.User.Password))
             {
-                throw new UnauthorizedAccessException("Email-ul sau parola sunt incorecte.");
+                return null;
             }
 
             return _mapper.Map<Driver, DriverDto>(account);

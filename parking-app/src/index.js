@@ -10,12 +10,12 @@ import registerServiceWorker from './registerServiceWorker';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import parkingAreasReducer from './store/reducers/parkingAreas';
-import userReducer from './store/reducers/user';
+import authReducer from './store/reducers/authentication';
 import { Provider } from 'react-redux';
 
 const rootReducer = combineReducers({
     parkingAreas: parkingAreasReducer,
-    user: userReducer
+    auth: authReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
