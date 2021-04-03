@@ -19,7 +19,7 @@ namespace ParkingApp.Main.Dtos
 
         public ReservationStateEnum State { get; set; }
 
-        public VehicleDto Vechicle { get; set; }
+        public VehicleDto Vehicle { get; set; }
 
         public ParkingAreaDto ParkingArea { get; set; }
     }

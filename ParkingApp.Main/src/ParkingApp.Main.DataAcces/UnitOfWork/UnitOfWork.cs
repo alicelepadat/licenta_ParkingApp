@@ -14,7 +14,7 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
         private Repository<Issuer> _issuerRepository;
         private ParkingAreaRepository _parkingAreaRepository;
         private ReservationRepository _reservationRepository;
-        private Repository<Vehicle> _vehicleRepository;
+        private IVehicleRepository _vehicleRepository;
 
         public UnitOfWork(ParkingMainContext parkingMainContext)
         {
@@ -33,7 +33,7 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
 
         public IReservationRepository ReservationRepository => _reservationRepository ??= new ReservationRepository(_parkingMainContext);
 
-        public IRepository<Vehicle> VehicleRepository => _vehicleRepository ??= new Repository<Vehicle>(_parkingMainContext);
+        public IVehicleRepository VehicleRepository => _vehicleRepository ??= new VehicleRepository(_parkingMainContext);
 
         public async Task<int> CommitAsync()
         {

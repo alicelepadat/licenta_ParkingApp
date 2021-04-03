@@ -16,7 +16,7 @@ namespace ParkingApp.Main.API.Controllers
 
         public ParkingAreaController(IParkingAreaService parkingAreaService)
         {
-            _parkingAreaService = parkingAreaService;
+            _parkingAreaService = parkingAreaService ?? throw new ArgumentNullException(nameof(parkingAreaService));
         }
 
         [HttpGet]

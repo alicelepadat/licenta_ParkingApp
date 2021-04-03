@@ -11,6 +11,7 @@ namespace ParkingApp.Main.DataAcces
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<ParkingArea> ParkingAreas { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

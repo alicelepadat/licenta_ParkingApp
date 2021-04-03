@@ -15,13 +15,11 @@ namespace ParkingApp.Main.API.Controllers
     {
         private readonly IReservationService _reservationService;
         private readonly IDriverService _driverService;
-        private readonly IMapper _mapper;
 
-        public ReservationController(IReservationService reservationService, IDriverService driverService, IMapper mapper)
+        public ReservationController(IReservationService reservationService, IDriverService driverService)
         {
             _reservationService = reservationService ?? throw new ArgumentNullException(nameof(reservationService));
             _driverService = driverService ?? throw new ArgumentNullException(nameof(driverService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet(Name = "GetDriverReservations")]
@@ -77,7 +75,13 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest("Interval nevalid.");
                 }
 
-                if((endTime - startTime).TotalHours < 1)
+                if(reservation.ReservationDate.Date < DateTime.Now.Date && 
+                    (startTime.TimeOfDay < DateTime.Now.TimeOfDay || endTime.TimeOfDay < DateTime.Now.TimeOfDay))
+                {
+                    return BadRequest("Nu puteti selecta o ora din trecut.");
+                }
+
+                if ((endTime - startTime).TotalHours < 1)
                 {
                     return BadRequest("Perioada minima de rezervare este de o ora.");
                 }
@@ -99,9 +103,36 @@ namespace ParkingApp.Main.API.Controllers
 
                 return CreatedAtRoute("GetDriverReservations", new { driverId }, insertedId);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteReservation(int driverId, int reservationId)
+        {
+            try
+            {
+                var driver = await _driverService.GetByIdAsync(driverId);
+
+                if (driver == null)
+                {
+                    return NotFound("Cont nevalid.");
+                }
+
+                if(await _reservationService.GetByIdAsync(reservationId) == null)
+                {
+                    return NotFound("Nu exista rezervarea selectata.");
+                }
+
+                await _reservationService.DeleteAsync(reservationId);
+
+                return Ok("Deleted");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
             }
         }
     }

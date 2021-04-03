@@ -15,7 +15,7 @@ namespace ParkingApp.Main.API.Controllers
 
         public DriverController(IDriverService driverService)
         {
-            _driverService = driverService;
+            _driverService = driverService ?? throw new ArgumentNullException(nameof(driverService));
         }
 
         [HttpPost("authenticate")]

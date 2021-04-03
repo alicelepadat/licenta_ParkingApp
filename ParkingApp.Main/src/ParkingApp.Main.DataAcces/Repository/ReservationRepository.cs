@@ -15,9 +15,9 @@ namespace ParkingApp.Main.DataAcces.Repository
         public async Task<IEnumerable<Reservation>> GetDriverReservationsAsync(int driverId)
         {
             return await _parkingMainContext.Reservations
-                .Include(r=>r.Vehicle)
                 .Include(r=>r.ParkingArea)
                 .ThenInclude(a=>a.Address)
+                .Include(r => r.Vehicle)
                 .Where(v=>v.Vehicle.DriverId == driverId)
                 .ToListAsync();
         }

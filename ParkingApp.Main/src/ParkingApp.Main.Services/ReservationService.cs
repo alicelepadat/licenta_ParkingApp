@@ -75,5 +75,21 @@ namespace ParkingApp.Main.Services
 
             return model.Id;
         }
+
+        public async Task DeleteAsync(int reservationId)
+        {
+            var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservationId);
+
+            _unitOfWork.ReservationRepository.Remove(model);
+
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<ReservationDto> GetByIdAsync(int reservationId)
+        {
+            var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservationId);
+
+            return _mapper.Map<Reservation, ReservationDto>(model);
+        }
     }
 }
