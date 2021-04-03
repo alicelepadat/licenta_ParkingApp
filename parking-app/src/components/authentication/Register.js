@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Card, Col } from 'react-bootstrap';
+import { Form, Button, Card, Col, Alert, Spinner } from 'react-bootstrap';
 import { AppBar, Toolbar, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { format } from 'date-fns';
@@ -9,121 +9,136 @@ import { connect } from 'react-redux';
 
 class Register extends Component {
     state = {
-        controls: {
+        name: null,
+        email: null,
+        password: null,
+        verifyPassword: null,
+        phone: null,
+        licenseNumber: null,
+        expirationDate: null,
+        issuer: null,
+        errors: {
+            name: '',
+            email: '',
+            password: '',
+            verifyPassword: '',
+            phone: '',
+            licenseNumber: '',
+            expirationDate: '',
+            issuer: '',
+        },
+        rules: {
             name: {
-                name: 'name',
-                autoComplete: 'name',
-                value: '',
-                validation: {
-                    required: true,
-                    maxLength: 50,
-                    message: 'Introduceti numele si prenumele.',
-                },
-                valid: false,
+                maxLength: 50,
             },
             password: {
-                name: 'password',
-                value: '',
-                autoComplete: 'new-password',
-                validation: {
-                    required: true,
-                    minLength: 8,
-                    message: 'Parola trebuie sa aiba minim 8 caractere.'
-                },
-                valid: false,
+                minLength: 8,
             },
-            passwordVerify: {
-                name: 'passwordVerify',
-                value: '',
-                autoComplete: 'verify-password',
-                validation: {
-                    required: true,
-                    minLength: 8,
-                    message: 'Parola nu corespunde cu cea anterioara.'
-                },
-                valid: false
+            verifyPassword: {
+                minLength: 8,
             },
             email: {
-                name: 'email',
-                value: '',
-                autoComplete: '',
-                validation: {
-                    required: true,
-                    isEmail: true,
-                    maxLength: 50,
-                    message: 'Introduceti o adresa valida.'
-                },
-                valid: false,
+                isEmail: true,
             },
             phone: {
-                name: 'phone',
-                value: '',
-                validation: {
-                    required: true,
-                    isPhoneNo: true,
-                    message: 'Introduceti o adresa valida.'
-                },
-                valid: false,
+                isPhoneNo: true,
             },
             licenseNumber: {
-                name: 'licenseNumber',
-                value: '',
-                validation: {
-                    required: true,
-                    isLicenseNo: true,
-                    message: 'Numar de permis nevalid.'
-                },
-                valid: false
+                isLicenseNo: true,
             },
             expirationDate: {
-                name: 'expirationDate',
-                value: '',
-                validation: {
-                    required: true,
-                    isExpirationDate: true,
-                    message: 'Data de expirare nu poate fi o data anterioara.'
-                },
-                valid: false
+                isExpirationDate: true,
             },
-            issuer: {
-                name: 'issuer',
-                value: '',
-                validation: {
-                    required: true,
-                    message: 'Selectati emitentul'
-                },
-                valid: false
-            }
         },
-        isFormValidated: false
+        isErrorNotification: true,
     }
 
-    inputChangedHandler = (event, controlName) => {
-        const updatedControls = {
-            ...this.state.controls,
-            [controlName]: {
-                ...this.state.controls[controlName],
-                value: event.target.value,
-                valid: validate.checkValidity(event.target.value, this.state.controls[controlName].validation),
-            }
-        };
-        this.setState({ controls: updatedControls });
+    handleChange = (event) => {
+        event.preventDefault();
+        const { name, value } = event.target;
+        let errors = this.state.errors;
+        let rules = this.state.rules;
+
+        switch (name) {
+            case 'name':
+                errors.name =
+                    validate.checkValidity(value, rules.name)
+                        ? '' : 'Numele si prenumele au maxim 50 de caractere.';
+                break;
+            case 'password':
+                errors.password =
+                    validate.checkValidity(value, rules.password)
+                        ? '' : 'Parola trebuie sa aiba minim 8 caractere.';
+                break;
+            case 'verifyPassword':
+                errors.verifyPassword =
+                    validate.checkValidity(value, rules.verifyPassword) &&
+                        validate.verifyPassword(value, this.state.password)
+                        ? '' : 'Parola nu corespunde cu cea anterioara.';
+                break;
+            case 'email':
+                errors.email =
+                    validate.checkValidity(value, rules.email)
+                        ? '' : 'Introduceti o adresa de e-mail valida.';
+                break;
+            case 'phone':
+                errors.phone =
+                    validate.checkValidity(value, rules.phone)
+                        ? '' : 'Introduceti un numar de telefon valid.';
+                break;
+            case 'licenseNumber':
+                errors.licenseNumber =
+                    validate.checkValidity(value, rules.licenseNumber)
+                        ? '' : 'Numar de permis nevalid.';
+                break;
+            case 'expirationDate':
+                errors.expirationDate =
+                    validate.checkValidity(value, rules.expirationDate)
+                        ? '' : 'Data de expirare nu poate fi o data anterioara';
+                break;
+            default:
+                break;
+        }
+
+        this.setState({ errors, [name]: value });
     }
 
-    handleSubmit = (ev) => {
-        this.props.onRegister(
-            this.state.controls.name.value,
-            this.state.controls.password.value,
-            this.state.controls.email.value,
-            this.state.controls.phone.value,
-            this.state.controls.licenseNumber.value,
-            this.state.controls.expirationDate.value,
-            this.state.controls.issuer.value
-        );
+    handleSubmit = (event) => {
+        event.preventDefault();
+        if (validate.validateForm(this.state.errors)) {
+            this.props.onRegister(this.state.name, this.state.password, this.state.email, this.state.phone, this.state.licenseNumber, this.state.expirationDate, this.state.issuer);
+        }
+    }
+
+    handleErrorNotificationClose = () => {
+        this.setState({ isErrorNotification: false })
     }
 
     render() {
+        const { errors } = this.state;
         const todayDate = format(new Date(), "yyyy-MM-dd");
+
+        let loading = null;
+        if (this.props.loading) {
+            loading = (
+                <div className="text-center">
+                    <Spinner animation="border" variant="primary" />
+                </div>)
+        }
+
+        let errorMessage = null;
+        if (this.props.error) {
+            errorMessage = (
+                <div className="text-center">
+                    <Alert show={this.state.isErrorNotification} onClose={this.handleErrorNotificationClose} variant="danger" dismissible>
+                        <Alert.Heading></Alert.Heading>
+                        <p>{this.props.error}</p>
+                    </Alert>
+                </div>
+
+            )
+        }
+
         return (
             <div>
                 <AppBar style={{ position: 'relative', backgroundColor: 'rgb(1, 48, 90)' }}>
@@ -140,76 +155,70 @@ class Register extends Component {
                         </Card.Header>
                         <Card.Body>
                             <Form onSubmit={this.handleSubmit}>
+                                {errorMessage}
+                                {loading}
                                 <Form.Group>
                                     <Form.Label>Nume</Form.Label>
                                     <Form.Control
-                                        type="text"
-                                        name="name"
-                                        placeholder="Introduceti numele si prenumele"
-                                        autoComplete={this.state.controls.name.autoComplete}
-                                        isValid={this.state.controls.name.valid}
-                                        isInvalid={this.state.controls.name.value !== '' && !this.state.controls.name.valid ? true : false}
-                                        onChange={(ev) => this.inputChangedHandler(ev, this.state.controls.name.name)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{this.state.controls.name.validation.message}</Form.Control.Feedback>
+                                        required
+                                        type='text'
+                                        name='name'
+                                        placeholder='Introduceti numele si prenumele dvs.'
+                                        onChange={this.handleChange}
+                                        isInvalid={errors.name.length > 0} />
+                                    <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                                 </Form.Group>
+
                                 <Form.Row>
                                     <Form.Group as={Col} md="6">
-                                        <Form.Label htmlFor="inputPassword">Parola</Form.Label>
+                                        <Form.Label>Parola</Form.Label>
                                         <Form.Control
-                                            type="password"
-                                            id="inputPassword"
-                                            aria-describedby="passwordHelpInline"
-                                            placeholder="Introduceti o parola"
-                                            autoComplete={this.state.controls.password.autoComplete}
-                                            isValid={this.state.controls.password.valid}
-                                            isInvalid={this.state.controls.password.value !== '' && !this.state.controls.password.valid ? true : false}
-                                            onChange={(ev) => this.inputChangedHandler(ev, this.state.controls.password.name)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">{this.state.controls.password.validation.message}</Form.Control.Feedback>
+                                            required
+                                            type='password'
+                                            name='password'
+                                            placeholder='Introduceti parola.'
+                                            autoComplete='new-password'
+                                            onChange={this.handleChange}
+                                            isInvalid={errors.password.length > 0} />
+                                        <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="6">
-                                        <Form.Label htmlFor="inputPassword">Verificare parola</Form.Label>
+                                        <Form.Label>Verificare parola</Form.Label>
                                         <Form.Control
-                                            type="password"
-                                            id="inputVerifyPassword"
-                                            placeholder="Reintroduceti parola"
-                                            autoComplete={this.state.controls.passwordVerify.autoComplete}
-                                            isValid={this.state.controls.passwordVerify.valid}
-                                            isInvalid={this.state.controls.passwordVerify.value !== '' && !this.state.controls.passwordVerify.valid ? true : false}
-                                            onChange={(ev) => {
-                                                this.inputChangedHandler(ev, this.state.controls.passwordVerify.name) &&
-                                                    validate.verifyPassword(this.state.controls.password.valid.value, this.state.controls.passwordVerify.value)
-                                            }}
-                                        />
-                                        <Form.Control.Feedback type="invalid">{this.state.controls.passwordVerify.validation.message}</Form.Control.Feedback>
+                                            required
+                                            type='password'
+                                            name='verifyPassword'
+                                            placeholder='Reintroduceti parola.'
+                                            autoComplete='new-password'
+                                            onChange={this.handleChange}
+                                            isInvalid={errors.verifyPassword.length > 0} />
+                                        <Form.Control.Feedback type="invalid">{errors.verifyPassword}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
+
                                 <Form.Row>
                                     <Form.Group as={Col} md="6">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control
-                                            type="email"
-                                            name="email"
-                                            placeholder="Introduceti email-ul"
-                                            autoComplete={this.state.controls.email.autoComplete}
-                                            isValid={this.state.controls.email.valid}
-                                            isInvalid={this.state.controls.email.value !== '' && !this.state.controls.email.valid ? true : false}
-                                            onChange={(ev) => this.inputChangedHandler(ev, this.state.controls.email.name)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">{this.state.controls.email.validation.message}</Form.Control.Feedback>
+                                            required
+                                            type='email'
+                                            name='email'
+                                            placeholder='Introduceti adresa de email.'
+                                            onChange={this.handleChange}
+                                            isInvalid={errors.email.length > 0} />
+                                        <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                                     </Form.Group>
-                                    <Form.Group as={Col} md="6" controlId="">
+                                    <Form.Group as={Col} md="6">
                                         <Form.Label>Telefon</Form.Label>
                                         <Form.Control
-                                            type="phone"
-                                            name="phone"
-                                            placeholder="Introduceti numarul de telefon"
-                                            isValid={this.state.controls.phone.valid}
-                                            isInvalid={this.state.controls.phone.value !== '' && !this.state.controls.phone.valid ? true : false}
-                                            onChange={(ev) => this.inputChangedHandler(ev, this.state.controls.phone.name)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">{this.state.controls.phone.validation.message}</Form.Control.Feedback>
+                                            required
+                                            type='phone'
+                                            name='phone'
+                                            placeholder='Reintroduceti parola.'
+                                            autoComplete='phone'
+                                            onChange={this.handleChange}
+                                            isInvalid={errors.phone.length > 0} />
+                                        <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
 
@@ -217,37 +226,43 @@ class Register extends Component {
 
                                 <Form.Row>
                                     <Form.Group as={Col} md="4">
-                                        <Form.Label>Numar</Form.Label>
-                                        <Form.Control type="text"
-                                            placeholder="Introduceti nr. permis"
-                                            isValid={this.state.controls.licenseNumber.valid}
-                                            isInvalid={this.state.controls.licenseNumber.value !== '' && !this.state.controls.licenseNumber.valid ? true : false}
-                                            onChange={(ev) => this.inputChangedHandler(ev, this.state.controls.licenseNumber.name)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">{this.state.controls.licenseNumber.validation.message}</Form.Control.Feedback>
+                                        <Form.Label>Numar permis</Form.Label>
+                                        <Form.Control
+                                            required
+                                            type='text'
+                                            name='licenseNumber'
+                                            placeholder='Numar permis.'
+                                            onChange={this.handleChange}
+                                            isInvalid={errors.licenseNumber.length > 0} />
+                                        <Form.Control.Feedback type="invalid">{errors.licenseNumber}</Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="4">
                                         <Form.Label>Data expirarii</Form.Label>
-                                        <Form.Control type="date"
+                                        <Form.Control
+                                            required
+                                            type='date'
+                                            name='expirationDate'
                                             defaultValue={todayDate}
-                                            isValid={this.state.controls.expirationDate.valid}
-                                            isInvalid={this.state.controls.expirationDate.value !== '' && !this.state.controls.expirationDate.valid ? true : false}
-                                            onChange={(ev) => this.inputChangedHandler(ev, this.state.controls.expirationDate.name)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">{this.state.controls.expirationDate.validation.message}</Form.Control.Feedback>
+                                            onChange={this.handleChange}
+                                            isInvalid={errors.expirationDate.length > 0} />
+                                        <Form.Control.Feedback type="invalid">{errors.expirationDate}</Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group as={Col} md="4">
                                         <Form.Label>Emitent</Form.Label>
-                                        <Form.Control as="select" defaultValue="..."
-                                            isValid={this.state.controls.issuer.valid}
-                                            isInvalid={this.state.controls.issuer.value !== '' && !this.state.controls.issuer.valid ? true : false}
-                                            onChange={(ev) => this.inputChangedHandler(ev, this.state.controls.issuer.name)}>
-                                            <option>...</option>
-                                            <option>Emitent2...</option>
+                                        <Form.Control
+                                            as="select"
+                                            defaultValue="Emitent"
+                                            required
+                                            name='issuer'
+                                            onChange={this.handleChange}
+                                            isInvalid={errors.issuer.length > 0}>
+                                            <option>Emitent</option>
+                                            <option>Emitent1...</option>
                                         </Form.Control>
-                                        <Form.Control.Feedback type="invalid">{this.state.controls.issuer.validation.message}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">{errors.issuer}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
+
                                 <div className="text-center mt-4">
                                     <Button variant="primary" type="submit">
                                         Inregistrare
@@ -262,10 +277,17 @@ class Register extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error,
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         onRegister: (name, password, email, phone, license, expDate, issuer) => dispatch(actionCreators.register(name, password, email, phone, license, expDate, issuer))
     }
 }
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

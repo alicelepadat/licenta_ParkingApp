@@ -1,6 +1,6 @@
 import { Link } from '@material-ui/core';
 import React, { Component } from 'react';
-import { Form, Button, Card, Spinner, Toast } from 'react-bootstrap';
+import { Form, Button, Card, Spinner, Alert } from 'react-bootstrap';
 import Dialog from '@material-ui/core/Dialog';
 import Register from './Register';
 import * as actionCreators from '../../store/actions/index';
@@ -9,119 +9,123 @@ import * as validate from '../validate';
 
 class Authenticate extends Component {
     state = {
-        controls: {
+        email: null,
+        password: null,
+        errors: {
+            email: '',
+            password: '',
+        },
+        rules: {
             email: {
-                elementType: 'email',
-                placeholder: 'Introduceti adresa de e-mail',
-                value: '',
-                label: 'Email',
-                autoComplete: '',
-                validation: {
-                    isEmail: true,
-                    required: true,
-                    message: 'Introduceti o adresa valida.'
-                },
-                valid: false,
+                isEmail: true,
             },
             password: {
-                elementType: 'password',
-                placeholder: 'Introduceti parola',
-                value: '',
-                label: 'Password',
-                autoComplete: 'current-password',
-                validation: {
-                    minLength: 8,
-                    required: true,
-                    message: 'Parola trebuie sa aiba minim 8 caractere.'
-                },
-                valid: false,
+                minLength: 8,
             }
         },
         isRegisterOpen: false,
-        isErrorToastShown: true,
-        isValidated: false
+        isErrorNotification: true,
+    };
+
+    handleChange = (event) => {
+        event.preventDefault();
+        const { name, value } = event.target;
+        let errors = this.state.errors;
+        let rules = this.state.rules;
+
+        switch (name) {
+            case 'email':
+                errors.email =
+                    validate.checkValidity(value, rules.email)
+                        ? '' : 'Introduceti o adresa de e-mail valida.';
+                break;
+            case 'password':
+                errors.password =
+                    validate.checkValidity(value, rules.password)
+                        ? '' : 'Parola trebuie sa aiba minim 8 caractere.';
+                break;
+            default:
+                break;
+        }
+
+        this.setState({ errors, [name]: value });
     }
 
-    inputChangedHandler = (event, controlName) => {
-        const updatedControls = {
-            ...this.state.controls,
-            [controlName]: {
-                ...this.state.controls[controlName],
-                value: event.target.value,
-                valid: validate.checkValidity(event.target.value, this.state.controls[controlName].validation),
-            }
-        };
-        this.setState({ controls: updatedControls });
-    }
-
-    handleSubmit = (ev) => {
-        ev.preventDefault();
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+    handleSubmit = (event) => {
+        event.preventDefault();
+        if (validate.validateForm(this.state.errors)) {
+            this.props.onAuth(this.state.email, this.state.password);
+        }
     }
 
     handleRegisterClicked = () => {
         this.setState({ isRegisterOpen: true });
     }
 
-    handleClose = () => {
+    handleRegisterClose = () => {
         this.setState({ isRegisterOpen: false });
     }
 
-    handleToastClose = () => { this.setState({ isErrorToastShown: !this.state.isErrorToastShown }) }
+    handleErrorNotificationClose = () => {
+        this.setState({ isErrorNotification: false })
+    }
 
     render() {
-        const formElementsArray = [];
-        for (let key in this.state.controls) {
-            formElementsArray.push({
-                id: key,
-                config: this.state.controls[key]
-            });
-        }
-
-        let form = formElementsArray.map(element => (
-            <Form.Group key={element.id} controlId={element.id} >
-                <Form.Label>{element.config.label}</Form.Label>
-                <Form.Control
-                    // required
-                    type={element.config.elementType}
-                    placeholder={element.config.placeholder}
-                    autoComplete={element.config.autoComplete}
-                    isValid={element.config.valid}
-                    isInvalid={element.config.value !== '' && !element.config.valid}
-                    onChange={(ev) => this.inputChangedHandler(ev, element.id)} />
-                <Form.Control.Feedback type="invalid">{element.config.validation.message}</Form.Control.Feedback>
-            </Form.Group >
-        ));
+        const { errors } = this.state;
 
         let loading = null;
         if (this.props.loading) {
-            loading = (<Spinner animation="border" variant="primary" />)
+            loading = (
+                <div className="text-center">
+                    <Spinner animation="border" variant="primary" />
+                </div>)
         }
 
-        let authMessage = null;
+        let errorMessage = null;
         if (this.props.error) {
-            authMessage = (
-                <Toast show={this.state.isErrorToastShown} onClose={this.handleToastClose} className="text-center" style={{ backgroundColor: "rgba(223,71,89, 0.7)" }}>
-                    <Toast.Header />
-                    <Toast.Body>{this.props.error}</Toast.Body>
-                </Toast>
+            errorMessage = (
+                <div className="text-center">
+                    <Alert show={this.state.isErrorNotification} onClose={this.handleErrorNotificationClose} variant="danger" dismissible>
+                        <Alert.Heading></Alert.Heading>
+                        <p>{this.props.error.data ? this.props.error.data : 'A aparut o eroare la cererea dumneavoastra.'}</p>
+                    </Alert>
+                </div>
+
             )
         }
-
         return (
-            < div className="container" >
+            <div className='container'>
                 <Card className="m-3">
                     <Card.Header className="text-center">
                         <Card.Title>Autentificare</Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        <div className="text-center justify-content-center">
-                            {loading}
-                            {authMessage}
-                        </div>
-
                         <Form onSubmit={this.handleSubmit}>
-                            {form}
+                            {errorMessage}
+                            {loading}
+                            <Form.Group>
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control
+                                    required
+                                    type='email'
+                                    name='email'
+                                    placeholder='Introduceti adresa de e-mail.'
+                                    onChange={this.handleChange}
+                                    isInvalid={errors.email.length > 0} />
+                                <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Parola</Form.Label>
+                                <Form.Control
+                                    required
+                                    type='password'
+                                    name='password'
+                                    placeholder='Introduceti parola.'
+                                    autoComplete='current-password'
+                                    onChange={this.handleChange}
+                                    isInvalid={errors.password.length > 0} />
+                                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                            </Form.Group>
                             <div className="text-center">
                                 <Button variant="primary" type="submit">
                                     Autentificare
@@ -133,11 +137,11 @@ class Authenticate extends Component {
                         <Card.Text>Nu aveti cont? Inregistrati-va <Link onClick={this.handleRegisterClicked} color="primary">aici</Link>.</Card.Text>
                     </Card.Footer>
                 </Card>
-                <Dialog fullScreen open={this.state.isRegisterOpen} onClose={this.handleClose}>
-                    <Register onClose={this.handleClose} />
+                <Dialog fullScreen open={this.state.isRegisterOpen}>
+                    <Register onClose={this.handleRegisterClose} />
                 </Dialog>
             </div >
-        )
+        );
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ParkingApp.Main.Dtos
@@ -11,8 +12,6 @@ namespace ParkingApp.Main.Dtos
         [MaxLength(7)]
         public string LicensePlate { get; set; }
 
-        public DriverDto Driver { get; set; }
-
-        public NewReservationDto DriverReservation { get; set; }
+        public List<ReservationDto> DriverReservations { get; set; }
     }
 }

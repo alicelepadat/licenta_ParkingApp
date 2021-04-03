@@ -21,6 +21,20 @@ export const authFailed = (error) => {
     }
 }
 
+export const checkAuthTimeout = (expirationTime) => {
+    return dispatch => {
+        setTimeout(() => {
+            dispatch(logOut());
+        }, expirationTime * 1000)
+    }
+}
+
+export const logOut = () => {
+    return {
+        type: actionTypes.AUTHENTICATION_LOGOUT
+    }
+}
+
 export const auth = (email, password) => {
     return dispatch => {
         dispatch(authStart());
@@ -29,8 +43,9 @@ export const auth = (email, password) => {
             password: password
         }).then(response => {
             dispatch(authSuccess(response.data.id))
+            dispatch(checkAuthTimeout(7200))
         }).catch(error => {
-            dispatch(authFailed('Incercati din nou.'));
+            dispatch(authFailed(error.response));
         })
     }
 }
@@ -56,8 +71,7 @@ export const register = (name, password, email, phone, license, expDate, issuer)
             dispatch(authSuccess(response.data))
         })
             .catch(error => {
-                console.log(error.response)
-                dispatch(authFailed());
+                dispatch(authFailed('A aparut o eroare la cererea dumneavoastra.'));
             })
     }
 }

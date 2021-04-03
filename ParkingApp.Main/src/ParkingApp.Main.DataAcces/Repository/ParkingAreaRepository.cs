@@ -20,5 +20,15 @@ namespace ParkingApp.Main.DataAcces.Repository
                 .Include(a=>a.Company)
                 .ToListAsync();
         }
+
+        public async Task<ParkingArea> GetByIdAsync(int id, bool includeAddress = false)
+        {
+            if (includeAddress)
+            {
+                return await _parkingMainContext.ParkingAreas.Include(a => a.Address).SingleOrDefaultAsync(a => a.Id == id);
+            }
+
+            return await _parkingMainContext.ParkingAreas.SingleOrDefaultAsync(a => a.Id == id);
+        }
     }
 }

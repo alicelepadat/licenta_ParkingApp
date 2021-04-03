@@ -42,14 +42,11 @@ class ParkingAreaInfo extends Component {
                         </Card>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className="m-2 text-center" variant="danger"
-                            onClick={() => { this.props.handleClose() }}>
-                            Inchide
-                        </Button>
-                        <Button className="m-2 text-center" variant="primary"
-                            onClick={() => { this.props.onReserve() }}
-                        >
+                        <Button className="m-2 text-center" variant="primary" onClick={() => { this.props.onReserve() }}>
                             Parcheaza
+                        </Button>
+                        <Button className="m-2 text-center" variant="danger" onClick={() => { this.props.handleClose() }}>
+                            Inchide
                         </Button>
                     </Modal.Footer>
                 </Modal >

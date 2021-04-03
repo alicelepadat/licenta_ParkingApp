@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ParkingApp.Main.Common.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ParkingApp.Main.Dtos
@@ -12,12 +13,11 @@ namespace ParkingApp.Main.Dtos
         
         [Required]
         public DateTime StartTime{ get; set; }
-        
-        [Required]
-        public DateTime EndTime{ get; set; }
 
-        [Required]
-        public bool Finished { get; set; }
+        [Required] 
+        public DateTime EndTime { get; set; }
+
+        public ReservationStateEnum State { get; set; }
 
         public VehicleDto Vechicle { get; set; }
 

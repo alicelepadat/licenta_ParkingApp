@@ -1,16 +1,23 @@
 import React from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
-import mapStyles from './mapStyles';
 import Geocode from 'react-geocode';
-import { connect } from 'react-redux';
-import { FaSearch } from 'react-icons/fa';
-import ParkingAreaInfo from "../info/ParkingAreaInfo";
-import * as actionCreators from '../../store/actions/index';
+
 import Dialog from '@material-ui/core/Dialog';
-import Reservation from '../reservation/Reservation';
-import { Modal } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import IconButton from '@material-ui/core/IconButton';
+import DialogActions from '@material-ui/core/DialogActions';
+import { Button, InputGroup, FormControl } from 'react-bootstrap';
+import CloseIcon from '@material-ui/icons/Close';
+import { RiUserLocationFill } from 'react-icons/ri';
+
+import mapStyles from './mapStyles';
 import './HomePage.css';
+
+import ParkingAreaInfo from "../info/ParkingAreaInfo";
+import Reservation from '../reservation/Reservation';
+import Authenticate from "../authentication/Authenticate";
+
+import * as actionCreators from '../../store/actions/index';
+import { connect } from 'react-redux';
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 
@@ -57,6 +64,10 @@ class HomeContainer extends React.Component {
         }
     }
 
+    locateUser(address) {
+        this.setState({ center: address, zoom: 12 });
+    }
+
     setCenter(address) {
         this.getCoordinates(address).then((result) => {
             this.setState({
@@ -71,40 +82,40 @@ class HomeContainer extends React.Component {
 
     handleInfoClose() { this.setState({ isInfoClicked: false, zoom: 12, search: '' }); }
 
-    handleReserve = () => { this.setState({ isReservationClicked: true, isInfoClicked: false }) }
+    handleReserve = () => { this.setState({ isReservationClicked: true, isInfoClicked: false, isAuthRequired: true }) }
 
     closeReserve = () => { this.setState({ isReservationClicked: false, zoom: 12, search: '' }) }
 
-    handleAuthClose = () => { this.setState({ isAuthRequired: false }) }
+    closeAuth = () => { this.setState({ isAuthRequired: false, isInfoClicked: true }) }
 
     componentDidMount() {
         this.getUserLocation();
         this.props.onInitParkingAreas();
     }
 
+
     render() {
         return (
             <div className="home-container">
-                <section className="container">
-                    <form className="form-inline justify-content-center m-2">
-                        <div className="input-group w-100">
-                            <div className="input-group-prepend">
-                                <div className="form-icon input-group-text">
-                                    <FaSearch color='cornflowerblue' />
-                                </div>
-                            </div>
-                            <input
-                                type="text"
-                                className="form-control form-control-underlined form-control-sm"
-                                onChange={this.handleChange}
-                                placeholder="Introduceti adresa"
-                                value={this.state.search}
-                            />
-                        </div>
-                    </form>
-                </section>
-                {this.state.isSuggestionDisplay && this.state.search !== '' && (
-                    <section>
+                <div className="container">
+                    <InputGroup className="m-2">
+                        <FormControl
+                            placeholder="Introduceti adresa."
+                            aria-label="Introduceti adresa"
+                            value={this.state.search}
+                            className="form-control-underlined"
+                            onChange={this.handleChange}
+                        />
+                        <InputGroup.Append className="ml-2">
+                            <Button type="button" className="btn btn-danger rounded-circle"
+                                onClick={() => { this.locateUser(this.state.userLocation) }}>
+                                <RiUserLocationFill />
+                            </Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </div>
+                {
+                    this.state.isSuggestionDisplay && this.state.search !== '' && (
                         <div className="container">
                             <ul className="list-group list-group-flush">
                                 {
@@ -126,8 +137,8 @@ class HomeContainer extends React.Component {
                                 }
                             </ul>
                         </div>
-                    </section>
-                )}
+                    )
+                }
                 <section className="map-container">
                     <Map
                         google={this.props.google}
@@ -165,15 +176,18 @@ class HomeContainer extends React.Component {
                 {
                     this.state.isReservationClicked && (
                         this.props.isLoggedIn ?
-                            <Dialog open={this.state.isReservationClicked} scroll='body'>
+                            <Dialog fullWidth={true} maxWidth={'md'} open={this.state.isReservationClicked} scroll='body'>
                                 <Reservation onClose={() => { this.props.onCancelParkinArea(); this.closeReserve() }} />
                             </Dialog>
-                            : <Modal show={this.state.isAuthRequired} centered onHide={this.handleAuthClose}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Autentificare necesara</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body><Link to="/profile">Autentificati-va</Link> pentru a rezerva un loc de parcare.</Modal.Body>
-                            </Modal>)
+                            : <Dialog open={this.state.isAuthRequired}>
+                                <DialogActions>
+                                    <IconButton size="small" aria-label="close" color="inherit" onClick={this.closeAuth}>
+                                        <CloseIcon fontSize="small" />
+                                    </IconButton>
+                                </DialogActions>
+                                <Authenticate />
+                            </Dialog>
+                    )
                 }
             </div >
         )

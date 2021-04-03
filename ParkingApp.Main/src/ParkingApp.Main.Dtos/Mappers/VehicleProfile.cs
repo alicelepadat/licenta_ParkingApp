@@ -12,7 +12,6 @@ namespace ParkingApp.Main.Dtos.Mappers
         public VehicleProfile()
         {
             CreateMap<Vehicle, VehicleDto>().ReverseMap();
-
             CreateMap<Vehicle, NewVehicleDto>().ReverseMap();
         }
 

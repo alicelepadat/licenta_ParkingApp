@@ -30,14 +30,14 @@ namespace ParkingApp.Main.API.Controllers
 
                 if(driver == null)
                 {
-                    return NotFound();
+                    return NotFound("Email sau parola incorecte.");
                 }
 
                 return Ok(driver);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 
@@ -46,7 +46,6 @@ namespace ParkingApp.Main.API.Controllers
         {
             try
             {
-
                 if (await _driverService.DriverExistsAsync(driver.User.Email))
                 {
                     ModelState.AddModelError(
@@ -62,7 +61,7 @@ namespace ParkingApp.Main.API.Controllers
 
                 if (inserted == null)
                 {
-                    return Problem();
+                    return Problem("A aparut o problema la inregistrare.");
                 }
 
                 return Ok(inserted);

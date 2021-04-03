@@ -12,13 +12,20 @@ namespace ParkingApp.Main.DataAcces.Repository
         {
         }
 
-        public async Task<Driver> GetDriverAsync(string email)
+        public async Task<Driver> GetByEmailAsync(string email)
         {
             return await _parkingMainContext.Drivers
                 .Include(d => d.User)
                 .Include(d => d.License)
                 .ThenInclude(l => l.Issuer)
                 .SingleOrDefaultAsync(d => d.User.Email.ToLower() == email.ToLower());
+        }
+
+        public async Task<Driver> GetByIdWithVehiclesAsync(int driverId)
+        {
+            return await _parkingMainContext.Drivers
+                .Include(d=>d.Vehicles)
+                .SingleOrDefaultAsync(x => x.Id == driverId);
         }
     }
 }

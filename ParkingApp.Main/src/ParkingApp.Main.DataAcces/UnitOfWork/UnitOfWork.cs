@@ -13,6 +13,8 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
         private Repository<DrivingLicense> _drivingLicenseRepository;
         private Repository<Issuer> _issuerRepository;
         private ParkingAreaRepository _parkingAreaRepository;
+        private ReservationRepository _reservationRepository;
+        private Repository<Vehicle> _vehicleRepository;
 
         public UnitOfWork(ParkingMainContext parkingMainContext)
         {
@@ -28,6 +30,10 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
         public IRepository<Issuer> IssuerRepository => _issuerRepository ??= new Repository<Issuer>(_parkingMainContext);
 
         public IParkingAreaRepository ParkingAreaRepository => _parkingAreaRepository ??= new ParkingAreaRepository(_parkingMainContext);
+
+        public IReservationRepository ReservationRepository => _reservationRepository ??= new ReservationRepository(_parkingMainContext);
+
+        public IRepository<Vehicle> VehicleRepository => _vehicleRepository ??= new Repository<Vehicle>(_parkingMainContext);
 
         public async Task<int> CommitAsync()
         {

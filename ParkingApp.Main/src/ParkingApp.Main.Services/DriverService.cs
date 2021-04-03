@@ -4,7 +4,6 @@ using ParkingApp.Main.DomainModels;
 using ParkingApp.Main.Dtos;
 using ParkingApp.Main.Services.Contracts;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
@@ -23,7 +22,7 @@ namespace ParkingApp.Main.Services
 
         public async Task<DriverDto> AuthenticateAsync(AuthenticationRequestDto request)
         {
-            var account = await _unitOfWork.DriverRepository.GetDriverAsync(request.Email);
+            var account = await _unitOfWork.DriverRepository.GetByEmailAsync(request.Email);
 
             if (account == null || !BC.Verify(request.Password, account.User.Password))
             {
@@ -31,6 +30,18 @@ namespace ParkingApp.Main.Services
             }
 
             return _mapper.Map<Driver, DriverDto>(account);
+        }
+
+        public async Task<DriverDto> GetByIdAsync(int driverId, bool includeVehicles = false)
+        {
+            Driver model;
+
+            if (includeVehicles)
+                model = await _unitOfWork.DriverRepository.GetByIdWithVehiclesAsync(driverId);
+            else
+                model = await _unitOfWork.DriverRepository.SingleOrDefaultAsync(x => x.Id == driverId);
+            
+            return _mapper.Map<Driver, DriverDto>(model);
         }
 
         public async Task<DriverDto> CreateAsync(NewDriverDto driver)
@@ -48,7 +59,7 @@ namespace ParkingApp.Main.Services
 
         public async Task<bool> DriverExistsAsync(string driverEmail)
         {
-            var driverFound = await _unitOfWork.DriverRepository.GetDriverAsync(driverEmail);
+            var driverFound = await _unitOfWork.DriverRepository.GetByEmailAsync(driverEmail);
 
             return driverFound != null;
         }

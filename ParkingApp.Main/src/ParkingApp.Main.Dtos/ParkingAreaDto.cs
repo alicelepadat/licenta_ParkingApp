@@ -8,6 +8,9 @@ namespace ParkingApp.Main.Dtos
         public int Id { get; set; }
 
         [Required]
+        public int TotalSpots { get; set; }
+
+        [Required]
         public int AvailableSpots { get; set; }
 
         [RegularExpression(@"^\d{1,3}(\.\d{1,2})?$", ErrorMessage = "Pretul nu este valid.")]
@@ -18,7 +21,5 @@ namespace ParkingApp.Main.Dtos
         public CompanyDto Company { get; set; }
 
         public AdminDto Admin { get; set; }
-
-        //public List<ReservationDto> Reservations { get; set; }
     }
 }

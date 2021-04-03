@@ -13,13 +13,11 @@ namespace ParkingApp.Main.Dtos
         public DateTime ReservationDate { get; set; }
 
         [Required]
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
 
         [Required]
-        public DateTime EndTime { get; set; }
+        public string EndTime { get; set; }
 
-        public NewVehicleDto Vechicle { get; set; }
-
-        public ParkingAreaDto ParkingArea { get; set; }
+        public NewVehicleDto Vehicle { get; set; }
     }
 }

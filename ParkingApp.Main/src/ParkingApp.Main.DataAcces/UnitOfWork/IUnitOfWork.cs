@@ -8,15 +8,12 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         Task<int> CommitAsync();
-
         IDriverRepository DriverRepository { get;  }
-
+        IRepository<Vehicle> VehicleRepository { get;  }
         IRepository<User> UserRepository { get; }
-
         IRepository<DrivingLicense> DrivingLicenseRepository { get; }
-
         IRepository<Issuer> IssuerRepository { get; }
-
-        IParkingAreaRepository ParkingAreaRepository { get; }
+        IParkingAreaRepository ParkingAreaRepository { get; } 
+        IReservationRepository ReservationRepository { get;  }
     }
 }

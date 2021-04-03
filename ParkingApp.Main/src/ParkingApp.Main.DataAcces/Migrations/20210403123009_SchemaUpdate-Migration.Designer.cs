@@ -10,8 +10,8 @@ using ParkingApp.Main.DataAcces;
 namespace ParkingApp.Main.DataAcces.Migrations
 {
     [DbContext(typeof(ParkingMainContext))]
-    [Migration("20210329111857_CoordinatesMigration")]
-    partial class CoordinatesMigration
+    [Migration("20210403123009_SchemaUpdate-Migration")]
+    partial class SchemaUpdateMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,9 +64,8 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         {
                             Id = 2,
                             City = "Bucuresti",
-                            CoordinatesId = 2,
                             County = "Sector 1",
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 50, 244, DateTimeKind.Local).AddTicks(8297),
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 248, DateTimeKind.Local).AddTicks(7376),
                             Directions = "Între bd. Regina Elisabeta și I. Campineanu",
                             Street = "Academiei"
                         },
@@ -74,9 +73,8 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         {
                             Id = 3,
                             City = "Bucuresti",
-                            CoordinatesId = 3,
                             County = "Sector 1",
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 52, 424, DateTimeKind.Local).AddTicks(6384),
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3660),
                             Directions = "",
                             Street = "Alee Legatura Banu Antonache si Calea Floreasca"
                         },
@@ -84,9 +82,8 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         {
                             Id = 4,
                             City = "Bucuresti",
-                            CoordinatesId = 4,
                             County = "Sector 3",
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 53, 347, DateTimeKind.Local).AddTicks(4635),
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3830),
                             Directions = "INTERSECTIA CU BD. MIRCEA VODA",
                             Street = "ALEEA CAUZASI"
                         },
@@ -94,9 +91,8 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         {
                             Id = 5,
                             City = "Bucuresti",
-                            CoordinatesId = 5,
                             County = "Sector 1",
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 54, 415, DateTimeKind.Local).AddTicks(6958),
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3890),
                             Directions = "INTRE AL.PRIVIGHETORILOR SI SERBAN CANTACUZINO",
                             Street = "ALEEA PRIVIGHETORILOR"
                         },
@@ -104,9 +100,8 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         {
                             Id = 6,
                             City = "Bucuresti",
-                            CoordinatesId = 6,
                             County = "Sector 5",
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 55, 752, DateTimeKind.Local).AddTicks(7140),
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3943),
                             Directions = "",
                             Street = "ALEXANDRU BELDIMAN"
                         });
@@ -168,7 +163,7 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         {
                             Id = 1,
                             CompanyName = "Administrația Străzilor București",
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 50, 124, DateTimeKind.Local).AddTicks(4128)
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 157, DateTimeKind.Local).AddTicks(4208)
                         });
                 });
 
@@ -191,43 +186,6 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Coordinates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Latitude = 44.437579499999998,
-                            Longitude = 26.0980755
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Latitude = 44.461201299999999,
-                            Longitude = 26.099996600000001
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Latitude = 44.427555900000002,
-                            Longitude = 26.113038800000002
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Latitude = 44.516416100000001,
-                            Longitude = 26.091535700000001
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Latitude = 44.4343279,
-                            Longitude = 26.097335300000001
-                        });
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Driver", b =>
@@ -327,6 +285,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Property<decimal?>("PricePerHour")
                         .HasColumnType("decimal(5,2)");
 
+                    b.Property<int>("TotalSpots")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
@@ -343,8 +304,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                             AddressId = 2,
                             AvailableSpots = 96,
                             CompanyId = 1,
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 52, 424, DateTimeKind.Local).AddTicks(4669),
-                            PricePerHour = 0m
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(2866),
+                            PricePerHour = 0m,
+                            TotalSpots = 96
                         },
                         new
                         {
@@ -352,8 +314,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                             AddressId = 3,
                             AvailableSpots = 29,
                             CompanyId = 1,
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 53, 347, DateTimeKind.Local).AddTicks(3389),
-                            PricePerHour = 3.99m
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3713),
+                            PricePerHour = 0m,
+                            TotalSpots = 29
                         },
                         new
                         {
@@ -361,8 +324,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                             AddressId = 4,
                             AvailableSpots = 8,
                             CompanyId = 1,
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 54, 415, DateTimeKind.Local).AddTicks(4943),
-                            PricePerHour = 5.99m
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3849),
+                            PricePerHour = 0m,
+                            TotalSpots = 8
                         },
                         new
                         {
@@ -370,8 +334,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                             AddressId = 5,
                             AvailableSpots = 59,
                             CompanyId = 1,
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 55, 752, DateTimeKind.Local).AddTicks(5803),
-                            PricePerHour = 4.99m
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3906),
+                            PricePerHour = 0m,
+                            TotalSpots = 59
                         },
                         new
                         {
@@ -379,8 +344,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                             AddressId = 6,
                             AvailableSpots = 56,
                             CompanyId = 1,
-                            CreatedOn = new DateTime(2021, 3, 29, 14, 18, 56, 480, DateTimeKind.Local).AddTicks(6703),
-                            PricePerHour = 9.99m
+                            CreatedOn = new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3958),
+                            PricePerHour = 0m,
+                            TotalSpots = 56
                         });
                 });
 
@@ -397,10 +363,7 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Finished")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ParkingAreaId")
+                    b.Property<int?>("ParkingAreaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReservationDate")
@@ -409,15 +372,17 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VehicleId")
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParkingAreaId");
 
-                    b.HasIndex("VehicleId")
-                        .IsUnique();
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Reservations");
                 });
@@ -434,18 +399,17 @@ namespace ParkingApp.Main.DataAcces.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -569,28 +533,22 @@ namespace ParkingApp.Main.DataAcces.Migrations
                 {
                     b.HasOne("ParkingApp.Main.DomainModels.ParkingArea", "ParkingArea")
                         .WithMany()
-                        .HasForeignKey("ParkingAreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParkingAreaId");
 
-                    b.HasOne("ParkingApp.Main.DomainModels.Vehicle", "Vechicle")
-                        .WithOne("DriverReservation")
-                        .HasForeignKey("ParkingApp.Main.DomainModels.Reservation", "VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ParkingApp.Main.DomainModels.Vehicle", "Vehicle")
+                        .WithMany("DriverReservations")
+                        .HasForeignKey("VehicleId");
 
                     b.Navigation("ParkingArea");
 
-                    b.Navigation("Vechicle");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Vehicle", b =>
                 {
-                    b.HasOne("ParkingApp.Main.DomainModels.Driver", "Driver")
+                    b.HasOne("ParkingApp.Main.DomainModels.Driver", null)
                         .WithMany("Vehicles")
                         .HasForeignKey("DriverId");
-
-                    b.Navigation("Driver");
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Address", b =>
@@ -625,7 +583,7 @@ namespace ParkingApp.Main.DataAcces.Migrations
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Vehicle", b =>
                 {
-                    b.Navigation("DriverReservation");
+                    b.Navigation("DriverReservations");
                 });
 #pragma warning restore 612, 618
         }

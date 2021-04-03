@@ -7,6 +7,8 @@ namespace ParkingApp.Main.DomainModels
 {
     public class ParkingArea : BaseEntity
     {
+        [Required]
+        public int TotalSpots { get; set; }
 
         [Required]
         public int AvailableSpots { get; set; }
@@ -24,6 +26,5 @@ namespace ParkingApp.Main.DomainModels
 
         public Admin Admin { get; set; }
 
-        //public List<Reservation> Reservations { get; set; }
     }
 }

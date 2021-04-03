@@ -6,6 +6,8 @@ namespace ParkingApp.Main.Services.Contracts
     public interface IDriverService
     {
         Task<bool> DriverExistsAsync(string driverEmail);
+        
+        Task<DriverDto> GetByIdAsync(int driverId, bool includeVehicles = false);
 
         Task<DriverDto> CreateAsync(NewDriverDto driver);
 

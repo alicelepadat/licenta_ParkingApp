@@ -76,11 +76,11 @@ class Vehicles extends Component {
                         </div>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} variant="danger">
-                            Anuleaza
-                        </Button>
                         <Button onClick={this.handleClose} variant="primary">
                             Adauga
+                        </Button>
+                        <Button onClick={this.handleClose} variant="danger">
+                            Anuleaza
                         </Button>
                     </DialogActions>
                 </Dialog>

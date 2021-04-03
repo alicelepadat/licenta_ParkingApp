@@ -1,12 +1,24 @@
 import { format } from 'date-fns';
 
+export const formatTime = (time) => {
+    return time.toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: "numeric",
+        minute: "numeric"
+    });
+}
+
+export const addHoursToDate = (date, hours) => {
+    return new Date(new Date(date).setHours(date.getHours() + hours));
+}
+
 export const checkValidity = (value, rules) => {
     let isValid = true;
     if (!rules) {
         return true;
     }
 
-    if (rules.required) {
+    if (rules.isRequired) {
         isValid = value.trim() !== '' && isValid;
     }
 
@@ -43,9 +55,44 @@ export const checkValidity = (value, rules) => {
         isValid = pattern.test(value) && isValid
     }
 
+    if (rules.isLicensePlate) {
+        const pattern = /[A-Z]{1,2}[0-9]{1,3}[A-Z]{3}$/;
+        isValid = pattern.test(value) && isValid
+    }
+
+    if (rules.isTime) {
+        const currentTime = formatTime(new Date());
+        isValid = value.localeCompare(currentTime) === 1 || value.localeCompare(currentTime) === 0 ? true : false
+    }
+
     return isValid;
 }
 
 export const verifyPassword = (value, verifyValue) => {
     return value === verifyValue ? true : false;
+}
+
+export const verifyReservationTime = (endValue, startValue) => {
+    let start = startValue.split(':');
+    let end = endValue.split(':');
+    let startHour = parseInt(start[0]);
+    let startMinutes = parseInt(start[1]);
+    let endHour = parseInt(end[0]);
+    let endMinutes = parseInt(end[1]);
+
+    console.log(endMinutes - startMinutes)
+    console.log(endHour - startHour)
+
+    let isValid = ((endHour - startHour) >= 1 && (endMinutes - startMinutes) >= 0) ? true : false
+
+    console.log(isValid)
+    return isValid;
+}
+
+export const validateForm = (errors) => {
+    let valid = true;
+    Object.values(errors).forEach(
+        (val) => val.length > 0 && (valid = false)
+    );
+    return valid;
 }

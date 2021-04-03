@@ -10,7 +10,7 @@ using ParkingApp.Main.DataAcces;
 namespace ParkingApp.Main.DataAcces.Migrations
 {
     [DbContext(typeof(ParkingMainContext))]
-    [Migration("20210319122702_InitialMigration")]
+    [Migration("20210403084607_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<int?>("CoordinatesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("County")
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
@@ -44,16 +47,64 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
                     b.Property<string>("Street")
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CoordinatesId")
+                        .IsUnique()
+                        .HasFilter("[CoordinatesId] IS NOT NULL");
+
                     b.ToTable("Address");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            City = "Bucuresti",
+                            County = "Sector 1",
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(2756),
+                            Directions = "Între bd. Regina Elisabeta și I. Campineanu",
+                            Street = "Academiei"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            City = "Bucuresti",
+                            County = "Sector 1",
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8435),
+                            Directions = "",
+                            Street = "Alee Legatura Banu Antonache si Calea Floreasca"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            City = "Bucuresti",
+                            County = "Sector 3",
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8545),
+                            Directions = "INTERSECTIA CU BD. MIRCEA VODA",
+                            Street = "ALEEA CAUZASI"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            City = "Bucuresti",
+                            County = "Sector 1",
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8599),
+                            Directions = "INTRE AL.PRIVIGHETORILOR SI SERBAN CANTACUZINO",
+                            Street = "ALEEA PRIVIGHETORILOR"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            City = "Bucuresti",
+                            County = "Sector 5",
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8653),
+                            Directions = "",
+                            Street = "ALEXANDRU BELDIMAN"
+                        });
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Admin", b =>
@@ -106,6 +157,35 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Company");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CompanyName = "Administrația Străzilor București",
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 179, DateTimeKind.Local).AddTicks(1765)
+                        });
+                });
+
+            modelBuilder.Entity("ParkingApp.Main.DomainModels.Coordinates", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coordinates");
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Driver", b =>
@@ -132,44 +212,6 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Drivers");
-                });
-
-            modelBuilder.Entity("ParkingApp.Main.DomainModels.DriverReservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Finished")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ParkingAreaId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReservationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ReservationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParkingAreaId");
-
-                    b.HasIndex("VehicleId")
-                        .IsUnique();
-
-                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.DrivingLicense", b =>
@@ -243,6 +285,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Property<decimal?>("PricePerHour")
                         .HasColumnType("decimal(5,2)");
 
+                    b.Property<int>("TotalSpots")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
@@ -251,6 +296,95 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("ParkingAreas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            AddressId = 2,
+                            AvailableSpots = 96,
+                            CompanyId = 1,
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(7688),
+                            PricePerHour = 0m,
+                            TotalSpots = 96
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AddressId = 3,
+                            AvailableSpots = 29,
+                            CompanyId = 1,
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8486),
+                            PricePerHour = 0m,
+                            TotalSpots = 29
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AddressId = 4,
+                            AvailableSpots = 8,
+                            CompanyId = 1,
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8561),
+                            PricePerHour = 0m,
+                            TotalSpots = 8
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AddressId = 5,
+                            AvailableSpots = 59,
+                            CompanyId = 1,
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8614),
+                            PricePerHour = 0m,
+                            TotalSpots = 59
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AddressId = 6,
+                            AvailableSpots = 56,
+                            CompanyId = 1,
+                            CreatedOn = new DateTime(2021, 4, 3, 11, 46, 7, 250, DateTimeKind.Local).AddTicks(8667),
+                            PricePerHour = 0m,
+                            TotalSpots = 56
+                        });
+                });
+
+            modelBuilder.Entity("ParkingApp.Main.DomainModels.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ParkingAreaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParkingAreaId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.User", b =>
@@ -265,18 +399,17 @@ namespace ParkingApp.Main.DataAcces.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -313,10 +446,19 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.ToTable("Vehicle");
                 });
 
+            modelBuilder.Entity("ParkingApp.Main.DomainModels.Address", b =>
+                {
+                    b.HasOne("ParkingApp.Main.DomainModels.Coordinates", "Coordinates")
+                        .WithOne("Address")
+                        .HasForeignKey("ParkingApp.Main.DomainModels.Address", "CoordinatesId");
+
+                    b.Navigation("Coordinates");
+                });
+
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Admin", b =>
                 {
                     b.HasOne("ParkingApp.Main.DomainModels.Company", "Company")
-                        .WithMany("Admins")
+                        .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -357,25 +499,6 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ParkingApp.Main.DomainModels.DriverReservation", b =>
-                {
-                    b.HasOne("ParkingApp.Main.DomainModels.ParkingArea", "ParkingArea")
-                        .WithMany("Reservations")
-                        .HasForeignKey("ParkingAreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ParkingApp.Main.DomainModels.Vehicle", "Vechicle")
-                        .WithOne("DriverReservation")
-                        .HasForeignKey("ParkingApp.Main.DomainModels.DriverReservation", "VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ParkingArea");
-
-                    b.Navigation("Vechicle");
-                });
-
             modelBuilder.Entity("ParkingApp.Main.DomainModels.DrivingLicense", b =>
                 {
                     b.HasOne("ParkingApp.Main.DomainModels.Issuer", "Issuer")
@@ -396,7 +519,7 @@ namespace ParkingApp.Main.DataAcces.Migrations
                         .IsRequired();
 
                     b.HasOne("ParkingApp.Main.DomainModels.Company", "Company")
-                        .WithMany("ParkingAreas")
+                        .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -406,13 +529,26 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("ParkingApp.Main.DomainModels.Reservation", b =>
+                {
+                    b.HasOne("ParkingApp.Main.DomainModels.ParkingArea", "ParkingArea")
+                        .WithMany()
+                        .HasForeignKey("ParkingAreaId");
+
+                    b.HasOne("ParkingApp.Main.DomainModels.Vehicle", "Vechicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleId");
+
+                    b.Navigation("ParkingArea");
+
+                    b.Navigation("Vechicle");
+                });
+
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Vehicle", b =>
                 {
-                    b.HasOne("ParkingApp.Main.DomainModels.Driver", "Driver")
+                    b.HasOne("ParkingApp.Main.DomainModels.Driver", null)
                         .WithMany("Vehicles")
                         .HasForeignKey("DriverId");
-
-                    b.Navigation("Driver");
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Address", b =>
@@ -420,11 +556,9 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Navigation("ParkingArea");
                 });
 
-            modelBuilder.Entity("ParkingApp.Main.DomainModels.Company", b =>
+            modelBuilder.Entity("ParkingApp.Main.DomainModels.Coordinates", b =>
                 {
-                    b.Navigation("Admins");
-
-                    b.Navigation("ParkingAreas");
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("ParkingApp.Main.DomainModels.Driver", b =>
@@ -445,13 +579,6 @@ namespace ParkingApp.Main.DataAcces.Migrations
             modelBuilder.Entity("ParkingApp.Main.DomainModels.ParkingArea", b =>
                 {
                     b.Navigation("Admin");
-
-                    b.Navigation("Reservations");
-                });
-
-            modelBuilder.Entity("ParkingApp.Main.DomainModels.Vehicle", b =>
-                {
-                    b.Navigation("DriverReservation");
                 });
 #pragma warning restore 612, 618
         }

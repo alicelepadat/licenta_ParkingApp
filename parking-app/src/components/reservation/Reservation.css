@@ -1,0 +1,7 @@
+.time-valid {
+    background-color: rgba(142, 247, 156, 0.3);
+}
+
+.time-nevalid {
+    background-color: rgba(247, 142, 142, 0.2);
+}

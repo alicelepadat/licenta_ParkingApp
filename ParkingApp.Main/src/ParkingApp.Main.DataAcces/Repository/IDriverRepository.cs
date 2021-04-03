@@ -7,6 +7,8 @@ namespace ParkingApp.Main.DataAcces.Repository
 {
     public interface IDriverRepository : IRepository<Driver>
     {
-        Task<Driver> GetDriverAsync(string email);
+        Task<Driver> GetByEmailAsync(string email);
+
+        Task<Driver> GetByIdWithVehiclesAsync(int driverId);
     }
 }

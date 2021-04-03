@@ -3,184 +3,186 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ParkingApp.Main.DataAcces.Migrations
 {
-    public partial class HashMigration : Migration
+    public partial class SchemaUpdateMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Password",
-                table: "User",
-                type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+            migrationBuilder.DropIndex(
+                name: "IX_Reservations_VehicleId",
+                table: "Reservations");
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 1, 719, DateTimeKind.Local).AddTicks(4784));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 248, DateTimeKind.Local).AddTicks(7376));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 3, 140, DateTimeKind.Local).AddTicks(9686));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3660));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 4, 508, DateTimeKind.Local).AddTicks(3673));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3830));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 5, 81, DateTimeKind.Local).AddTicks(2044));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3890));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 6,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 6, 249, DateTimeKind.Local).AddTicks(7257));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3943));
 
             migrationBuilder.UpdateData(
                 table: "Company",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 1, 611, DateTimeKind.Local).AddTicks(3887));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 157, DateTimeKind.Local).AddTicks(4208));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 3, 140, DateTimeKind.Local).AddTicks(8557));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(2866));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 4, 508, DateTimeKind.Local).AddTicks(2434));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3713));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 5, 81, DateTimeKind.Local).AddTicks(177));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3849));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 6, 249, DateTimeKind.Local).AddTicks(6290));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3906));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 6,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 11, 7, 179, DateTimeKind.Local).AddTicks(1248));
+                value: new DateTime(2021, 4, 3, 15, 30, 8, 249, DateTimeKind.Local).AddTicks(3958));
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_VehicleId",
+                table: "Reservations",
+                column: "VehicleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Password",
-                table: "User",
-                type: "nvarchar(50)",
-                maxLength: 50,
-                nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+            migrationBuilder.DropIndex(
+                name: "IX_Reservations_VehicleId",
+                table: "Reservations");
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 46, 206, DateTimeKind.Local).AddTicks(2080));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(1827));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 47, 673, DateTimeKind.Local).AddTicks(8084));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7315));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 48, 304, DateTimeKind.Local).AddTicks(6912));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7482));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 49, 683, DateTimeKind.Local).AddTicks(1016));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7539));
 
             migrationBuilder.UpdateData(
                 table: "Address",
                 keyColumn: "Id",
                 keyValue: 6,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 50, 987, DateTimeKind.Local).AddTicks(6400));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7594));
 
             migrationBuilder.UpdateData(
                 table: "Company",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 46, 49, DateTimeKind.Local).AddTicks(1178));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 527, DateTimeKind.Local).AddTicks(6961));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 47, 673, DateTimeKind.Local).AddTicks(5669));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(6596));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 48, 304, DateTimeKind.Local).AddTicks(6032));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7421));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 49, 682, DateTimeKind.Local).AddTicks(9003));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7500));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 50, 987, DateTimeKind.Local).AddTicks(4875));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7555));
 
             migrationBuilder.UpdateData(
                 table: "ParkingAreas",
                 keyColumn: "Id",
                 keyValue: 6,
                 column: "CreatedOn",
-                value: new DateTime(2021, 3, 29, 16, 5, 52, 390, DateTimeKind.Local).AddTicks(3038));
+                value: new DateTime(2021, 4, 3, 11, 55, 53, 619, DateTimeKind.Local).AddTicks(7609));
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_VehicleId",
+                table: "Reservations",
+                column: "VehicleId",
+                unique: true,
+                filter: "[VehicleId] IS NOT NULL");
         }
     }
 }
