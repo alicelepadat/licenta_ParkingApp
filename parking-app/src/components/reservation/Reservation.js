@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { Card, Form, Col, Button } from 'react-bootstrap';
 import { format } from 'date-fns';
 import { AppBar, Toolbar, IconButton, RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
+import { Spinner, Alert } from 'react-bootstrap';
 import CloseIcon from '@material-ui/icons/Close';
 import * as validate from '../validate';
 import './Reservation.css';
+import * as actionCreators from '../../store/actions/index';
 
 class Reservation extends Component {
     state = {
@@ -35,6 +37,8 @@ class Reservation extends Component {
                 isLicensePlate: true
             },
         },
+        isErrorNotification: true,
+        isSuccessNotification: true,
     };
 
     initDateTime = () => {
@@ -46,6 +50,14 @@ class Reservation extends Component {
             startTime: currentTime,
             endTime: nextHourTime,
         })
+    }
+
+    handleErrorNotificationClose = () => {
+        this.setState({ isErrorNotification: false })
+    }
+
+    handleSuccessNotificationClose = () => {
+        this.setState({ isSuccessNotification: false })
     }
 
     handleChange = (event) => {
@@ -86,9 +98,18 @@ class Reservation extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.date)
+
+        const reservationData = {
+            reservationDate: this.state.date,
+            startTime: this.state.startTime,
+            endTime: this.state.endTime,
+            vehicle: {
+                licensePlate: this.state.licensePlate
+            }
+        }
+
         if (validate.validateForm(this.state.errors)) {
-            console.log('Valid form')
+            this.props.onReserve(reservationData, this.props.userId, 4)
         }
     }
 
@@ -105,6 +126,38 @@ class Reservation extends Component {
         const tomorrowDate = format(tomDate, "yyyy-MM-dd");
 
         console.log(this.state)
+
+        let loading = null;
+        if (this.props.loading) {
+            loading = (
+                <div className="text-center">
+                    <Spinner animation="border" variant="primary" />
+                </div>)
+        }
+
+        let errorMessage = null;
+
+        if (this.props.error) {
+            errorMessage = (
+                <div className="text-center">
+                    <Alert show={this.state.isErrorNotification} onClose={this.handleErrorNotificationClose} variant="danger" dismissible>
+                        <Alert.Heading></Alert.Heading>
+                        <p>{this.props.error ? this.props.error : 'A aparut o eroare la cererea dumneavoastra.'}</p>
+                    </Alert>
+                </div>
+            )
+        }
+        let successMessage = null;
+        if (this.props.reservationId) {
+            successMessage = (
+                <div className="text-center">
+                    <Alert show={this.state.isSuccessNotification} onClose={this.handleSuccessNotificationClose} variant="success" dismissible>
+                        <Alert.Heading></Alert.Heading>
+                        <p>Succes</p>
+                    </Alert>
+                </div>
+            )
+        }
 
         return (
             <div>
@@ -124,6 +177,9 @@ class Reservation extends Component {
                             </Card.Subtitle>
                         </Card.Header>
                         <Card.Body>
+                            {loading}
+                            {errorMessage}
+                            {successMessage}
                             <Form onSubmit={this.handleSubmit}>
                                 <Form.Group>
                                     <Form.Label>Data</Form.Label>
@@ -182,7 +238,7 @@ class Reservation extends Component {
                                         isInvalid={errors.licensePlate.length > 0} />
                                     <Form.Control.Feedback type="invalid">{errors.licensePlate}</Form.Control.Feedback>
                                     <Form.Check type='checkbox'>
-                                        <Form.Check.Input type='checkbox' />
+                                        <Form.Check.Input type='checkbox' checked readOnly />
                                         <Form.Check.Label>Adauga la masinile mele</Form.Check.Label>
                                     </Form.Check>
                                 </Form.Group>
@@ -203,7 +259,17 @@ class Reservation extends Component {
 const mapStateToProps = state => {
     return {
         selectedArea: state.parkingAreas.selectedArea,
+        userId: state.auth.userId,
+        reservationId: state.reserve.reservationId,
+        loading: state.reserve.loading,
+        error: state.reserve.error
     };
 }
 
-export default connect(mapStateToProps)(Reservation);
+const mapDispatchToProps = dispatch => {
+    return {
+        onReserve: (reservationData, userId, areaId) => dispatch(actionCreators.reserve(reservationData, userId, areaId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reservation);

@@ -10,7 +10,7 @@ namespace ParkingApp.Main.Dtos
     public class NewReservationDto
     {
         [Required]
-        public DateTime ReservationDate { get; set; }
+        public string ReservationDate { get; set; }
 
         [Required]
         public string StartTime { get; set; }

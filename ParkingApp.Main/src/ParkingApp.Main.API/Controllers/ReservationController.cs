@@ -63,10 +63,10 @@ namespace ParkingApp.Main.API.Controllers
                     if(r.ParkingArea.Id == parkingAreaId && 
                         (r.State == ReservationStateEnum.REGISTERED || r.State == ReservationStateEnum.IN_PROGRESS))
                     {
-                        return BadRequest("Aveti deja o rezervare activa in zona aleas.");
+                        return BadRequest("Aveti deja o rezervare activa in zona aleasa.");
                     }
                 }
-
+                var date = DateTime.Parse(reservation.ReservationDate, System.Globalization.CultureInfo.CurrentCulture);
                 var startTime = DateTime.Parse(reservation.StartTime, System.Globalization.CultureInfo.CurrentCulture);
                 var endTime = DateTime.Parse(reservation.EndTime, System.Globalization.CultureInfo.CurrentCulture);
                 
@@ -75,7 +75,7 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest("Interval nevalid.");
                 }
 
-                if(reservation.ReservationDate.Date < DateTime.Now.Date && 
+                if(date.Date < DateTime.Now.Date && 
                     (startTime.TimeOfDay < DateTime.Now.TimeOfDay || endTime.TimeOfDay < DateTime.Now.TimeOfDay))
                 {
                     return BadRequest("Nu puteti selecta o ora din trecut.");
@@ -86,7 +86,7 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest("Perioada minima de rezervare este de o ora.");
                 }
 
-                if(DateTime.Now == reservation.ReservationDate && (DateTime.Now - startTime).TotalMinutes < 30)
+                if(DateTime.Now == date && (DateTime.Now - startTime).TotalMinutes < 30)
                 {
                     return BadRequest("Puteti rezerva cu minim 30 de minute inainte.");
                 }

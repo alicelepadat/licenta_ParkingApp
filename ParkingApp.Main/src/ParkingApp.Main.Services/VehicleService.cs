@@ -22,7 +22,8 @@ namespace ParkingApp.Main.Services
         public async Task<VehicleDto> CreateAsync(int driverId, NewVehicleDto vehicle)
         {
             var model = _mapper.Map<NewVehicleDto, Vehicle>(vehicle);
-
+            model.DriverId = driverId;
+            
             await _unitOfWork.VehicleRepository.AddAsync(model);
 
             await _unitOfWork.CommitAsync();
@@ -32,30 +33,22 @@ namespace ParkingApp.Main.Services
 
         public async Task DeleteAsync(int vehicleId)
         {
-            var model = await _unitOfWork.VehicleRepository.GetWithReservationsAsync(vehicleId, true);
-
-            if (model.DriverReservations.Count > 0)
-            {
-                foreach (var r in model.DriverReservations)
-                {
-                    if (r.VehicleId == vehicleId)
-                    {
-                        _unitOfWork.VehicleRepository.Remove(r.Vehicle);
-                    }
-                }
-            }
-            else
-            {
-                _unitOfWork.VehicleRepository.Remove(model);
-            }
+            var model = await _unitOfWork.VehicleRepository.GetWithReservationsAsync(vehicleId, false);
+            _unitOfWork.VehicleRepository.Remove(model);
 
             await _unitOfWork.CommitAsync();
         }
 
         public async Task<VehicleDto> GetByIdAsync(int vehicleId)
         {
-            var model = await _unitOfWork.VehicleRepository.GetWithReservationsAsync(vehicleId);
+            var model = await _unitOfWork.VehicleRepository.GetWithReservationsAsync(vehicleId, true);
 
+            foreach (var r in model.DriverReservations)
+            {
+                r.VehicleId = null;
+                r.Vehicle = null;
+            }
+            
             return _mapper.Map<Vehicle, VehicleDto>(model);
         }
 

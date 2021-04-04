@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { Card, CardDeck, Button } from 'react-bootstrap';
+import { Card, CardDeck, Button, Spinner, Alert } from 'react-bootstrap';
 import { FaCarSide } from "react-icons/fa";
 import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import Tooltip from '@material-ui/core/Tooltip';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { Fab, Tooltip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions/index';
 
 class Vehicles extends Component {
     state = {
@@ -27,28 +23,49 @@ class Vehicles extends Component {
         })
     }
 
+    componentDidMount() {
+        if (this.props.userId) {
+            this.props.onVehiclesFetched(this.props.userId);
+        }
+    }
+
     render() {
+        console.log(this.props.vehicles)
+        let loading = null;
+        if (this.props.loading) {
+            loading = (
+                <div className="text-center">
+                    <Spinner animation="border" variant="primary" />
+                </div>)
+        }
+
+        let authMessage = null;
+        let vehicleList = null;
+
+        if (!this.props.userId) {
+            authMessage = (
+                <Alert variant='danger'>Autentificati-va pentru a putea vedea rezervarile.</Alert>
+            )
+        }
+        else {
+            vehicleList = this.props.vehicles.map((vehicle, index) => (
+                <Card key={index} border="primary">
+                    <Card.Body className="text-center">
+                        <Card.Title><FaCarSide /></Card.Title>
+                        <Card.Text>
+                            {vehicle.licensePlate}
+                        </Card.Text>
+                        <Button variant="danger" onClick={() => this.props.onDeleteVehicle(this.props.userId, vehicle.id)}>Sterge</Button>
+                    </Card.Body>
+                </Card>
+            ));
+        }
+
         return (
             <div className="container mt-3">
+                {authMessage}
                 <CardDeck>
-                    <Card border="primary">
-                        <Card.Body className="text-center">
-                            <Card.Title><FaCarSide /></Card.Title>
-                            <Card.Text>
-                                DB99ALI
-                            </Card.Text>
-                            <Button variant="danger">Sterge</Button>
-                        </Card.Body>
-                    </Card>
-                    <Card border="primary">
-                        <Card.Body className="text-center">
-                            <Card.Title><FaCarSide /></Card.Title>
-                            <Card.Text>
-                                DB99ALI
-                            </Card.Text>
-                            <Button variant="danger">Sterge</Button>
-                        </Card.Body>
-                    </Card>
+                    {this.props.loading ? loading : vehicleList}
                 </CardDeck>
                 <div className="position-fixed mt-5">
                     <Tooltip title="Adauga masina" aria-label="add" onClick={this.handleAddVehicle}>
@@ -89,4 +106,19 @@ class Vehicles extends Component {
     }
 }
 
-export default Vehicles;
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        vehicles: state.vehicles.vehicles,
+        loading: state.vehicles.loading,
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onVehiclesFetched: (userId) => dispatch(actionCreators.fetchVehicles(userId)),
+        onDeleteVehicle: (userId, vehicleId) => dispatch(actionCreators.deleteVehicle(userId, vehicleId)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Vehicles);

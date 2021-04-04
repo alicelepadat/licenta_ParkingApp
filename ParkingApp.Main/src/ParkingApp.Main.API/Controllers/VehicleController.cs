@@ -19,6 +19,28 @@ namespace ParkingApp.Main.API.Controllers
             _vehicleService = vehicleService ?? throw new ArgumentNullException(nameof(vehicleService));
             _driverService = driverService ?? throw new ArgumentNullException(nameof(driverService));
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetDriverVehicles(int driverId)
+        {
+            try
+            {
+                var driver = await _driverService.GetByIdAsync(driverId, true);
+                
+                if (driver == null)
+                {
+                    return NotFound("Cont nevalid.");
+                }
+
+                var vehicles = driver.Vehicles;
+
+                return Ok(vehicles);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateVehicle(int driverId, NewVehicleDto vehicle)

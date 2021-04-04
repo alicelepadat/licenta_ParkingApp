@@ -6,4 +6,13 @@ export {
 export {
     auth,
     register
-} from './authentication'
+} from './authentication';
+export {
+    reserve,
+    fetchReservations,
+    deleteReservation,
+} from './reservation';
+export {
+    fetchVehicles,
+    deleteVehicle,
+} from './vehicles';

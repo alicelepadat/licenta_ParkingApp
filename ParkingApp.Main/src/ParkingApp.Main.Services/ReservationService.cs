@@ -43,7 +43,9 @@ namespace ParkingApp.Main.Services
             model.ParkingAreaId = parkingAreaId;
 
             model.Vehicle.DriverId = driverId;
-            
+
+            model.ReservationDate =
+                DateTime.Parse(reservation.ReservationDate, System.Globalization.CultureInfo.CurrentCulture);
             model.StartTime = DateTime.Parse(reservation.StartTime, System.Globalization.CultureInfo.CurrentCulture);
             model.EndTime = DateTime.Parse(reservation.EndTime, System.Globalization.CultureInfo.CurrentCulture);
             model.State = ReservationStateEnum.REGISTERED;

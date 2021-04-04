@@ -25,6 +25,8 @@ class Authenticate extends Component {
         },
         isRegisterOpen: false,
         isErrorNotification: true,
+        isSuccessNotification: true,
+
     };
 
     handleChange = (event) => {
@@ -70,6 +72,10 @@ class Authenticate extends Component {
         this.setState({ isErrorNotification: false })
     }
 
+    handleSuccessNotificationClose = () => {
+        this.setState({ isSuccessNotification: false })
+    }
+
     render() {
         const { errors } = this.state;
 
@@ -93,6 +99,18 @@ class Authenticate extends Component {
 
             )
         }
+
+        let successMessage = null;
+        if (this.props.userId) {
+            successMessage = (
+                <div className="text-center">
+                    <Alert show={this.state.isSuccessNotification} onClose={this.handleSuccessNotificationClose} variant="success" dismissible>
+                        <Alert.Heading></Alert.Heading>
+                        <p>Succes</p>
+                    </Alert>
+                </div>
+            )
+        }
         return (
             <div className='container'>
                 <Card className="m-3">
@@ -101,6 +119,7 @@ class Authenticate extends Component {
                     </Card.Header>
                     <Card.Body>
                         <Form onSubmit={this.handleSubmit}>
+                            {successMessage}
                             {errorMessage}
                             {loading}
                             <Form.Group>
@@ -149,6 +168,7 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
+        userId: state.auth.userId
     }
 }
 
