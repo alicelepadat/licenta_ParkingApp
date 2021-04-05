@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using ParkingApp.Main.Common.Enums;
-using ParkingApp.Main.DataAcces.Repository;
 using ParkingApp.Main.DataAcces.UnitOfWork;
 using ParkingApp.Main.DomainModels;
 using ParkingApp.Main.Dtos;
@@ -87,11 +86,33 @@ namespace ParkingApp.Main.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<ReservationDto> GetByIdAsync(int reservationId)
+        public async Task<ReservationDto> GetByIdAsync(int reservationId, bool includeParkingArea)
         {
-            var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservationId);
+            var model = await _unitOfWork.ReservationRepository.GetByIdAsync(reservationId, includeParkingArea);
 
             return _mapper.Map<Reservation, ReservationDto>(model);
+        }
+
+        public async Task UpdateReservationStateAsync(ReservationDto reservation, ReservationStateEnum newState)
+        {
+            var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservation.Id);
+
+            reservation.State = newState;
+
+            model.State = reservation.State;
+
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task CancelReservationAsync(ReservationDto reservation)
+        {
+            var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservation.Id);
+
+            reservation.State = ReservationStateEnum.CANCELLED;
+
+            model.State = reservation.State;
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }

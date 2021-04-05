@@ -34,6 +34,7 @@ const actionReservationsStart = (state, action) => {
 const fetchReservationsSuccess = (state, action) => {
     return updateObject(state, {
         reservations: action.reservations,
+        error: null,
         loading: false
     });
 };
@@ -48,6 +49,21 @@ const deleteReservationSuccess = (state, action) => {
     })
     return updateObject(state, {
         reservations: updatedList,
+        error: null,
+        loading: false
+    })
+}
+
+const cancelReservationSuccess = (state, action) => {
+    const updatedList = state.reservations.map(item => {
+        if (item.id === action.reservationId) {
+            return Object.assign({}, item, { state: action.reservationState })
+        }
+        return item;
+    });
+    return updateObject(state, {
+        reservations: updatedList,
+        error: null,
         loading: false
     })
 }
@@ -66,6 +82,8 @@ const reducer = (state = initialState, action) => {
             return fetchReservationsSuccess(state, action);
         case actionTypes.DELETE_RESERVATION_SUCCESS:
             return deleteReservationSuccess(state, action);
+        case actionTypes.CANCEL_RESERVATION_SUCCESS:
+            return cancelReservationSuccess(state, action);
         case actionTypes.ACTION_RESERVATIONS_FAILED:
             return actionReservationsFail(state, action);
         default:

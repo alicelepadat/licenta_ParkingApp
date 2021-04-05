@@ -10,9 +10,12 @@ export {
 export {
     reserve,
     fetchReservations,
+    cancelReservation,
+    updateReservationState,
     deleteReservation,
 } from './reservation';
 export {
     fetchVehicles,
     deleteVehicle,
+    addVehicle,
 } from './vehicles';

@@ -50,3 +50,20 @@ export const deleteVehicle = (userId, vehicleId) => {
             }).catch(error => { dispatch(actionVehiclesFailed(error.response)) })
     }
 }
+
+export const addVehicleSuccess = (vehicle) => {
+    return {
+        type: actionTypes.ADD_VEHICLE_SUCCESS,
+        vehicle: vehicle
+    };
+};
+
+export const addVehicle = (vehicle, userId) => {
+    return dispatch => {
+        dispatch(actionVehiclesStart());
+        axios.post('/drivers/' + userId + '/vehicles', vehicle)
+            .then((response) => {
+                dispatch(addVehicleSuccess(response.data))
+            }).catch(error => { dispatch(actionVehiclesFailed(error.response)) })
+    }
+}

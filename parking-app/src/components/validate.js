@@ -68,6 +68,13 @@ export const checkValidity = (value, rules) => {
     return isValid;
 }
 
+export const compareDate = (value) => {
+    if (new Date(value) == new Date()) {
+        return false;
+    }
+    return true;
+}
+
 export const verifyPassword = (value, verifyValue) => {
     return value === verifyValue ? true : false;
 }
@@ -79,9 +86,6 @@ export const verifyReservationTime = (endValue, startValue) => {
     let startMinutes = parseInt(start[1]);
     let endHour = parseInt(end[0]);
     let endMinutes = parseInt(end[1]);
-
-    console.log(endMinutes - startMinutes)
-    console.log(endHour - startHour)
 
     let isValid = ((endHour - startHour) >= 1 && (endMinutes - startMinutes) >= 0) ? true : false
 

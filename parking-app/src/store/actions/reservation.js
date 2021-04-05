@@ -55,18 +55,6 @@ export const actionReservationsFailed = (error) => {
     }
 }
 
-export const fetchReservations = (userId) => {
-    return dispatch => {
-        dispatch(actionReservationsStart());
-        axios.get('/drivers/' + userId + '/reservations')
-            .then(response => {
-                dispatch(fetchReservationsSuccess(response.data));
-            }).catch(error => {
-                dispatch(actionReservationsFailed(error.response));
-            });
-    }
-}
-
 export const deleteReservationsSuccess = (reservationId) => {
     return {
         type: actionTypes.DELETE_RESERVATION_SUCCESS,
@@ -81,5 +69,35 @@ export const deleteReservation = (userId, reservationId) => {
             .then(() => {
                 dispatch(deleteReservationsSuccess(reservationId))
             }).catch(error => { dispatch(actionReservationsFailed(error.response)) })
+    }
+}
+
+export const cancelReservationsSuccess = (reservationState, reservationId) => {
+    return {
+        type: actionTypes.CANCEL_RESERVATION_SUCCESS,
+        reservationState: reservationState,
+        reservationId: reservationId
+    };
+};
+
+export const cancelReservation = (userId, reservationId) => {
+    return dispatch => {
+        dispatch(actionReservationsStart());
+        axios.patch('/drivers/' + userId + '/reservations/' + reservationId)
+            .then(response => {
+                dispatch(cancelReservationsSuccess(response.data, reservationId))
+            }).catch(error => { dispatch(actionReservationsFailed(error.response)) })
+    }
+}
+
+export const fetchReservations = (userId) => {
+    return dispatch => {
+        dispatch(actionReservationsStart());
+        axios.get('/drivers/' + userId + '/reservations')
+            .then(response => {
+                dispatch(fetchReservationsSuccess(response.data));
+            }).catch(error => {
+                dispatch(actionReservationsFailed(error.response));
+            });
     }
 }

@@ -66,7 +66,7 @@ namespace ParkingApp.Main.API.Controllers
 
                 var inserted = await _vehicleService.CreateAsync(driverId, vehicle);
 
-                return Ok(vehicle);
+                return Ok(inserted);
             }
             catch (Exception)
             {

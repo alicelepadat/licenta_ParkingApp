@@ -33,12 +33,24 @@ const deleteVehicleSuccess = (state, action) => {
     })
 }
 
+const addVehicleSuccess = (state, action) => {
+    const updatedList = [...state.vehicles, action.vehicle]
+    console.log(action.vehicle)
+    return updateObject(state, {
+        vehicles: updatedList,
+        loading: false,
+        error: null
+    })
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ACTION_RESERVATIONS_START:
+        case actionTypes.ACTION_VEHICLE_START:
             return actionVehiclesStart(state, action);
         case actionTypes.FETCH_VEHICLE_SUCCESS:
             return fetchVehiclesSuccess(state, action);
+        case actionTypes.ADD_VEHICLE_SUCCESS:
+            return addVehicleSuccess(state, action);
         case actionTypes.DELETE_VEHICLE_SUCCESS:
             return deleteVehicleSuccess(state, action);
         case actionTypes.ACTION_VEHICLE_FAILED:

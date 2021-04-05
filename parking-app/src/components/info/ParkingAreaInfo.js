@@ -28,7 +28,7 @@ class ParkingAreaInfo extends Component {
                             <Card.Body>
                                 <Row>
                                     <Col xs={6} md={6}>
-                                        <AiFillCar /> Nr. locuri: {this.props.selectedArea.availableSpots}
+                                        <AiFillCar /> Nr. locuri disponibile: {this.props.selectedArea.availableSpots}
                                     </Col>
                                     <Col xs={6} md={6}>
                                         <MdAttachMoney /> Pret/ora: {this.props.selectedArea.pricePerHour} lei

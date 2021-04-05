@@ -6,7 +6,6 @@ import Navbar from './nav/Navbar';
 import ReservationList from './reservation/ReservationList';
 import Vehicles from './vehicles/Vehicles';
 import Authenticate from './authentication/Authenticate';
-import Reservation from './reservation/Reservation';
 
 class App extends Component {
   render() {
@@ -16,7 +15,6 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/reservations" component={ReservationList} />
-          <Route exact path="/reserve" component={Reservation} />
           <Route exact path="/vehicles" component={Vehicles} />
           <Route exact path="/profile" component={Authenticate} />
           <Route component={PageNotFound} />

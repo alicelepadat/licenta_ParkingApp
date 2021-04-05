@@ -15,32 +15,55 @@ namespace ParkingApp.Main.API.Controllers
     {
         private readonly IReservationService _reservationService;
         private readonly IDriverService _driverService;
+        private readonly IParkingAreaService _areaService;
 
-        public ReservationController(IReservationService reservationService, IDriverService driverService)
+        public ReservationController(IReservationService reservationService, IDriverService driverService, IParkingAreaService areaService)
         {
             _reservationService = reservationService ?? throw new ArgumentNullException(nameof(reservationService));
             _driverService = driverService ?? throw new ArgumentNullException(nameof(driverService));
+            _areaService = areaService ?? throw new ArgumentNullException(nameof(areaService));
         }
 
         [HttpGet(Name = "GetDriverReservations")]
-        public async Task<IActionResult> GetDriverReservations(int driverId)
+        public async Task<IActionResult> UpdateReservationStatus(int driverId)
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId);
+                var driver = await _driverService.GetByIdAsync(driverId, true);
 
                 if (driver == null)
                 {
-                    return NotFound("Cont nevalid.");
+                    return NotFound("Autentificati-va sau creati un cont pentru a rezerva.");
                 }
-                
-                var rezervations = await _reservationService.GetDriverReservationsAsync(driverId);
 
-                return Ok(rezervations);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var allReservations = await _reservationService.GetDriverReservationsAsync(driverId);
+
+                foreach (var r in allReservations)
+                {
+                    if (r.State != ReservationStateEnum.CANCELLED &&
+                            r.StartTime.TimeOfDay >= DateTime.Now.TimeOfDay && r.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
+                    {
+                        await _reservationService.UpdateReservationStateAsync(r, ReservationStateEnum.IN_PROGRESS);
+                    }
+
+                    if (r.State != ReservationStateEnum.CANCELLED &&
+                            r.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
+                    {
+                        await _reservationService.UpdateReservationStateAsync(r, ReservationStateEnum.FINISHED);
+                        await _areaService.UpdateAvailableSpotsAsync(r.ParkingArea);
+                    }
+                }
+
+                return Ok(allReservations);
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
             }
         }
 
@@ -106,6 +129,42 @@ namespace ParkingApp.Main.API.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
+            }
+        }
+
+        [HttpPatch("{reservationId}")]
+        public async Task<IActionResult> CancelReservation(int driverId, int reservationId)
+        {
+            try
+            {
+                var driver = await _driverService.GetByIdAsync(driverId, true);
+
+                if (driver == null)
+                {
+                    return NotFound("Autentificati-va sau creati un cont pentru a rezerva.");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var reservation = await _reservationService.GetByIdAsync(reservationId, true);
+
+                if (reservation == null)
+                {
+                    return NotFound("Rezervarea nu exista.");
+                }
+
+                await _reservationService.CancelReservationAsync(reservation);
+
+                await _areaService.UpdateAvailableSpotsAsync(reservation.ParkingArea);
+
+                return Ok(reservation.State);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
             }
         }
 

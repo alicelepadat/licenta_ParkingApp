@@ -7,6 +7,8 @@ namespace ParkingApp.Main.Services.Contracts
     public interface IParkingAreaService
     {
         Task<IEnumerable<ParkingAreaDto>> GetAllAreasAsync();
-        
+
+        Task UpdateAvailableSpotsAsync(ParkingAreaDto parkingArea);
+
     }
 }

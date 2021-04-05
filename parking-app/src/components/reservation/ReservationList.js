@@ -9,6 +9,15 @@ import * as validate from '../validate';
 
 class ReservationList extends Component {
 
+    setReservationColor = (state) => {
+        let value = '';
+        switch (state) {
+            case 120: return value = 'rgba(247, 142, 142)';
+            case 130: return value = '#0275d8';
+            default: return value = 'rgba(142, 247, 156)';
+        }
+    }
+
     getReservationState = (state) => {
         let value = '';
         switch (state) {
@@ -47,41 +56,49 @@ class ReservationList extends Component {
             )
         }
         else {
-            reservationList = this.props.reservations.sort(this.handleSort).map((reservation, index) => (
-                <Accordion key={index}>
-                    <Card>
-                        <Card.Header className="d-flex">
-                            <div>
-                                <Card.Title>{reservation.parkingArea.address.street}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">
-                                    stare: {this.getReservationState(reservation.state)} ({format(new Date(reservation.reservationDate), "dd/MM/yyyy")})
+            this.props.reservations.length > 0 ?
+                reservationList = this.props.reservations.sort(this.handleSort).map((reservation, index) => (
+                    <Accordion key={index}>
+                        <Card>
+                            <Card.Header className="d-flex">
+                                <div style={{ color: this.setReservationColor(reservation.state) }}>
+                                    <Card.Title>{reservation.parkingArea.address.street}</Card.Title>
+                                    <Card.Subtitle className="mb-2 text-muted">
+                                        stare: {this.getReservationState(reservation.state)} ({format(new Date(reservation.reservationDate), "dd/MM/yyyy")})
                                     </Card.Subtitle>
-                            </div>
-                            <Accordion.Toggle as={Button} color="primary" eventKey="0" className="ml-auto">
-                                Detalii
+                                </div>
+                                <Accordion.Toggle as={Button} color="primary" eventKey="0" className="ml-auto">
+                                    Detalii
                                 </Accordion.Toggle>
-                        </Card.Header>
-                        <Accordion.Collapse eventKey="0">
-                            <Card.Body>
-                                <Card.Text>Interval:
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="0">
+                                <Card.Body>
+                                    <Card.Text>Interval:
                                 {validate.formatTime(new Date(reservation.startTime))} -
                                 {validate.formatTime(new Date(reservation.endTime))}
-                                </Card.Text>
-                                <Card.Text>
-                                    Adresa: {reservation.parkingArea.address.directions},
+                                    </Card.Text>
+                                    <Card.Text>
+                                        Adresa: {reservation.parkingArea.address.directions},
                                     {reservation.parkingArea.address.county},
                                     {reservation.parkingArea.address.city}
-                                </Card.Text>
-                                <div className="d-flex justify-content-around">
-                                    <Button className="mr-3" color="primary">Anuleaza</Button>
-                                    <Button className="mr-3" color="secondary"
-                                        onClick={() => this.props.onDeleteReservation(this.props.userId, reservation.id)}>Sterge</Button>
-                                </div>
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                </Accordion>
-            ));
+                                    </Card.Text>
+                                    <div className="d-flex justify-content-around">
+                                        {reservation.state === 100 ?
+                                            <Button className="mr-3" color="primary"
+                                                onClick={() => this.props.onReservationCancelled(this.props.userId, reservation.id)}>
+                                                Anuleaza
+                                            </Button>
+                                            : <Button className="mr-3" color="primary" disabled>Anuleaza</Button>
+                                        }
+                                        <Button className="mr-3" color="secondary"
+                                            onClick={() => this.props.onDeleteReservation(this.props.userId, reservation.id)}>Sterge</Button>
+                                    </div>
+                                </Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>
+                ))
+                : reservationList = (<Alert variant='info'>Nu aveti nicio rezervarea.</Alert>)
         }
         return (
             <div className="container mt-3">
@@ -103,6 +120,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onReservationsFetched: (userId) => dispatch(actionCreators.fetchReservations(userId)),
+        onReservationCancelled: (userId, reservationId) => dispatch(actionCreators.cancelReservation(userId, reservationId)),
         onDeleteReservation: (userId, reservationId) => dispatch(actionCreators.deleteReservation(userId, reservationId)),
     }
 }

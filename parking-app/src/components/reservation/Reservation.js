@@ -68,10 +68,10 @@ class Reservation extends Component {
 
         switch (name) {
             case 'startTime':
-                if (!validate.checkValidity(value, rules.startTime)) {
+                if (!validate.compareDate(this.state.value) && !validate.checkValidity(value, rules.startTime)) {
                     errors.startTime = 'Nu puteti selecta o ora anterioara.';
                 }
-                else if (!validate.verifyReservationTime(this.state.endTime, value)) {
+                else if (!validate.compareDate(this.state.value) && !validate.verifyReservationTime(this.state.endTime, value)) {
                     errors.startTime = 'Interval nevalid. Puteti rezerva minim o ora.';
                 }
                 else {
@@ -109,7 +109,7 @@ class Reservation extends Component {
         }
 
         if (validate.validateForm(this.state.errors)) {
-            this.props.onReserve(reservationData, this.props.userId, 4)
+            this.props.onReserve(reservationData, this.props.userId, this.props.selectedArea.id)
         }
     }
 
@@ -120,12 +120,12 @@ class Reservation extends Component {
     render() {
         const { errors } = this.state;
 
+        console.log(this.state)
+
         const todayDate = format(new Date(), "yyyy-MM-dd");
         const tomDate = new Date();
         tomDate.setDate(tomDate.getDate() + 1);
         const tomorrowDate = format(tomDate, "yyyy-MM-dd");
-
-        console.log(this.state)
 
         let loading = null;
         if (this.props.loading) {
@@ -173,7 +173,7 @@ class Reservation extends Component {
                         <Card.Header>
                             <Card.Title className="text-center m-2">Rezerva</Card.Title>
                             <Card.Subtitle className="text-center">
-                                {/* {this.props.selectedArea.address.street} */}
+                                {this.props.selectedArea.address.street}
                             </Card.Subtitle>
                         </Card.Header>
                         <Card.Body>

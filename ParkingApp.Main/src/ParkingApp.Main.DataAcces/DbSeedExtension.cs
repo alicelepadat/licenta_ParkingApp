@@ -15,7 +15,7 @@ namespace ParkingApp.Main.DataAcces
     public static class DbSeedExtension
     {
         private static readonly string file = @"..\ParkingApp.Main.Common\Files\PublicParkingSpots.xlsx";
-        //private static IGeocoder geocoder = new GoogleGeocoder(){ApiKey = ""};
+        //private static IGeocoder geocoder = new GoogleGeocoder() { ApiKey = "" };
         private static Company company;
         private static int id = 2;
 
@@ -37,7 +37,7 @@ namespace ParkingApp.Main.DataAcces
         //{
         //    return await geocoder.GeocodeAsync(address);
         //}
-        
+
         private static void ImportAsync(ModelBuilder builder, string filename)
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -67,7 +67,7 @@ namespace ParkingApp.Main.DataAcces
                 //    Id = id,
                 //    Latitude = coordinates.Result.First().Coordinates.Latitude,
                 //    Longitude = coordinates.Result.First().Coordinates.Longitude
-                //};
+                ////};
 
                 //address.CoordinatesId = addressCoord.Id;
 

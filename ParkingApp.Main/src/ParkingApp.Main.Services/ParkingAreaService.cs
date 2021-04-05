@@ -28,5 +28,16 @@ namespace ParkingApp.Main.Services
 
             return _mapper.Map<IEnumerable<ParkingArea>, IEnumerable<ParkingAreaDto>>(models);
         }
+
+        public async Task UpdateAvailableSpotsAsync(ParkingAreaDto parkingArea)
+        {
+            var model = await _unitOfWork.ParkingAreaRepository.SingleOrDefaultAsync(a => a.Id == parkingArea.Id);
+ 
+            parkingArea.AvailableSpots += 1;
+
+            model.AvailableSpots = parkingArea.AvailableSpots;
+
+            await _unitOfWork.CommitAsync();
+        }
     }
 }
