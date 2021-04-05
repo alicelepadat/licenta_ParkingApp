@@ -80,8 +80,7 @@ class Reservation extends Component {
                 break;
             case 'endTime':
                 errors.endTime =
-                    (validate.checkValidity(value, rules.endTime) &&
-                        validate.verifyReservationTime(value, this.state.startTime))
+                    (validate.verifyReservationTime(value, this.state.startTime))
                         ? '' : 'Interval nevalid. Puteti rezerva minim o ora.'
                 break;
             case 'licensePlate':
@@ -119,8 +118,6 @@ class Reservation extends Component {
 
     render() {
         const { errors } = this.state;
-
-        console.log(this.state)
 
         const todayDate = format(new Date(), "yyyy-MM-dd");
         const tomDate = new Date();

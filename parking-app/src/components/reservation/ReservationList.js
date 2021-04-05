@@ -14,7 +14,8 @@ class ReservationList extends Component {
         switch (state) {
             case 120: return value = 'rgba(247, 142, 142)';
             case 130: return value = '#0275d8';
-            default: return value = 'rgba(142, 247, 156)';
+            case 110: return value = 'rgba(142, 247, 156)';
+            default: return value = '#f0ad4e';
         }
     }
 
@@ -39,6 +40,8 @@ class ReservationList extends Component {
     }
 
     render() {
+        console.log(this.props.loading)
+
         let loading = null;
         if (this.props.loading) {
             loading = (

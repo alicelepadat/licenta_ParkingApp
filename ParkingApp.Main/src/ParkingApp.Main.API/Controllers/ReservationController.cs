@@ -45,8 +45,8 @@ namespace ParkingApp.Main.API.Controllers
 
                 foreach (var r in allReservations)
                 {
-                    if (r.State != ReservationStateEnum.CANCELLED &&
-                            r.StartTime.TimeOfDay >= DateTime.Now.TimeOfDay && r.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
+                    if (r.State == ReservationStateEnum.REGISTERED && r.ReservationDate.Date == DateTime.Now.Date &&
+                            r.StartTime.TimeOfDay >= DateTime.Now.TimeOfDay && r.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
                     {
                         await _reservationService.UpdateReservationStateAsync(r, ReservationStateEnum.IN_PROGRESS);
                     }
