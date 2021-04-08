@@ -9,6 +9,8 @@ namespace ParkingApp.Main.DataAcces.Repository
     {
 
         Task<IEnumerable<Reservation>> GetDriverReservationsAsync(int driverId);
+        
+        Task<IEnumerable<Reservation>> GetReservationsFromAreaAsync(int parkinAreaId);
 
         Task<Reservation> GetByIdAsync(int reservationId, bool includeParkingArea = false);
 

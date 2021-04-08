@@ -68,29 +68,35 @@ export const checkValidity = (value, rules) => {
     return isValid;
 }
 
-export const compareDate = (value) => {
-    if (new Date(value) == new Date()) {
-        return false;
-    }
-    return true;
-}
 
 export const verifyPassword = (value, verifyValue) => {
     return value === verifyValue ? true : false;
 }
 
-export const verifyReservationTime = (endValue, startValue) => {
+const convertMS = (ms) => {
+    var d, h, m, s;
+    s = Math.floor(ms / 1000);
+    m = Math.floor(s / 60);
+    s = s % 60;
+    h = Math.floor(m / 60);
+    m = m % 60;
+    d = Math.floor(h / 24);
+    h = h % 24;
+    h += d * 24;
+    return h + ':' + m + ':' + s;
+}
+
+
+export const verifyReservationTime = (date, endValue, startValue) => {
+    let data = date.split('-');
     let start = startValue.split(':');
     let end = endValue.split(':');
-    let startHour = parseInt(start[0]);
-    let startMinutes = parseInt(start[1]);
-    let endHour = parseInt(end[0]);
-    let endMinutes = parseInt(end[1]);
+    let startTime = new Date(data[0], data[1], data[2], start[0], start[1]);
+    let endTime = new Date(data[0], data[1], data[2], end[0], end[1]);
 
-    let isValid = ((endHour - startHour) >= 1 && (endMinutes - startMinutes) >= 0) ? true : false
+    const diff = convertMS(endTime.getTime() - startTime.getTime()).split(':');
 
-    console.log(isValid)
-    return isValid;
+    return diff[0] >= 1;
 }
 
 export const validateForm = (errors) => {

@@ -68,10 +68,11 @@ class Reservation extends Component {
 
         switch (name) {
             case 'startTime':
-                if (!validate.compareDate(this.state.value) && !validate.checkValidity(value, rules.startTime)) {
+                if (new Date(this.state.date).getDate() === new Date().getDate() &&
+                    !validate.checkValidity(value, rules.startTime)) {
                     errors.startTime = 'Nu puteti selecta o ora anterioara.';
                 }
-                else if (!validate.compareDate(this.state.value) && !validate.verifyReservationTime(this.state.endTime, value)) {
+                else if (!validate.verifyReservationTime(this.state.date, this.state.endTime, value)) {
                     errors.startTime = 'Interval nevalid. Puteti rezerva minim o ora.';
                 }
                 else {
@@ -79,9 +80,18 @@ class Reservation extends Component {
                 }
                 break;
             case 'endTime':
-                errors.endTime =
-                    (validate.verifyReservationTime(value, this.state.startTime))
-                        ? '' : 'Interval nevalid. Puteti rezerva minim o ora.'
+                console.log(new Date(this.state.date).Date)
+                console.log(new Date())
+                if (new Date(this.state.date).Date === new Date().Date &&
+                    !validate.checkValidity(value, rules.endTime)) {
+                    errors.endTime = 'Nu puteti selecta o ora anterioara.';
+                }
+                else if (!validate.verifyReservationTime(this.state.date, value, this.state.startTime)) {
+                    errors.startTime = 'Interval nevalid. Puteti rezerva minim o ora.';
+                }
+                else {
+                    errors.startTime = '';
+                }
                 break;
             case 'licensePlate':
                 errors.licensePlate =
@@ -175,8 +185,7 @@ class Reservation extends Component {
                         </Card.Header>
                         <Card.Body>
                             {loading}
-                            {errorMessage}
-                            {successMessage}
+                            {this.props.error ? errorMessage : successMessage}
                             <Form onSubmit={this.handleSubmit}>
                                 <Form.Group>
                                     <Form.Label>Data</Form.Label>
@@ -259,13 +268,14 @@ const mapStateToProps = state => {
         userId: state.auth.userId,
         reservationId: state.reserve.reservationId,
         loading: state.reserve.loading,
-        error: state.reserve.error
+        error: state.reserve.error,
+        intervals: state.reserve.intervals
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onReserve: (reservationData, userId, areaId) => dispatch(actionCreators.reserve(reservationData, userId, areaId))
+        onReserve: (reservationData, userId, areaId) => dispatch(actionCreators.reserve(reservationData, userId, areaId)),
     }
 }
 

@@ -6,6 +6,7 @@ const initialState = {
     reservationId: null,
     error: null,
     loading: false,
+    intervals: [],
 }
 
 const reservationStart = (state, action) => {
@@ -45,7 +46,7 @@ const actionReservationsFail = (state, action) => {
 
 const deleteReservationSuccess = (state, action) => {
     const updatedList = state.reservations.filter(item => {
-        return item.id != action.reservationId
+        return item.id !== action.reservationId
     })
     return updateObject(state, {
         reservations: updatedList,
@@ -67,6 +68,7 @@ const cancelReservationSuccess = (state, action) => {
         loading: false
     })
 }
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {

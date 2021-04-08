@@ -14,6 +14,12 @@ export const unselectArea = () => {
     };
 };
 
+export const fetchStart = () => {
+    return {
+        type: actionTypes.START_FETCH_PARKING_AREAS
+    };
+};
+
 export const setParkingAreas = (parkingAreas) => {
     return {
         type: actionTypes.INIT_PARKING_AREAS,
@@ -29,6 +35,7 @@ export const fetchParkingAreasFailed = () => {
 
 export const initParkingAreas = () => {
     return dispatch => {
+        dispatch(fetchStart());
         axios.get('/areas')
             .then(response => {
                 dispatch(setParkingAreas(response.data));

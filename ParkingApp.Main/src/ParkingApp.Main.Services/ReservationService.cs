@@ -20,6 +20,14 @@ namespace ParkingApp.Main.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
+        public async Task<IEnumerable<ReservationDto>> GetReservationsFromAreaAsync(int parkingAreaId)
+        {
+            var model = await _unitOfWork.ReservationRepository.GetReservationsFromAreaAsync(parkingAreaId);
+            
+            return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
+        }
+
         public async Task<IEnumerable<ReservationDto>> GetDriverReservationsAsync(int driverId)
         {
             var model = await _unitOfWork.ReservationRepository.GetDriverReservationsAsync(driverId);
@@ -27,11 +35,13 @@ namespace ParkingApp.Main.Services
             return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
         }
 
-        public async Task<bool> ReservationExistsAsync(DateTime startTime, DateTime endTime, int parkingAreaId)
+        public async Task<bool> ReservationExistsAsync(DateTime date, DateTime startTime, DateTime endTime, int parkingAreaId)
         {
             var reservationFound = await _unitOfWork.ReservationRepository
                 .SingleOrDefaultAsync(r => 
-                    r.ParkingAreaId == parkingAreaId && r.StartTime == startTime && r.EndTime == endTime);
+                    r.ParkingAreaId == parkingAreaId && r.ReservationDate.Date == date.Date && 
+                    (startTime >= r.StartTime || startTime <= r.EndTime) && (endTime >= r.StartTime || endTime <= r.EndTime)
+                    && (r.State == ReservationStateEnum.REGISTERED || r.State == ReservationStateEnum.IN_PROGRESS));
 
             return reservationFound != null;
         }
@@ -50,7 +60,10 @@ namespace ParkingApp.Main.Services
             model.State = ReservationStateEnum.REGISTERED;
 
             var area = await _unitOfWork.ParkingAreaRepository.GetByIdAsync(parkingAreaId);
-            area.AvailableSpots -= 1;
+            if (area.AvailableSpots > 0)
+            {
+                area.AvailableSpots -= 1;
+            }
 
             var vehicleExists = await _unitOfWork.VehicleRepository
                 .SingleOrDefaultAsync(v => v.LicensePlate == model.Vehicle.LicensePlate);

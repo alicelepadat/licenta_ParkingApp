@@ -7,10 +7,14 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (userId) => {
+export const authSuccess = (userId, name, email, expireDate, number) => {
     return {
         type: actionTypes.AUTHENTICATION_SUCCESS,
-        userId: userId
+        userId: userId,
+        name: name,
+        email: email,
+        expireDate: expireDate,
+        number: number
     };
 };
 
@@ -30,6 +34,12 @@ export const checkAuthTimeout = (expirationTime) => {
 }
 
 export const logOut = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('email');
+    localStorage.removeItem('name');
+    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('licenseNo');
+    localStorage.removeItem('licenseExp');
     return {
         type: actionTypes.AUTHENTICATION_LOGOUT
     }
@@ -42,11 +52,41 @@ export const auth = (email, password) => {
             email: email,
             password: password
         }).then(response => {
-            dispatch(authSuccess(response.data.id))
-            dispatch(checkAuthTimeout(7200))
+            const expirationTime = 7200;
+            const expirationDate = new Date(new Date().getTime() + expirationTime * 1000);
+            localStorage.setItem('userId', response.data.id);
+            localStorage.setItem('email', response.data.user.email);
+            localStorage.setItem('name', response.data.user.name);
+            localStorage.setItem('licenseNo', response.data.license.number);
+            localStorage.setItem('licenseExp', response.data.license.expirationDate);
+            localStorage.setItem('expirationDate', expirationDate);
+            dispatch(authSuccess(response.data.id, response.data.user.name, response.data.user.email, response.data.license.number, response.data.license.expirationDate))
+            dispatch(checkAuthTimeout(expirationTime))
         }).catch(error => {
             dispatch(authFailed(error.response));
         })
+    }
+}
+
+export const authCheckState = () => {
+    return dispatch => {
+        const userId = localStorage.getItem('userId');
+        const name = localStorage.getItem('name');
+        const email = localStorage.getItem('email');
+        const licenseNo = localStorage.getItem('licenseNo');
+        const licenseExp = localStorage.getItem('licenseExp');
+        if (!userId) {
+            dispatch(logOut());
+        }
+        else {
+            const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            if (expirationDate <= new Date()) {
+                dispatch(logOut())
+            } else {
+                dispatch(authSuccess(userId, name, email, licenseExp, licenseNo));
+                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
+            }
+        }
     }
 }
 

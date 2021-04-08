@@ -12,6 +12,13 @@ namespace ParkingApp.Main.DataAcces.Repository
         {
         }
 
+        public async Task<IEnumerable<Reservation>> GetReservationsFromAreaAsync(int parkinAreaId)
+        {
+            return await _parkingMainContext.Reservations
+                .Where(r => r.ParkingAreaId == parkinAreaId)
+                .ToListAsync();
+        }
+
         public async Task<Reservation> GetByIdAsync(int reservationId, bool includeParkingArea = false)
         {
             if (includeParkingArea)

@@ -5,13 +5,14 @@ export {
 } from './parkingAreas';
 export {
     auth,
-    register
+    register,
+    authCheckState,
+    logOut,
 } from './authentication';
 export {
     reserve,
     fetchReservations,
     cancelReservation,
-    updateReservationState,
     deleteReservation,
 } from './reservation';
 export {

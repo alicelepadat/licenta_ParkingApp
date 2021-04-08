@@ -5,7 +5,7 @@ import Geocode from 'react-geocode';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import DialogActions from '@material-ui/core/DialogActions';
-import { Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Button, InputGroup, FormControl, Spinner } from 'react-bootstrap';
 import CloseIcon from '@material-ui/icons/Close';
 import { RiUserLocationFill } from 'react-icons/ri';
 
@@ -24,7 +24,6 @@ Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
 class HomeContainer extends React.Component {
 
     state = {
-        markers: [],
         initialCenter: { lat: 44.439663, lng: 26.096306 },
         center: {},
         userLocation: { lat: null, lng: null },
@@ -34,6 +33,7 @@ class HomeContainer extends React.Component {
         isInfoClicked: false,
         isReservationClicked: false,
         isAuthRequired: true,
+        url: '',
     }
 
     constructor(props) {
@@ -42,6 +42,14 @@ class HomeContainer extends React.Component {
         this.getUserLocation = this.getUserLocation.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleInfoClose = this.handleInfoClose.bind(this);
+    }
+
+    handleMarkerColor = (value) => {
+        switch (value) {
+            case value === 0:
+                return '/markers/unavailable-marker.png'
+            default: return '/markers/available-marker.png';
+        }
     }
 
     handleChange(event) {
@@ -95,6 +103,35 @@ class HomeContainer extends React.Component {
 
 
     render() {
+
+        let parkingAreas = null;
+        let loading = null;
+        if (this.props.loading) {
+            loading = (
+                <div className="text-center">
+                    <Spinner animation="border" variant="primary" />
+                </div>)
+        }
+        else {
+            if (this.props.parkingAreas != null) {
+                parkingAreas = this.props.parkingAreas
+                    .filter((area) => (area.address.street.toLowerCase()).includes(this.state.search.toLowerCase()))
+                    .map((area, index) => {
+                        return (
+                            <li className="search-area list-group-item"
+                                key={index}
+                                onClick={() => {
+                                    this.setCenter(area.address.street);
+                                    this.props.onSelectedParkingArea(area);
+                                }}
+                            >
+                                {area.address.street}, {area.address.county}, {area.address.city}
+                            </li>
+                        );
+                    })
+            }
+        }
+
         return (
             <div className="home-container">
                 <div className="container">
@@ -118,23 +155,7 @@ class HomeContainer extends React.Component {
                     this.state.isSuggestionDisplay && this.state.search !== '' && (
                         <div className="container">
                             <ul className="list-group list-group-flush">
-                                {
-                                    !this.props.isError && this.props.parkingAreas
-                                        .filter((area) => (area.address.street.toLowerCase()).includes(this.state.search.toLowerCase()))
-                                        .map((area, index) => {
-                                            return (
-                                                <li className="search-area list-group-item"
-                                                    key={index}
-                                                    onClick={() => {
-                                                        this.setCenter(area.address.street);
-                                                        this.props.onSelectedParkingArea(area);
-                                                    }}
-                                                >
-                                                    {area.address.street}
-                                                </li>
-                                            );
-                                        })
-                                }
+                                {this.props.loading ? loading : parkingAreas}
                             </ul>
                         </div>
                     )
@@ -148,11 +169,16 @@ class HomeContainer extends React.Component {
                         styles={mapStyles}
                         disableDefaultUI={true}
                         zoomControl={true}
-                        ref={this.mapRef}
+                        minZoom={10}
                     >
                         {
                             this.state.userLocation.lat && this.state.userLocation.lng &&
-                            <Marker position={this.state.userLocation} />
+                            <Marker position={this.state.userLocation}
+                                icon={{
+                                    url: '/markers/user-marker.png',
+                                    anchor: new this.props.google.maps.Point(17, 46),
+                                    scaledSize: new this.props.google.maps.Size(37, 37)
+                                }} />
                         }
                         {
                             this.props.parkingAreas !== null && (
@@ -162,6 +188,11 @@ class HomeContainer extends React.Component {
                                         onClick={() => {
                                             this.setCenter(area.address.street);
                                             this.props.onSelectedParkingArea(area);
+                                        }}
+                                        icon={{
+                                            url: this.handleMarkerColor(area.availableSpots),
+                                            anchor: new this.props.google.maps.Point(17, 46),
+                                            scaledSize: new this.props.google.maps.Size(37, 37)
                                         }} />
                                 })
                             )
@@ -179,7 +210,7 @@ class HomeContainer extends React.Component {
                             <Dialog fullWidth={true} maxWidth={'md'} open={this.state.isReservationClicked} scroll='body'>
                                 <Reservation onClose={() => { this.props.onCancelParkinArea(); this.closeReserve() }} />
                             </Dialog>
-                            : <Dialog open={this.state.isAuthRequired}>
+                            : <Dialog open={this.state.isAuthRequired} fullWidth maxWidth={'md'}>
                                 <DialogActions>
                                     <IconButton size="small" aria-label="close" color="inherit" onClick={this.closeAuth}>
                                         <CloseIcon fontSize="small" />
@@ -200,6 +231,7 @@ const mapStateToProps = state => {
         parkingAreas: state.parkingAreas.parkingAreas,
         isError: state.parkingAreas.isError,
         isLoggedIn: state.auth.isLoggedIn,
+        loading: state.parkingAreas.loading,
     };
 }
 

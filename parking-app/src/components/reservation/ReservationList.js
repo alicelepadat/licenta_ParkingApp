@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Accordion, Card, Alert, Spinner } from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
@@ -10,27 +11,25 @@ import * as validate from '../validate';
 class ReservationList extends Component {
 
     setReservationColor = (state) => {
-        let value = '';
         switch (state) {
-            case 120: return value = 'rgba(247, 142, 142)';
-            case 130: return value = '#0275d8';
-            case 110: return value = 'rgba(142, 247, 156)';
-            default: return value = '#f0ad4e';
+            case 130: return 'rgb(247, 142, 142)';
+            case 120: return '#0275d8';
+            case 110: return 'rgb(142, 247, 156)';
+            default: return '#f0ad4e';
         }
     }
 
     getReservationState = (state) => {
-        let value = '';
         switch (state) {
-            case 100: return value = 'activa';
-            case 120: return value = 'anulata';
-            case 110: return value = 'in progres';
-            case 130: return value = 'terminata';
+            case 110: return 'activa';
+            case 130: return 'anulata';
+            case 100: return 'in progres';
+            default: return 'terminata';
         }
     }
 
     handleSort = (a, b) => {
-        return (new Date(a.reservationDate) - new Date(b.reservationDate)) || a.state - b.state;
+        return a.state - b.state;
     }
 
     componentDidMount() {
@@ -40,7 +39,6 @@ class ReservationList extends Component {
     }
 
     render() {
-        console.log(this.props.loading)
 
         let loading = null;
         if (this.props.loading) {
@@ -55,7 +53,9 @@ class ReservationList extends Component {
 
         if (!this.props.userId) {
             authMessage = (
-                <Alert variant='danger'>Autentificati-va pentru a putea vedea rezervarile.</Alert>
+                <Alert variant='danger'>
+                    <Link to="/profile">Autentificati-va</Link> pentru a putea vedea rezervarile.
+                </Alert>
             )
         }
         else {
@@ -86,7 +86,7 @@ class ReservationList extends Component {
                                     {reservation.parkingArea.address.city}
                                     </Card.Text>
                                     <div className="d-flex justify-content-around">
-                                        {reservation.state === 100 ?
+                                        {reservation.state === 110 ?
                                             <Button className="mr-3" color="primary"
                                                 onClick={() => this.props.onReservationCancelled(this.props.userId, reservation.id)}>
                                                 Anuleaza
@@ -101,7 +101,7 @@ class ReservationList extends Component {
                         </Card>
                     </Accordion>
                 ))
-                : reservationList = (<Alert variant='info'>Nu aveti nicio rezervarea.</Alert>)
+                : reservationList = (<Alert variant='info'>Nu aveti nicio rezervare.</Alert>)
         }
         return (
             <div className="container mt-3">

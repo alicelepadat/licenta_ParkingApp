@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardDeck, Button, Spinner, Alert } from 'react-bootstrap';
 import { FaCarSide } from "react-icons/fa";
 import AddIcon from '@material-ui/icons/Add';
@@ -92,7 +93,7 @@ class Vehicles extends Component {
 
         if (!this.props.userId) {
             authMessage = (
-                <Alert variant='danger'>Autentificati-va pentru a putea vedea masinile dvs.</Alert>
+                <Alert variant='danger'><Link to='/profile'>Autentificati-va</Link> pentru a putea vedea masinile dvs.</Alert>
             )
         }
         else {

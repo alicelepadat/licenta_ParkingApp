@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkingApp.Main.DataAcces;
 
 namespace ParkingApp.Main.DataAcces.Migrations
 {
     [DbContext(typeof(ParkingMainContext))]
-    partial class ParkingMainContextModelSnapshot : ModelSnapshot
+    [Migration("20210408171956_NewAreasMigration")]
+    partial class NewAreasMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

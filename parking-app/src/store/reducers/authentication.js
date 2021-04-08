@@ -6,6 +6,10 @@ const initialState = {
     error: null,
     loading: false,
     isLoggedIn: false,
+    email: null,
+    name: null,
+    licenseNumber: null,
+    licenseExpire: null,
 };
 
 const authStart = (state, action) => {
@@ -15,6 +19,10 @@ const authStart = (state, action) => {
 const authSucces = (state, action) => {
     return updateObject(state, {
         userId: action.userId,
+        email: action.email,
+        name: action.name,
+        licenseNumber: action.number,
+        licenseExpire: action.expireDate,
         isLoggedIn: true,
         error: null,
         loading: false

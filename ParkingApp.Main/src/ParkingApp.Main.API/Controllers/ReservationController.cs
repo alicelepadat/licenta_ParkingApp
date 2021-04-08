@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -46,12 +48,12 @@ namespace ParkingApp.Main.API.Controllers
                 foreach (var r in allReservations)
                 {
                     if (r.State == ReservationStateEnum.REGISTERED && r.ReservationDate.Date == DateTime.Now.Date &&
-                            r.StartTime.TimeOfDay >= DateTime.Now.TimeOfDay && r.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
+                            r.StartTime.TimeOfDay <= DateTime.Now.TimeOfDay && DateTime.Now.TimeOfDay<=r.EndTime.TimeOfDay)
                     {
                         await _reservationService.UpdateReservationStateAsync(r, ReservationStateEnum.IN_PROGRESS);
                     }
 
-                    if (r.State != ReservationStateEnum.CANCELLED &&
+                    if (r.State == ReservationStateEnum.IN_PROGRESS &&
                             r.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
                     {
                         await _reservationService.UpdateReservationStateAsync(r, ReservationStateEnum.FINISHED);
@@ -60,6 +62,26 @@ namespace ParkingApp.Main.API.Controllers
                 }
 
                 return Ok(allReservations);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+            }
+        }
+        
+        [HttpGet]
+        [Route("{parkingAreaId}")]
+        public async Task<IActionResult> GetUnavailableIntervals(string reservationDate, string startTime, string endTime, int parkingAreaId)
+        {
+            try
+            {
+                var date = DateTime.Parse(reservationDate, System.Globalization.CultureInfo.CurrentCulture);
+                var start = DateTime.Parse(startTime, System.Globalization.CultureInfo.CurrentCulture);
+                var end = DateTime.Parse(endTime, System.Globalization.CultureInfo.CurrentCulture);
+
+                var isAvailable = await _reservationService.ReservationExistsAsync(date, start, end, parkingAreaId);
+
+                return Ok(isAvailable);
             }
             catch (Exception)
             {
@@ -93,12 +115,12 @@ namespace ParkingApp.Main.API.Controllers
                 var startTime = DateTime.Parse(reservation.StartTime, System.Globalization.CultureInfo.CurrentCulture);
                 var endTime = DateTime.Parse(reservation.EndTime, System.Globalization.CultureInfo.CurrentCulture);
                 
-                if (await _reservationService.ReservationExistsAsync(startTime, endTime, parkingAreaId))
+                if (await _reservationService.ReservationExistsAsync(date, startTime, endTime, parkingAreaId))
                 {
                     return BadRequest("Interval nevalid.");
                 }
 
-                if(date.Date < DateTime.Now.Date && 
+                if((date.Date <DateTime.Now.Date || date.Date == DateTime.Now.Date) && 
                     (startTime.TimeOfDay < DateTime.Now.TimeOfDay || endTime.TimeOfDay < DateTime.Now.TimeOfDay))
                 {
                     return BadRequest("Nu puteti selecta o ora din trecut.");
@@ -109,7 +131,7 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest("Perioada minima de rezervare este de o ora.");
                 }
 
-                if(DateTime.Now == date && (DateTime.Now - startTime).TotalMinutes < 30)
+                if(DateTime.Now.Date == date.Date && (startTime.TimeOfDay - DateTime.Now.TimeOfDay).TotalMinutes < 30)
                 {
                     return BadRequest("Puteti rezerva cu minim 30 de minute inainte.");
                 }
