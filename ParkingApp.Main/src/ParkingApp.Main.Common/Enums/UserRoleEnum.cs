@@ -1,4 +1,4 @@
-﻿namespace ParkingApp.Main.DomainModels
+﻿namespace ParkingApp.Main.Common.Enums
 {
     public enum UserRole
     {

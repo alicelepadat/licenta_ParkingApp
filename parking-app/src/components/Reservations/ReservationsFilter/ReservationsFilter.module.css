@@ -1,0 +1,24 @@
+.reservations-filter {
+    color: #12232E;
+}
+
+.reservations-filter__control {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.reservations-filter label {
+    font-weight: bold;
+    text-align: left;
+}
+
+.reservations-filter select {
+    font: inherit;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    background-color: #EEFBFB;
+}

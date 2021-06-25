@@ -1,0 +1,11 @@
+.reservations {
+    padding: 1rem;
+    margin: 0.1rem auto;
+    width: 60rem;
+    max-width: 95%;
+    text-align: center;
+}
+
+.reservations__filter {
+    padding: 0.2rem 1rem;
+}

@@ -17,7 +17,6 @@ namespace ParkingApp.Main.DataAcces.Repository
             return await _parkingMainContext.Drivers
                 .Include(d => d.User)
                 .Include(d => d.License)
-                .ThenInclude(l => l.Issuer)
                 .SingleOrDefaultAsync(d => d.User.Email.ToLower() == email.ToLower());
         }
 

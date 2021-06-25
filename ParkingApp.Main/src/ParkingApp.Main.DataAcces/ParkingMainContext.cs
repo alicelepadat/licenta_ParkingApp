@@ -16,7 +16,7 @@ namespace ParkingApp.Main.DataAcces
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.SeedDatabase();
+            //builder.SeedDatabase();
         }
     }
 }

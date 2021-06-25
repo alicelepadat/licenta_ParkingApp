@@ -6,7 +6,7 @@ namespace ParkingApp.Main.DataAcces.Repository
 {
     public interface IParkingAreaRepository : IRepository<ParkingArea>
     {
-        Task<ParkingArea> GetByIdAsync(int id, bool includeAddress = false);
+        Task<ParkingArea> GetByIdAsync(int id);
 
         Task<IEnumerable<ParkingArea>> GetAllAreasAsync();
     }

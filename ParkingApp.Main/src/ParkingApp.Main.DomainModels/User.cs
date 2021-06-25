@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ParkingApp.Main.Common.Enums;
 
 namespace ParkingApp.Main.DomainModels
 {
@@ -22,5 +23,7 @@ namespace ParkingApp.Main.DomainModels
         [MinLength(8)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public UserRole Role { get; set; } = UserRole.DRIVER;
     }
 }

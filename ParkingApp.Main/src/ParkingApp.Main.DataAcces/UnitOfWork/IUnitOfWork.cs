@@ -12,7 +12,7 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
         IVehicleRepository VehicleRepository { get;  }
         IRepository<User> UserRepository { get; }
         IRepository<DrivingLicense> DrivingLicenseRepository { get; }
-        IRepository<Issuer> IssuerRepository { get; }
+        
         IParkingAreaRepository ParkingAreaRepository { get; } 
         IReservationRepository ReservationRepository { get;  }
     }

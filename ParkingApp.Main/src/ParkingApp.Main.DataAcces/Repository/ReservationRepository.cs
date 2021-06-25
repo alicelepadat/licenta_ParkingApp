@@ -37,7 +37,6 @@ namespace ParkingApp.Main.DataAcces.Repository
         {
             return await _parkingMainContext.Reservations
                 .Include(r=>r.ParkingArea)
-                .ThenInclude(a=>a.Address)
                 .Include(r => r.Vehicle)
                 .Where(v=>v.Vehicle.DriverId == driverId)
                 .ToListAsync();

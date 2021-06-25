@@ -1,1 +1,0 @@
-React Progressive Web Application

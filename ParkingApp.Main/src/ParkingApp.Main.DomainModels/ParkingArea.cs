@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParkingApp.Main.DomainModels
@@ -8,22 +6,20 @@ namespace ParkingApp.Main.DomainModels
     public class ParkingArea : BaseEntity
     {
         [Required]
+        public string Location { get; set; }
+        
+        [Required]
         public int TotalSpots { get; set; }
 
+        public int? AvailableSpots { get; set; }
+
         [Required]
-        public int AvailableSpots { get; set; }
-
         [Column(TypeName = "decimal(5, 2)")]
-        public decimal? PricePerHour { get; set; }
+        public decimal PricePerHour { get; set; }
 
-        public Address Address { get; set; }
-
-        public int AddressId { get; set; }
-
-        public Company Company { get; set; }
-
-        public int CompanyId { get; set; }
-
+        [Required]
+        public string City { get; set; }
+        
         public Admin Admin { get; set; }
 
     }

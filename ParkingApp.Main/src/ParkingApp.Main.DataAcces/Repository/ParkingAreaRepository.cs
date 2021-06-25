@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.DomainModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParkingApp.Main.DataAcces.Repository
@@ -14,20 +13,11 @@ namespace ParkingApp.Main.DataAcces.Repository
         }
         public async Task<IEnumerable<ParkingArea>> GetAllAreasAsync()
         {
-            return await _parkingMainContext.ParkingAreas
-                .Include(a => a.Address)
-                .ThenInclude(a=>a.Coordinates)
-                .Include(a=>a.Company)
-                .ToListAsync();
+            return await _parkingMainContext.ParkingAreas.ToListAsync();
         }
 
-        public async Task<ParkingArea> GetByIdAsync(int id, bool includeAddress = false)
+        public async Task<ParkingArea> GetByIdAsync(int id)
         {
-            if (includeAddress)
-            {
-                return await _parkingMainContext.ParkingAreas.Include(a => a.Address).SingleOrDefaultAsync(a => a.Id == id);
-            }
-
             return await _parkingMainContext.ParkingAreas.SingleOrDefaultAsync(a => a.Id == id);
         }
     }

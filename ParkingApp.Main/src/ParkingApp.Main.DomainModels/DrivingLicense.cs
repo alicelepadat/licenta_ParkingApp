@@ -12,10 +12,6 @@ namespace ParkingApp.Main.DomainModels
         [Required]
         public DateTime ExpirationDate { get; set; }
 
-        public Issuer Issuer { get; set; }
-
-        public int IssuerId { get; set; }
-
         public Driver Driver { get; set; }
     }
 }

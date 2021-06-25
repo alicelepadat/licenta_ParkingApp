@@ -14,8 +14,6 @@ namespace ParkingApp.Main.Dtos
         [Required]
         public DateTime ExpirationDate { get; set; }
 
-        public IssuerDto Issuer { get; set; }
-
         public DriverDto Driver { get; set; }
     }
 }

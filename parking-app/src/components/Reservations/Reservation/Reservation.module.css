@@ -1,0 +1,43 @@
+.reservation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 1rem 0;
+    background-color: #EEFBFB;
+}
+
+.reservation h2 {
+    font-size: 1.2rem;
+    flex: 1;
+}
+
+.reservation__info {
+    padding: 0.7rem;
+}
+
+.reservation__info button {
+    background-color: transparent;
+    border: none;
+    color: #12232E;
+    padding: 0 1rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.reservation__description {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+}
+.reservation__description h2 {
+    font-size: 1.25rem;
+}
+
+@media (max-width: 580px) {
+    .reservation__info button {
+        padding: 0;
+    }
+}

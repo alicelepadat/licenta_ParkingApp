@@ -11,7 +11,6 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
         private DriverRepository _driverRepository;
         private Repository<User> _userRepository;
         private Repository<DrivingLicense> _drivingLicenseRepository;
-        private Repository<Issuer> _issuerRepository;
         private ParkingAreaRepository _parkingAreaRepository;
         private ReservationRepository _reservationRepository;
         private IVehicleRepository _vehicleRepository;
@@ -26,8 +25,6 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
         public IRepository<User> UserRepository => _userRepository ??= new Repository<User>(_parkingMainContext);
 
         public IRepository<DrivingLicense> DrivingLicenseRepository => _drivingLicenseRepository ??= new Repository<DrivingLicense>(_parkingMainContext);
-
-        public IRepository<Issuer> IssuerRepository => _issuerRepository ??= new Repository<Issuer>(_parkingMainContext);
 
         public IParkingAreaRepository ParkingAreaRepository => _parkingAreaRepository ??= new ParkingAreaRepository(_parkingMainContext);
 

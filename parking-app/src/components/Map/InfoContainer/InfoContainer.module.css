@@ -1,0 +1,54 @@
+.area_info {
+    width: 60vw;
+    min-height: 200px;
+    padding: 20px;
+    background-color: rgba(32, 54, 71, 0.7);
+    border-radius: 10px;
+    font-size: 16px;
+    color: #EEFBFB;
+    overflow: hidden;
+}
+
+.area_info h2 {
+    color: #4DA8DA;
+}
+
+.area_info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.area_info li {
+    padding: 5px 0;
+}
+
+.area_info__header button {
+    float: right;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: rgba(77, 168, 218, 0.8);
+}
+
+.area_info__header button:hover {
+    color: #4da8da;
+}
+
+@media only screen and (max-width: 768px) {
+    .area_info {
+        margin: 1rem auto;
+        width: 95%;
+        font-size: 14px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .area_info {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        width: 40vw;
+    }
+}
+
+
