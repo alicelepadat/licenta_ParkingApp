@@ -6,6 +6,7 @@
   --DarkBlue: #12232E;
   --ShadowDarkBlue: #203647;
   --LighterBlue: #305F72;
+  --Blue: #4DA8DA;
 }
 
 html {
@@ -16,13 +17,14 @@ html {
 body {
   margin: 0;
   background-color: #fff;
+  height: 100%;
 }
 
 h1,
 h2,
 h3,
 p {
-  color: var(--LighterBlue);
+  color: white;
 }
 
 @font-face {

@@ -10,7 +10,7 @@
 }
 
 .area_info h2 {
-    color: #4DA8DA;
+    color: var(--Blue);
 }
 
 .area_info ul {

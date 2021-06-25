@@ -1,12 +1,17 @@
 import React from 'react';
 
-import { GeolocateControl } from 'react-map-gl';
+import {GeolocateControl} from 'react-map-gl';
+
+const geolocateControlStyle = {
+    right: 10,
+    top: '90vh',
+};
 
 const UserLocation = () => {
     return (
         <GeolocateControl
-            // className={classes["user__location"]}
-            positionOptions={{ enableHighAccuracy: true }}
+            style={geolocateControlStyle}
+            positionOptions={{enableHighAccuracy: true}}
             trackUserLocation={true}
             auto
         />

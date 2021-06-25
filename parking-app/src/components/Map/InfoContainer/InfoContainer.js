@@ -23,7 +23,7 @@ const InfoContainer = props => {
                     <label>Localizare amplasament: </label>
                     <strong>{props.area["LOCALIZARE AMPLASAMENT"]}</strong></li>
             </ul>
-            <Button>Rezerva</Button>
+            <Button onClick={props.onReserve}>Rezerva</Button>
         </Card>
     );
 }

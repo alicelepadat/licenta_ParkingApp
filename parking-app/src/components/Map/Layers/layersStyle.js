@@ -43,9 +43,9 @@ export const unclusteredPointLayer = {
     source: 'parkingAreas',
     filter: ['!', ['has', 'point_count']],
     paint: {
-        'circle-color': '#118AB2',
-        'circle-radius': 7,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#203647'
+        'circle-color': '#4DA8DA',
+        'circle-radius': 8,
+        'circle-stroke-width': 1.5,
+        'circle-stroke-color': 'white'
     },
 };

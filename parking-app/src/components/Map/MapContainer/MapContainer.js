@@ -1,10 +1,13 @@
 import React, {useState, useRef} from 'react';
-import MapGL, {Source, Layer} from 'react-map-gl';
+import MapGL from 'react-map-gl';
 
-import {clusterLayer, clusterCountLayer, unclusteredPointLayer} from '../Layers/layers';
-
-import classes from './MapContainer.module.css'
+import classes from './MapContainer.module.css';
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import {clusterLayer, unclusteredPointLayer} from '../Layers/layersStyle';
 import InfoContainer from "../InfoContainer/InfoContainer";
+import Layers from '../Layers/Layers';
+import UserLocation from '../UserLocation/UserLocation';
+import NewReservation from "../../Reservations/NewReservation/NewReservation";
 
 const MapContainer = () => {
 
@@ -16,6 +19,7 @@ const MapContainer = () => {
 
     const [showPopup, setShowPopup] = useState(false);
     const [selectedArea, setSelectedArea] = useState(null);
+    const[showReserveForm, setShowReserveForm] = useState(false);
 
     const mapRef = useRef(null);
 
@@ -50,8 +54,14 @@ const MapContainer = () => {
         });
     };
 
+    const handleReserveClick = event => {
+        setShowPopup(false);
+        setShowReserveForm(true);
+    };
+
     const handleCloseClick = event => {
         setShowPopup(false);
+        setShowReserveForm(false);
         setSelectedArea(false);
     }
 
@@ -59,8 +69,8 @@ const MapContainer = () => {
         <div className={classes["map_container"]}>
             <MapGL
                 {...viewport}
-                width="100vw"
-                height="600px"
+                width="100%"
+                height="100%"
                 mapStyle="mapbox://styles/mapbox/dark-v10"
                 onViewportChange={setViewport}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
@@ -68,21 +78,16 @@ const MapContainer = () => {
                 onClick={handleClusterClick}
                 ref={mapRef}
             >
-                <Source
-                    id="parkingAreas"
-                    type="geojson"
-                    data={process.env.REACT_APP_MAPBOX_DATA}
-                    cluster={true}
-                    clusterMaxZoom={14}
-                    clusterRadius={50}
-                >
-                    <Layer {...clusterLayer} />
-                    <Layer {...clusterCountLayer} />
-                    <Layer {...unclusteredPointLayer} />
-                </Source>
+                <UserLocation/>
+                <Layers/>
                 {
-                    showPopup && <InfoContainer area={selectedArea} onCloseClick={handleCloseClick}/>
+                    showPopup && <InfoContainer
+                        area={selectedArea}
+                        onReserve={handleReserveClick}
+                        onCloseClick={handleCloseClick}
+                    />
                 }
+                {showReserveForm && <NewReservation area={selectedArea} onCloseClick={handleCloseClick}/>}
             </MapGL>
         </div>
     );

@@ -3,6 +3,7 @@
     height: 5rem;
     background-color: var(--ShadowDarkBlue);
     padding: 0 10%;
+    z-index: 1;
 }
 
 .header nav {
@@ -42,6 +43,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
+    z-index: 1;
 }
 
 .dropdown-content {

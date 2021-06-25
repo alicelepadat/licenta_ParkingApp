@@ -1,7 +1,6 @@
 .control {
     margin: 1rem 0;
     display: flex;
-    align-items: stretch;
     flex-direction: column;
 }
 
@@ -11,10 +10,10 @@
 }
 
 .control label {
+    padding-right: 1.5rem;
     text-align: left;
     font-weight: bold;
-    flex: 1;
-    color: #12232E;
+    color: white;
     margin-bottom: 0.5rem;
 }
 

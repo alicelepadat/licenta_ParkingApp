@@ -5,10 +5,25 @@
     padding: 2rem;
 }
 
+.new-reservation__header button {
+    float: right;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: rgba(77, 168, 218, 0.8);
+}
+
 .new-reservation h2 {
-    text-align: center;
-    font-size: 1.4rem;
     flex: 1;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     color: var(--Blue);
+}
+
+.new-reservation h3 {
+    padding: 1rem;
+    background-color: var(--DarkBlue);
+    border: 1px solid var(--DarkBlue);
+    border-radius: 10px;
+    flex: 1;
+    margin-bottom: 1.5rem;
 }

@@ -1,0 +1,14 @@
+.new-reservation__controls  {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.new-reservation__time {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.new-reservation__actions {
+    text-align: right;
+}
