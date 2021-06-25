@@ -1,0 +1,14 @@
+.new-reservation {
+    width: 90%;
+    max-width: 40rem;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.new-reservation h2 {
+    text-align: center;
+    font-size: 1.4rem;
+    flex: 1;
+    margin-bottom: 2rem;
+    color: var(--Blue);
+}
