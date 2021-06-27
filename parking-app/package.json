@@ -11,6 +11,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-feather": "^2.0.9",
+    "react-icons": "^4.2.0",
     "react-map-gl": "^6.1.16",
     "react-map-gl-geocoder": "^2.1.6",
     "react-mapbox-gl": "^5.1.1",

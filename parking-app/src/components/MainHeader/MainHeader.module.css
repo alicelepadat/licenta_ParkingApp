@@ -1,52 +1,65 @@
-div.floating-action-menu > .action-menu {
-    visibility: hidden;
-    transform: translateY(65px);
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-
-    transition: all 300ms linear;
-}
-div.floating-action-menu.active > .action-menu {
-    visibility: visible;
-    transform: translate(0);
-    opacity: 1;
-    padding-bottom: 5px;
-    max-height: 1000px;
+.nav-container {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 999;
+    cursor: pointer;
 }
 
-div.floating-action-menu > .action-menu > .floating-action {
-    padding-right: 0.45rem;
+.nav-container_icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    background-color: white;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-div.floating-action-menu > .action-menu .btn-floating,
-div.floating-action-menu > .action-menu .badge
-{
-    transform: scale(0.4);
-    transition: all 500ms ease-in-out;
-}
-div.floating-action-menu.active > .action-menu .btn-floating,
-div.floating-action-menu.active > .action-menu .badge
-{
-    transform: scale(1);
+.nav-container_icon:hover {
+    opacity: 0.8;
 }
 
-div.floating-action-menu > .action-button > .btn-floating {
-    transition: all 500ms linear;
-}
-div.floating-action-menu.active > .action-button > .btn-floating {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-div.floating-action-menu.active > .action-button > .btn-floating:hover {
-    background-color: #c82333;
-    border-color: #bd2130;
+.nav-menu {
+    background-color: white;
+    width: 45%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 850ms;
+    z-index: 1;
 }
 
-div.floating-action-menu > .action-button > .btn-floating > i {
-    transition: transform 500ms ease-in-out;
+.nav-menu-items {
+    padding-top: 6rem;
+    width: 100%;
 }
-div.floating-action-menu.active > .action-button > .btn-floating > i {
-    transform: rotate(-315deg);
 
+.nav-text {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    list-style: none;
+    height: 50px;
+}
+
+.nav-text a {
+    text-decoration: none;
+    color: var(--DarkBlue);
+    font-size: 18px;
+    width: 90%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    border-radius: 4px;
+}
+
+.nav-text a:hover {
+    color: var(--LighterBlue);
 }
