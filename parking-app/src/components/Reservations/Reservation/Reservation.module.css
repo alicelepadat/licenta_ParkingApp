@@ -5,7 +5,7 @@
     align-items: center;
     padding: 0.5rem;
     margin: 1rem 0;
-    background-color: #EEFBFB;
+    background-color: var(--ShadowDarkBlue);
 }
 
 .reservation h2 {
@@ -20,7 +20,7 @@
 .reservation__info button {
     background-color: transparent;
     border: none;
-    color: #12232E;
+    color: white;
     padding: 0 1rem;
     text-align: center;
     cursor: pointer;

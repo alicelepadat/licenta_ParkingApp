@@ -3,15 +3,12 @@ import React from 'react';
 import classes from './InfoContainer.module.css';
 import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
-import {X} from "react-feather";
+import InfoHeader from "../../UI/InfoHeader/InfoHeader";
 
 const InfoContainer = props => {
     return (
-        <Card className={classes["area_info"]}>
-            <div className={classes["area_info__header"]}>
-                <button title="Inchide" onClick={props.onCloseClick}><X/></button>
-                <h2>{props.area["AMPLASAMENT"]}</h2>
-            </div>
+        <Card className={classes["area_info"]} >
+            <InfoHeader title={props.area["AMPLASAMENT"]} onCloseClick={props.onCloseClick}/>
             <ul>
                 <li>
                     <label>Locuri disponibile: </label>

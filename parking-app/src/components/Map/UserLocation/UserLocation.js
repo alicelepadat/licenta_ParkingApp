@@ -3,8 +3,8 @@ import React from 'react';
 import {GeolocateControl} from 'react-map-gl';
 
 const geolocateControlStyle = {
-    right: 10,
-    top: '90vh',
+    bottom: '7rem',
+    right: '1.5rem',
 };
 
 const UserLocation = () => {

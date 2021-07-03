@@ -4,6 +4,7 @@ import { headerData } from './mainHeaderData';
 
 import classes from './MainHeader.module.css';
 import { Menu } from 'react-feather';
+import FloatingButton from "../UI/FloatingButton/FloatingButton";
 
 
 const MainHeader = () => {
@@ -14,13 +15,11 @@ const MainHeader = () => {
         setShowSidebar(!showSidebar);
     }
 
-    console.log(showSidebar)
-
     return (
         <div className={classes["nav-container"]}>
-            <div className={classes["nav-container_icon"]} onClick={handleNavClick}>
+            <FloatingButton onClick={handleNavClick}>
                 <Menu color='var(--DarkBlue)' />
-            </div>
+            </FloatingButton>
             {
                 showSidebar &&
                 <nav className={classes["nav-menu"]}>

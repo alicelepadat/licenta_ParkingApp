@@ -1,29 +1,14 @@
 .nav-container {
     position: fixed;
-    top: 1rem;
+    bottom: 3rem;
     left: 1rem;
     z-index: 999;
     cursor: pointer;
 }
 
-.nav-container_icon {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 100%;
-    background-color: white;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nav-container_icon:hover {
-    opacity: 0.8;
-}
-
 .nav-menu {
     background-color: white;
-    width: 45%;
+    width: 65%;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -41,7 +26,6 @@
 
 .nav-text {
     display: flex;
-    justify-content: start;
     align-items: center;
     list-style: none;
     height: 50px;
@@ -49,7 +33,7 @@
 
 .nav-text a {
     text-decoration: none;
-    color: var(--DarkBlue);
+    color: var(--ShadowDarkBlue);
     font-size: 18px;
     width: 90%;
     height: 100%;
@@ -62,4 +46,10 @@
 
 .nav-text a:hover {
     color: var(--LighterBlue);
+}
+
+@media only screen and (min-width: 768px) {
+    .nav-menu {
+        width: 15%;
+    }
 }

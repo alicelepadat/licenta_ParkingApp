@@ -1,7 +1,12 @@
-import { User, Calendar } from 'react-feather';
+import { User, Calendar, Home } from 'react-feather';
 import { BiCar } from 'react-icons/bi';
 
 export const headerData = [
+    {
+        title: 'Acasa',
+        path: '/home',
+        icon: <Home />
+    },
     {
         title: 'Rezervari',
         path: '/reservations',

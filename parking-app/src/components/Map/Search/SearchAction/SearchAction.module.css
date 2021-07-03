@@ -1,0 +1,7 @@
+.search-actions {
+    position: fixed;
+    bottom: 3rem;
+    right: 1rem;
+    z-index: 999;
+    cursor: pointer;
+}

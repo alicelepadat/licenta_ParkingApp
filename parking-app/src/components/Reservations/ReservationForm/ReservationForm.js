@@ -14,7 +14,6 @@ const ReservationForm = (props) => {
         enteredEndTime: '',
         enteredLicensePlate: '',
     });
-    const [error, setError] = useState();
 
     const handleInputChange = (event) => {
         setUserInput((prevState) => {
@@ -23,10 +22,6 @@ const ReservationForm = (props) => {
                 [event.target.name]: event.target.value
             };
         })
-    }
-
-    const errorHandler = () => {
-        setError(null);
     }
 
     console.log(userInput);

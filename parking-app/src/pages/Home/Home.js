@@ -4,12 +4,14 @@ import UserLocation from "../../components/Map/UserLocation/UserLocation";
 import Layers from "../../components/Map/Layers/Layers";
 import InfoContainer from "../../components/Map/InfoContainer/InfoContainer";
 import NewReservation from "../../components/Reservations/NewReservation/NewReservation";
+import Search from "../../components/Map/Search/Search";
+
 
 export default function Home() {
 
     const [showPopup, setShowPopup] = useState(false);
     const [selectedArea, setSelectedArea] = useState(null);
-    const[showReserveForm, setShowReserveForm] = useState(false);
+    const [showReserveForm, setShowReserveForm] = useState(false);
 
     const handleClusterClick = (area) => {
         setSelectedArea(area);
@@ -29,7 +31,7 @@ export default function Home() {
 
     return (
         <MapContainer onClusterClick={handleClusterClick}>
-            <UserLocation/>
+
             <Layers/>
             {
                 showPopup && <InfoContainer
@@ -38,6 +40,10 @@ export default function Home() {
                     onCloseClick={handleCloseClick}
                 />
             }
+
+            <UserLocation/>
+            <Search/>
+
             {showReserveForm && <NewReservation area={selectedArea} onCloseClick={handleCloseClick}/>}
         </MapContainer>
     );

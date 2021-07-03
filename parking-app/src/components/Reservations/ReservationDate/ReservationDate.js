@@ -7,9 +7,8 @@ const ReservationDate = props => {
 
     return (
         <div className={classes["reservation-date"]}>
-            <div className={classes["reservation-date__month__year"]}>
-                {month} {year}
-            </div>
+            <div>{year}</div>
+            <div>{month}</div>
             <div className={classes["reservation-date__day"]}>{day}</div>
         </div>
     );

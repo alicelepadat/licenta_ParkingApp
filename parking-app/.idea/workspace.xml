@@ -1,31 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2262778-23fc-421a-b773-2b6560e0911e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/parking-app-v2.iml" beforeDir="false" />
+    <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/Map/Search/Search.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Map/Search/SearchAction/SearchAction.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Map/Search/SearchAction/SearchAction.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Map/Search/SearchContainer/SearchContainer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Map/Search/SearchContainer/SearchContainer.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/NewVehicle/NewVehicle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/NewVehicle/NewVehicle.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UI/FloatingButton/FloatingButton.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UI/FloatingButton/FloatingButton.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UI/InfoHeader/InfoHeade.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UI/InfoHeader/InfoHeader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UI/Loading/Loading.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/.idea/.idea.ParkingApp.Main/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/.idea/.idea.ParkingApp.Main/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/.idea/.idea.ParkingApp.Main/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/.idea/.idea.ParkingApp.Main/.idea/riderModule.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/.idea/.idea.ParkingApp.Main/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/.idea/config/applicationhost.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MainHeader/MainHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MainHeader/MainHeader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MainHeader/MainHeader.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MainHeader/MainHeader.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/Input/Input.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Input/Input.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MainHeader/mainHeaderData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MainHeader/mainHeaderData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Map/UserLocation/UserLocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/UserLocation/UserLocation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReservationsFilter.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReservationsFilter.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsList/ReservationsList.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsList/ReservationsList.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UI/Button/Button.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Button/Button.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UI/Card/Card.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Card/Card.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/calendar-img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/parking_00.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/parking_01.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/parking_02.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Login/Login.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Login/Login.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1uTuBptnp5tpp6HSgLgiOmrAFly" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="1unbUISa3cJfq8OHjAfzlyxiGP4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -34,18 +77,26 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\components\Map\Search\SearchAction" />
+      <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\components" />
+      <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\pages\Vehicles" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d2262778-23fc-421a-b773-2b6560e0911e" name="Default Changelist" comment="" />
-      <created>1624701770997</created>
+      <changelist id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="" />
+      <created>1625304322356</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1624701770997</updated>
-      <workItem from="1624701774230" duration="7607000" />
+      <updated>1625304322356</updated>
+      <workItem from="1625304326783" duration="15321000" />
     </task>
     <servers />
   </component>

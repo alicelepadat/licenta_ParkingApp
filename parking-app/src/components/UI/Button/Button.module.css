@@ -2,8 +2,8 @@
   font: inherit;
   cursor: pointer;
   padding: 1rem 2rem;
-  border: 1px solid #12232E;
-  background-color: #12232E;
+  border: 1px solid var(--DarkBlue);
+  background-color: var(--DarkBlue);
   color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);;
   border-radius: 12px;
@@ -11,12 +11,12 @@
 }
 
 .button:hover, .button:active {
-  background-color: #203647;
-  border-color: #203647;
+  background-color: var(--ShadowDarkBlue);
+  border-color: var(--ShadowDarkBlue);
 }
 
 .button.alternative {
-  color: #EEFBFB;
+  color: white;
   border-color: transparent;
   background-color: transparent;
 }

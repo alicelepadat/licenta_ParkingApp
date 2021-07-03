@@ -1,5 +1,5 @@
 .reservations-filter {
-    color: #12232E;
+    color: white;
 }
 
 .reservations-filter__control {
@@ -20,5 +20,5 @@
     padding: 0.5rem 2rem;
     font-weight: bold;
     border-radius: 6px;
-    background-color: #EEFBFB;
+    background-color: white;
 }

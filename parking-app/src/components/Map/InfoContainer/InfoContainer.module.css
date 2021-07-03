@@ -27,11 +27,11 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    color: rgba(77, 168, 218, 0.8);
+    color: var(--TransparentBlue);
 }
 
 .area_info__header button:hover {
-    color: #4da8da;
+    color: var(--Blue);
 }
 
 @media only screen and (max-width: 768px) {
