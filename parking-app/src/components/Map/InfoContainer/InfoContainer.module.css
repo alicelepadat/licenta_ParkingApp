@@ -2,10 +2,9 @@
     width: 60vw;
     min-height: 200px;
     padding: 20px;
-    background-color: rgba(32, 54, 71, 0.7);
+    background-color: rgba(32, 54, 71, 0.9);
     border-radius: 10px;
-    font-size: 16px;
-    color: #EEFBFB;
+    color: white;
     overflow: hidden;
 }
 
@@ -38,7 +37,6 @@
     .area_info {
         margin: 1rem auto;
         width: 95%;
-        font-size: 14px;
     }
 }
 

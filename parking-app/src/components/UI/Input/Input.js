@@ -11,11 +11,13 @@ const Input = props => {
             <input
                 required={true}
                 type={props.type}
+                placeholder={props.placeholder ? props.placeholder : ''}
                 id={props.id}
                 name={props.name ? props.name : ''}
                 value={props.value}
                 onChange={props.onChange}
                 onBlur={props.onBlur}
+                disabled={props.disabled ? props.disabled : false}
             />
         </div>
     );

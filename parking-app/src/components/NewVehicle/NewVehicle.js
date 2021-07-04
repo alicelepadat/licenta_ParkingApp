@@ -21,6 +21,7 @@ const NewVehicle = props => {
                     id="licensePlate"
                     label="Numar inmatriculare"
                     type="text"
+                    placeholder="B99BBB"
                     name="enteredLicensePlate"
                     value={enteredLicensePlate}
                     onChange={handleInputChange}/>

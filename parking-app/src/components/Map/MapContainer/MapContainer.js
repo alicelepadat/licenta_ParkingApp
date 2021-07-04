@@ -2,7 +2,6 @@ import React, {useState, useRef} from 'react';
 import MapGL from 'react-map-gl';
 
 import classes from './MapContainer.module.css';
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import {clusterLayer, unclusteredPointLayer} from '../Layers/layersStyle';
 
 const MapContainer = (props) => {

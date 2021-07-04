@@ -1,4 +1,4 @@
-.info-header h2 {
+.info-header h3 {
     flex: 1;
     margin-bottom: 2.5rem;
     color: var(--Blue);
@@ -10,7 +10,6 @@
     background: transparent;
     cursor: pointer;
     color: var(--TransparentBlue);
-    margin-top: 0.5rem;
 }
 
 .info-header button:hover {

@@ -1,25 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import SearchAction from "./SearchAction/SearchAction";
 import SearchContainer from "./SearchContainer/SearchContainer";
 
 const Search = props => {
-    const [showSearchContainer, setShowSearchContainer] = useState(false);
-
-    const handleSearchClick = () => {
-        setShowSearchContainer(true);
-    }
-
-    const handleCloseClick = () => {
-        setShowSearchContainer(false);
-    }
 
     return (
         <div>
-            <SearchAction onSearchClick={handleSearchClick}/>
+            <SearchAction onSearchClick={props.onSearchClick}/>
             {
-                showSearchContainer &&
+                props.show &&
                 <SearchContainer
-                    onCloseClick={handleCloseClick}
+                    data={props.data}
+                    onCloseClick={props.onCloseClick}
+                    onSelectLocation={props.onClickResult}
                 />
             }
         </div>

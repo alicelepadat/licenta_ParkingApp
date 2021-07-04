@@ -3,12 +3,56 @@
     text-align: left;
 }
 
-.new-reservation__time {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.new-reservation__actions {
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
 }
 
-.new-reservation__actions {
-    text-align: right;
+.control {
+    margin: 1rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.control label {
+    flex: 1;
+    padding-right: 1.5rem;
+    text-align: left;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.control div {
+    display: flex;
+    flex-direction: row;
+}
+
+.control input {
+    flex: 3;
+    font: inherit;
+    padding: 0.35rem 0.35rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.control input:focus {
+    outline: none;
+    border: 1px solid #12232E;
+    background-color: white;
+}
+
+.control select {
+    font: inherit;
+    padding: 0 2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    background-color: white;
+    width: 90%;
+}
+
+.control button {
+    margin-left: 1rem;
+    margin-right: 0;
 }

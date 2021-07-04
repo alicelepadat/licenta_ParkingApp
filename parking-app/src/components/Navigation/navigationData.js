@@ -19,7 +19,7 @@ export const headerData = [
     },
     {
         title: 'Profil',
-        path: '/login',
+        path: '/profile',
         icon: <User />
     },
 ]

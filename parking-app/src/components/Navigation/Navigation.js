@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { headerData } from './mainHeaderData';
+import { headerData } from './navigationData';
 
-import classes from './MainHeader.module.css';
+import classes from './Navigation.module.css';
 import { Menu } from 'react-feather';
 import FloatingButton from "../UI/FloatingButton/FloatingButton";
 
 
-const MainHeader = () => {
+const Navigation = () => {
 
     const [showSidebar, setShowSidebar] = useState(false);
 
@@ -41,4 +41,4 @@ const MainHeader = () => {
     );
 };
 
-export default MainHeader;
+export default Navigation;

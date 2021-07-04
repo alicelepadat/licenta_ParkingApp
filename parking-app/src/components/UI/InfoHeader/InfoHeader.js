@@ -8,7 +8,7 @@ const InfoHeader = props => {
             <button title="Inchide" onClick={props.onCloseClick}>
                 <X/>
             </button>
-            <h2>{props.title}</h2>
+            <h3>{props.title}</h3>
         </div>
     );
 };

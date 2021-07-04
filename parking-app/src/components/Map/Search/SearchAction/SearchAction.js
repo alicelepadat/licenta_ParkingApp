@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import classes from "./SearchAction.module.css";
 import {Search} from "react-feather";
 import FloatingButton from "../../../UI/FloatingButton/FloatingButton";

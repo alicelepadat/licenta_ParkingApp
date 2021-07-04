@@ -1,0 +1,13 @@
+.modify-profile__controls button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 3rem;
+}
+
+.modify-profile__actions {
+    text-align: right;
+}
+
+

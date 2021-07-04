@@ -12,13 +12,13 @@ const InfoContainer = props => {
             <ul>
                 <li>
                     <label>Locuri disponibile: </label>
-                    <strong>{props.area["NR. LOCURI"]}</strong></li>
+                    <strong> {props.area["NR. LOCURI"]}</strong></li>
                 <li>
                     <label>Pret/ora: </label>
-                    <strong>{props.area["PRET"]}</strong></li>
+                    <strong> {props.area["PRET"]}</strong></li>
                 <li>
                     <label>Localizare amplasament: </label>
-                    <strong>{props.area["LOCALIZARE AMPLASAMENT"]}</strong></li>
+                    <strong> {props.area["LOCALIZARE AMPLASAMENT"].length>0 ? props.area["LOCALIZARE AMPLASAMENT"] : '-'}</strong></li>
             </ul>
             <Button onClick={props.onReserve}>Rezerva</Button>
         </Card>

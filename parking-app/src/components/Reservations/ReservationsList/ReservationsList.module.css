@@ -6,6 +6,7 @@
 }
 
 .reservations-list__fallback {
-    color: var(--DarkBlue);
+    color: white;
     text-align: center;
+    margin-top: 1rem;
 }

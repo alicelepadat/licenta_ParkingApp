@@ -6,16 +6,23 @@ import InfoContainer from "../../components/Map/InfoContainer/InfoContainer";
 import NewReservation from "../../components/Reservations/NewReservation/NewReservation";
 import Search from "../../components/Map/Search/Search";
 
+import data from '../../data/parcari.json';
 
 export default function Home() {
 
     const [showPopup, setShowPopup] = useState(false);
     const [selectedArea, setSelectedArea] = useState(null);
     const [showReserveForm, setShowReserveForm] = useState(false);
+    const [showSearchContainer, setShowSearchContainer] = useState(false);
 
-    const handleClusterClick = (area) => {
+    const handleSearchClick = () => {
+        setShowSearchContainer(true);
+    }
+
+    const handleAreaClick = (area) => {
         setSelectedArea(area);
         setShowPopup(true);
+        setShowSearchContainer(false);
     }
 
     const handleReserveClick = event => {
@@ -27,12 +34,24 @@ export default function Home() {
         setShowPopup(false);
         setShowReserveForm(false);
         setSelectedArea(null);
+        setShowSearchContainer(false);
     }
 
     return (
-        <MapContainer onClusterClick={handleClusterClick}>
+        <React.Fragment>
+            <Search
+                show={showSearchContainer}
+                data={data.features}
+                onSearchClick={handleSearchClick}
+                onClickResult={handleAreaClick}
+                onCloseClick={handleCloseClick}
+            />
 
-            <Layers/>
+            <MapContainer onClusterClick={handleAreaClick}>
+                <Layers/>
+                <UserLocation/>
+            </MapContainer>
+
             {
                 showPopup && <InfoContainer
                     area={selectedArea}
@@ -41,10 +60,9 @@ export default function Home() {
                 />
             }
 
-            <UserLocation/>
-            <Search/>
-
             {showReserveForm && <NewReservation area={selectedArea} onCloseClick={handleCloseClick}/>}
-        </MapContainer>
+
+        </React.Fragment>
+
     );
 };

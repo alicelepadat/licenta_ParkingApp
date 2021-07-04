@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 
-import Card from "../../components/UI/Card/Card";
-import Input from "../../components/UI/Input/Input";
-import Button from "../../components/UI/Button/Button";
+import Card from "../UI/Card/Card";
+import Input from "../UI/Input/Input";
+import Button from "../UI/Button/Button";
 
 import classes from './Login.module.css';
 
@@ -45,6 +45,7 @@ export default function Login() {
                     id="email"
                     label="E-mail"
                     type="email"
+                    placeholder="johndoe@example.com"
                     value={enteredEmail}
                     onChange={emailChangeHandler}
                 />
