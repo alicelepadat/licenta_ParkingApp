@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, Col, Row} from "react-bootstrap";
 
 import classes from './DrivingLicense.module.css';
-import {Edit} from "react-feather";
+import Input from "../../UI/Input/Input";
 
 const DrivingLicense = props => {
 
@@ -14,7 +14,8 @@ const DrivingLicense = props => {
                         <img
                             src="https://image.flaticon.com/icons/png/512/330/330426.png"
                             alt="EU"
-                            width={30}
+                            width="30"
+                            height="30"
                         />
                     </Col>
                     <Col>
@@ -27,10 +28,34 @@ const DrivingLicense = props => {
             </Card.Header>
             <Card.Body className={classes["license__body"]}>
                 <div>
-                    <Card.Text>Numar: <span> BF768GHHJN</span></Card.Text>
+                    {
+                        props.showEdit ?
+                            <Input
+                                id="enteredLicensePlate"
+                                label="Numar inmatriculare"
+                                type="text"
+                                name="licensePlate"
+                                value={props.user.userLicensePlate.licensePlate}
+                                onChange={props.onInputChange}
+                            />
+                            :
+                            <Card.Text>Numar: <span> {props.user.userLicensePlate.licensePlate}</span></Card.Text>
+                    }
                 </div>
                 <div className={classes["license__valability"]}>
-                    <Card.Text>Expira la: <span> 2024/05/23</span></Card.Text>
+                    {
+                        props.showEdit ?
+                            <Input
+                                id="enteredExpirationDate"
+                                label="Expira la"
+                                type="date"
+                                name="expirationDate"
+                                value={props.user.userLicensePlate.expirationDate}
+                                onChange={props.onInputChange}
+                            />
+                            :
+                            <Card.Text>Expira la: <span> {props.user.userLicensePlate.expirationDate}</span></Card.Text>
+                    }
                 </div>
             </Card.Body>
         </Card>

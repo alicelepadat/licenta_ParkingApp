@@ -5,7 +5,7 @@ import Navigation from "./components/Navigation/Navigation";
 import Login from "./components/Login/Login";
 import Vehicles from "./pages/Vehicles/Vehicles";
 import Reservations from "./pages/Reservations/Reservations";
-import Profile from "./components/Profile/Profile";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
     return (

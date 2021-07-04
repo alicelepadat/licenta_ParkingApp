@@ -1,36 +1,40 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 :root {
-  --DarkBlue: #12232E;
-  --ShadowDarkBlue: #203647;
-  --LighterBlue: #305F72;
-  --Blue: #4DA8DA;
-  --TransparentBlue: rgba(77, 168, 218, 0.7);
-  --DarkGray: #353535;
-  --LightRed: #ef476f;
-  --LighterRed: rgba(239, 71, 111, 0.8);
+    --DarkBlue: #12232E;
+    --ShadowDarkBlue: #203647;
+    --LighterBlue: #305F72;
+    --Blue: #4DA8DA;
+    --TransparentBlue: rgba(77, 168, 218, 0.7);
+    --DarkGray: #353535;
+    --LightRed: #ef476f;
+    --LighterRed: rgba(239, 71, 111, 0.8);
 }
 
 html {
-  font-family: 'Arial', sans-serif;
-  height: 100%;
+    font-family: 'Arial', sans-serif;
+    height: 100%;
 }
 
 body {
-  margin: 0;
-  background-color: var(--DarkGray);
-  height: 100%;
+    margin: 0;
+    background-color: var(--DarkGray);
+    height: 100%;
 }
 
 h1,
 h2,
 h3,
 p {
-  color: white;
+    color: white;
+}
+
+img {
+    aspect-ratio: attr(width) / attr(height);
 }
 
 @font-face {
-  font-display: swap;
+    font-display: swap;
 }

@@ -1,47 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="vehicles page">
-      <change afterPath="$PROJECT_DIR$/src/components/Map/UserLocation/UserLocation.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/Profile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/Profile.module.css" afterDir="false" />
+    <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="driver's profile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MainHeader/MainHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/Navigation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MainHeader/MainHeader.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/Navigation.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/MainHeader/mainHeaderData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/navigationData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/Search/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Search/Search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/Search/SearchAction/SearchAction.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Search/SearchAction/SearchAction.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/Search/SearchContainer/SearchContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Search/SearchContainer/SearchContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/Search/SearchContainer/SearchContainer.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Search/SearchContainer/SearchContainer.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/UserLocation/UserLocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/UserLocation/UserLocation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewVehicle/NewVehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewVehicle/NewVehicle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewVehicle/NewVehicle.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewVehicle/NewVehicle.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsList/ReservationsList.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsList/ReservationsList.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/InfoHeader/InfoHeade.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/InfoHeader/InfoHeade.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/InfoHeader/InfoHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/InfoHeader/InfoHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/Input/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Input/Input.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/Input/Input.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Input/Input.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Login/Login.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/Login.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Profile/Profile.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,11 +46,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\pages\Profile" />
       <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\components\Profile\Driver" />
       <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\components\Profile" />
       <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\components" />
       <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\data" />
-      <recent name="C:\facultate\LICENTA\ParkingApp\parking-app\src\components\Map\Search\SearchAction" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -95,7 +64,8 @@
       <workItem from="1625304326783" duration="15725000" />
       <workItem from="1625322825758" duration="7483000" />
       <workItem from="1625334985983" duration="2419000" />
-      <workItem from="1625389387921" duration="25759000" />
+      <workItem from="1625389387921" duration="26072000" />
+      <workItem from="1625431194163" duration="3757000" />
     </task>
     <task id="LOCAL-00001" summary="vehicles page">
       <created>1625320747601</created>
@@ -104,7 +74,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625320747601</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="driver's profile">
+      <created>1625416982163</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1625416982163</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,14 +101,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="vehicles page" />
-    <option name="LAST_COMMIT_MESSAGE" value="vehicles page" />
+    <MESSAGE value="driver's profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="driver's profile" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Profile/Driver/Driver.js</url>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

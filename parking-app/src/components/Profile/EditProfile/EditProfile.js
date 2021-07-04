@@ -5,6 +5,7 @@ import {Check, Edit, Eye, EyeOff} from "react-feather";
 import classes from './EditProfile.module.css';
 import {Col, Row} from "react-bootstrap";
 import InfoHeader from "../../UI/InfoHeader/InfoHeader";
+import DrivingLicense from "../DrivingLicense/DrivingLicense";
 
 const EditProfile = props => {
 
@@ -46,20 +47,27 @@ const EditProfile = props => {
                         />
                     </Col>
                     <Col className={classes["modify-profile__actions"]}>
-                        <button onClick={handleShowPassword}>
+                        <button onClick={handleShowPassword} title="Arata parola">
                             {
                                 showPassword ? <EyeOff/> : <Eye/>
                             }
                         </button>
-                        <button onClick={handleModifyPassword}>
+                        <button onClick={handleModifyPassword} title="Modifica parola">
                             {
                                 enableModifyPassword ? <Check/> : <Edit/>
                             }
                         </button>
                     </Col>
                 </Row>
-
+                <div className={classes["user-license"]}>
+                    <DrivingLicense showEdit={props.showEdit} user={props.user} onInputChange={props.onInputChange}/>
+                </div>
             </form>
+            <div className={classes["edit-profile__actions"]}>
+                <button onClick={props.onClose} title="Salveaza modificarile">
+                    <Check/>
+                </button>
+            </div>
         </React.Fragment>
     );
 };

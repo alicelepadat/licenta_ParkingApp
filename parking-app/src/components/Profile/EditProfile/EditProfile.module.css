@@ -10,4 +10,28 @@
     text-align: right;
 }
 
+.user-license label {
+    color: var(--DarkBlue);
+}
+
+.edit-profile__actions {
+    text-align: center;
+}
+
+.edit-profile__actions button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    color: white;
+}
+
+@media only screen and (min-width: 768px) {
+    .user-license {
+        margin: auto;
+        width: 60%;
+    }
+}
+
 

@@ -16,6 +16,7 @@ const DriverProfile = props => {
                     <img className="rounded"
                          src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
                          width="155"
+                         height="155"
                          alt="poza de profil"
                     />
                 </Col>
@@ -29,7 +30,7 @@ const DriverProfile = props => {
                                 {props.user.userEmail}
                             </span>
                         </div>
-                        <button onClick={props.onEdit}>
+                        <button onClick={props.onEdit} title="Editeaza profilul">
                             <Edit/>
                         </button>
                     </div>
@@ -58,7 +59,7 @@ const DriverProfile = props => {
                 </Col>
             </Row>
             <div className={classes["user-license"]}>
-                <DrivingLicense/>
+                <DrivingLicense user={props.user}/>
             </div>
 
         </React.Fragment>
