@@ -10,9 +10,8 @@
   margin-right: 1rem;
 }
 
-.button:hover, .button:active {
-  background-color: var(--ShadowDarkBlue);
-  border-color: var(--ShadowDarkBlue);
+.button:hover, .button:hover {
+  color: var(--LighterBlue);
 }
 
 .button.alternative {

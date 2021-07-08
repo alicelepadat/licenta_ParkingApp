@@ -30,14 +30,14 @@ const SearchContainer = props => {
                     onChange={handleUserInputChange}
                 />
             </Form>
-            <ul>
+            <ul className="scroll">
                 {
                     filteredAreas.length > 0 ?
                     filteredAreas.map((area, index) => {
                         return (
                             <li key={index}
                                 className={classes["search-result"]}
-                                onClick={() => props.onSelectLocation(area.properties)}
+                                onClick={() => props.onSelectLocation(area.properties, area.geometry.coordinates)}
                             >
                                 {area.properties["AMPLASAMENT"]}
                             </li>

@@ -1,16 +1,10 @@
-import React, {useState, useRef} from 'react';
+import React, {useRef} from 'react';
 import MapGL from 'react-map-gl';
 
 import classes from './MapContainer.module.css';
 import {clusterLayer, unclusteredPointLayer} from '../Layers/layersStyle';
 
 const MapContainer = (props) => {
-
-    const [viewport, setViewport] = useState({
-        latitude: 44.439663,
-        longitude: 26.096306,
-        zoom: 11,
-    });
 
     const mapRef = useRef(null);
 
@@ -23,7 +17,7 @@ const MapContainer = (props) => {
         const clusterId = feature.properties.cluster_id;
 
         if (!clusterId) {
-            props.onClusterClick(feature.properties);
+            props.onAreaClick(feature.properties, feature.geometry.coordinates);
             return;
         }
 
@@ -34,24 +28,18 @@ const MapContainer = (props) => {
                 return;
             }
 
-            setViewport({
-                ...viewport,
-                longitude: feature.geometry.coordinates[0],
-                latitude: feature.geometry.coordinates[1],
-                zoom,
-                transitionDuration: 500
-            });
+            props.onClusterExpansion(zoom, feature.geometry.coordinates);
         });
     };
 
     return (
         <div className={classes["map_container"]}>
             <MapGL
-                {...viewport}
+                {...props.viewport}
                 width="100%"
                 height="100%"
                 mapStyle="mapbox://styles/mapbox/dark-v10"
-                onViewportChange={setViewport}
+                onViewportChange={props.onViewportChange}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
                 interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
                 onClick={handleClusterClick}

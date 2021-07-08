@@ -35,7 +35,7 @@ const EditProfile = props => {
                     onChange={props.onInputChange}
                 />
                 <Row className={classes["modify-profile__controls"]}>
-                    <Col md={10} sm={10} xs={8}>
+                    <Col md={10} sm={8} xs={8}>
                         <Input
                             id="enteredPassword"
                             label="Parola"
@@ -59,9 +59,14 @@ const EditProfile = props => {
                         </button>
                     </Col>
                 </Row>
-                <div className={classes["user-license"]}>
-                    <DrivingLicense showEdit={props.showEdit} user={props.user} onInputChange={props.onInputChange}/>
-                </div>
+                {
+                    props.hasDrivingLicense &&
+                    <div className={classes["user-license"]}>
+                        <DrivingLicense showEdit={props.showEdit} user={props.user}
+                                        onInputChange={props.onInputChange}/>
+                    </div>
+                }
+
             </form>
             <div className={classes["edit-profile__actions"]}>
                 <button onClick={props.onClose} title="Salveaza modificarile">

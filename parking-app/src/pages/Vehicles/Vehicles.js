@@ -30,7 +30,7 @@ export default function Vehicles() {
     }
 
     return (
-        <div>
+        <div className={classes["vehicles-container"]}>
             <CardDeck>
                 {
                     DUMMY_VEHICLES.map((vehicle, index) => (

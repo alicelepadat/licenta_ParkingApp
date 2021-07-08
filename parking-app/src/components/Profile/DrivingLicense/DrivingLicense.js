@@ -3,6 +3,7 @@ import {Card, Col, Row} from "react-bootstrap";
 
 import classes from './DrivingLicense.module.css';
 import Input from "../../UI/Input/Input";
+import {Check, X} from "react-feather";
 
 const DrivingLicense = props => {
 
@@ -32,14 +33,14 @@ const DrivingLicense = props => {
                         props.showEdit ?
                             <Input
                                 id="enteredLicensePlate"
-                                label="Numar inmatriculare"
+                                label="Numar:"
                                 type="text"
-                                name="licensePlate"
-                                value={props.user.userLicensePlate.licensePlate}
+                                name="number"
+                                value={props.user.userDrivingLicense.number}
                                 onChange={props.onInputChange}
                             />
                             :
-                            <Card.Text>Numar: <span> {props.user.userLicensePlate.licensePlate}</span></Card.Text>
+                            <Card.Text>Numar: <span> {props.user.userDrivingLicense.number}</span></Card.Text>
                     }
                 </div>
                 <div className={classes["license__valability"]}>
@@ -47,17 +48,25 @@ const DrivingLicense = props => {
                         props.showEdit ?
                             <Input
                                 id="enteredExpirationDate"
-                                label="Expira la"
+                                label="Expira la:"
                                 type="date"
                                 name="expirationDate"
-                                value={props.user.userLicensePlate.expirationDate}
+                                value={props.user.userDrivingLicense.expirationDate}
                                 onChange={props.onInputChange}
                             />
                             :
-                            <Card.Text>Expira la: <span> {props.user.userLicensePlate.expirationDate}</span></Card.Text>
+                            <Card.Text>Expira
+                                la: <span> {props.user.userDrivingLicense.expirationDate}</span></Card.Text>
                     }
                 </div>
             </Card.Body>
+            {
+                props.showAddActions &&
+                <Card.Footer className={classes["license-add_actions"]}>
+                    <button title="Anuleaza" onClick={props.onAddClose}><X/></button>
+                    <button title="Salveaza permis"><Check/></button>
+                </Card.Footer>
+            }
         </Card>
     )
 };

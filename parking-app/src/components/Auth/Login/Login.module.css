@@ -1,0 +1,24 @@
+.login {
+    width: 90%;
+    max-width: 40rem;
+    padding: 2rem;
+    margin: 7rem auto;
+}
+
+.login-header h2 {
+    color: var(--Blue);
+    margin: 1rem 0;
+}
+
+.login-footer {
+    margin: 1.5rem 0
+}
+
+.login-footer a {
+    color: var(--Blue);
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    color: var(--LighterBlue);
+}

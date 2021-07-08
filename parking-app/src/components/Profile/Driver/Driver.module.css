@@ -58,6 +58,15 @@
     }
 }
 
+.user-license__action {
+    text-align: center;
+    margin: 4rem 0;
+}
+
+.user-license label {
+    color: var(--DarkBlue);
+}
+
 @media only screen and (min-width: 768px) {
     .user-license {
         margin: auto;

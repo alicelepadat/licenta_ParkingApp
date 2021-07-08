@@ -10,15 +10,6 @@
     padding: 2rem;
 }
 
-.new-reservation h3 {
-    padding: 1rem;
-    background-color: var(--DarkBlue);
-    border: 1px solid var(--DarkBlue);
-    border-radius: 10px;
-    flex: 1;
-    margin-bottom: 1.5rem;
-}
-
 @media only screen and (min-width: 768px) {
     .new-reservation {
         width: 35%;

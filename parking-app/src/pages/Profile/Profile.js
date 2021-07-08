@@ -10,11 +10,13 @@ const Profile = props => {
         userName: 'Alice',
         userEmail: 'alice22@gmail.com',
         userPassword: 'alicethebest',
-        userLicensePlate: {
-            licensePlate: 'BF768GHHJN',
+        userDrivingLicense: {
+            number: 'BF768GHHJN',
             expirationDate: '2024-05-23',
         },
     });
+
+    const hasDrivingLicense = Object.keys(userData.userDrivingLicense).length > 0;
 
     const handleInputChange = (event) => {
         setUserData((prevState) => {
@@ -42,12 +44,13 @@ const Profile = props => {
                     showEditFields ?
                         <EditProfile
                             user={userData}
+                            hasDrivingLicense={hasDrivingLicense}
                             onInputChange={handleInputChange}
                             onClose={handleEditClose}
                             showEdit={showEditFields}
                         />
                         :
-                        <DriverProfile user={userData} onEdit={handleEditClick}/>
+                        <DriverProfile user={userData} hasDrivingLicense={hasDrivingLicense} onEdit={handleEditClick}/>
                 }
 
             </Card>

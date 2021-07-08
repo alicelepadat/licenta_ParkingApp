@@ -1,6 +1,11 @@
+.info-header {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2.5rem;
+}
+
 .info-header h3 {
     flex: 1;
-    margin-bottom: 2.5rem;
     color: var(--Blue);
 }
 

@@ -16,11 +16,11 @@ export const clusterLayer = {
         'circle-radius': [
             'step',
             ['get', 'point_count'],
-            20,
+            30,
             50,
-            35,
+            50,
             150,
-            50,
+            70,
         ]
     },
 };
@@ -45,7 +45,5 @@ export const unclusteredPointLayer = {
     paint: {
         'circle-color': '#4DA8DA',
         'circle-radius': 8,
-        'circle-stroke-width': 1.5,
-        'circle-stroke-color': 'white'
     },
 };
