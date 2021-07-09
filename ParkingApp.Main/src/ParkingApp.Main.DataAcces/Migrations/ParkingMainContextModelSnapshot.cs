@@ -56,7 +56,7 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LicenseId")
+                    b.Property<int?>("LicenseId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -65,7 +65,8 @@ namespace ParkingApp.Main.DataAcces.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LicenseId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[LicenseId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -247,9 +248,7 @@ namespace ParkingApp.Main.DataAcces.Migrations
                 {
                     b.HasOne("ParkingApp.Main.DomainModels.DrivingLicense", "License")
                         .WithOne("Driver")
-                        .HasForeignKey("ParkingApp.Main.DomainModels.Driver", "LicenseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ParkingApp.Main.DomainModels.Driver", "LicenseId");
 
                     b.HasOne("ParkingApp.Main.DomainModels.User", "User")
                         .WithMany()

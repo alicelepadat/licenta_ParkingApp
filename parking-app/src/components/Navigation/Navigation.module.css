@@ -19,6 +19,15 @@
     z-index: 1;
 }
 
+.nav-menu button {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
 .nav-menu-items {
     padding-top: 6rem;
     width: 100%;

@@ -62,7 +62,7 @@ export default function Home() {
         setShowReserveForm(false);
         setSelectedArea(null);
         setShowSearchContainer(false);
-        setViewport({
+        selectedArea && setViewport({
             ...viewport,
             zoom: 11,
             transitionDuration: 2000

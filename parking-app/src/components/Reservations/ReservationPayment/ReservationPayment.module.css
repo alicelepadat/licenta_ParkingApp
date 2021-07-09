@@ -1,0 +1,16 @@
+.payment {
+    background-color: white;
+    margin: 2rem 0;
+    color: var(--DarkBlue);
+    border-radius: 5px;
+}
+
+.payment-details {
+    padding: 1rem;
+}
+
+.payment-actions {
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+}

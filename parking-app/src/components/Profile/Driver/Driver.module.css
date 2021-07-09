@@ -46,6 +46,10 @@
     color: var(--LighterBlue);
 }
 
+.user-logout {
+    text-align: center;
+}
+
 @media only screen and (max-width: 768px) {
     .username {
         flex-direction: column;

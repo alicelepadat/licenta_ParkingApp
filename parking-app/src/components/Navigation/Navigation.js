@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { headerData } from './navigationData';
+import React, {useState} from 'react';
+import {NavLink} from 'react-router-dom';
+import {headerData} from './navigationData';
 
 import classes from './Navigation.module.css';
-import { Menu } from 'react-feather';
+import {Menu, X} from 'react-feather';
 import FloatingButton from "../UI/FloatingButton/FloatingButton";
 
 
@@ -18,15 +18,16 @@ const Navigation = () => {
     return (
         <div className={classes["nav-container"]}>
             <FloatingButton onClick={handleNavClick}>
-                <Menu color='var(--DarkBlue)' />
+                <Menu color='var(--DarkBlue)'/>
             </FloatingButton>
             {
                 showSidebar &&
                 <nav className={classes["nav-menu"]}>
-                    <ul className={classes["nav-menu-items"]} onClick={handleNavClick}>
+                    <button type="button" onClick={handleNavClick}><X/></button>
+                    <ul className={classes["nav-menu-items"]}>
                         {headerData.map((item, index) => {
                             return (
-                                <li key={index} className={classes["nav-text"]}>
+                                <li key={index} className={classes["nav-text"]} onClick={handleNavClick}>
                                     <NavLink to={item.path}>
                                         {item.icon}
                                         <span>{item.title}</span>

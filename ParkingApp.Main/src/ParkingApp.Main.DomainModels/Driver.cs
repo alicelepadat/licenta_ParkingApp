@@ -13,7 +13,7 @@ namespace ParkingApp.Main.DomainModels
 
         public DrivingLicense License { get; set; }
 
-        public int LicenseId { get; set; }
+        public int? LicenseId { get; set; }
 
         public List<Vehicle> Vehicles { get; set; }
     }

@@ -33,7 +33,7 @@ namespace ParkingApp.Main.API.Controllers
                     return NotFound("Email sau parola incorecte.");
                 }
 
-                return Ok(driver);
+                return Ok(driver.Id);
             }
             catch (Exception e)
             {
@@ -64,11 +64,11 @@ namespace ParkingApp.Main.API.Controllers
                     return Problem("A aparut o problema la inregistrare.");
                 }
 
-                return Ok(inserted);
+                return Ok(inserted.Id);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
     }

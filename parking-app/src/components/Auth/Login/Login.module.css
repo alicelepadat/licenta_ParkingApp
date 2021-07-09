@@ -2,7 +2,20 @@
     width: 90%;
     max-width: 40rem;
     padding: 2rem;
-    margin: 7rem auto;
+    margin: 4rem auto;
+}
+
+.login-header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-header div {
+    width: 100px;
+    height: 100px;
 }
 
 .login-header h2 {

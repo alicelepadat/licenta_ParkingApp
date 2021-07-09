@@ -7,11 +7,11 @@ export const clusterLayer = {
         'circle-color': [
             'step',
             ['get', 'point_count'],
-            '#06D6A0',
+            'rgba(77, 168, 218, 0.5)',
             50,
-            '#FFD166',
+            'rgba(77, 168, 218, 0.75)',
             150,
-            '#EF476F',
+            'rgb(77, 168, 218)',
         ],
         'circle-radius': [
             'step',
@@ -43,7 +43,7 @@ export const unclusteredPointLayer = {
     source: 'parkingAreas',
     filter: ['!', ['has', 'point_count']],
     paint: {
-        'circle-color': '#4DA8DA',
-        'circle-radius': 8,
+        'circle-color': 'white',
+        'circle-radius': 9,
     },
 };

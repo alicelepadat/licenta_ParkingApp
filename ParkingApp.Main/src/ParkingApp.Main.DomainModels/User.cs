@@ -24,6 +24,6 @@ namespace ParkingApp.Main.DomainModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public UserRole Role { get; set; } = UserRole.DRIVER;
+        public UserRoleEnum Role { get; set; } = UserRoleEnum.DRIVER;
     }
 }

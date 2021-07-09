@@ -1,6 +1,6 @@
 ﻿namespace ParkingApp.Main.Common.Enums
 {
-    public enum UserRole
+    public enum UserRoleEnum
     {
         DRIVER = 200,
         ADMIN = 210,
