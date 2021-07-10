@@ -31,3 +31,8 @@
     border: 1px solid #12232E;
     background-color: #EEFBFB
 }
+
+.invalid input{
+    border: 1px solid var(--LightRed);
+    background-color: var(--ErrorRed);
+}

@@ -15,10 +15,17 @@
     text-align: right;
 }
 
-.register__actions button {
+.register__actions button, .go-back {
     background: none;
     border: none;
-    color: white;
     cursor: pointer;
+    color: white;
+}
+
+.register__actions button {
     padding: 1rem;
+}
+
+.register__actions button:hover, .go-back:hover {
+    color: var(--LighterBlue);
 }

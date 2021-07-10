@@ -11,6 +11,7 @@
     --DarkGray: #353535;
     --LightRed: #ef476f;
     --LighterRed: rgba(239, 71, 111, 0.8);
+    --ErrorRed: rgb(243, 206, 214);
 }
 
 html {

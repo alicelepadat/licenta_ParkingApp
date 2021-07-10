@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Card from "../../UI/Card/Card";
 import Input from "../../UI/Input/Input";
@@ -12,31 +12,44 @@ import Loading from "../../UI/Loading/Loading";
 
 const Login = props => {
     const [enteredEmail, setEnteredEmail] = useState('');
+    const [emailIsValid, setEmailIsValid] = useState();
     const [enteredPassword, setEnteredPassword] = useState('');
+    const [passwordIsValid, setPasswordIsValid] = useState();
     const [formIsValid, setFormIsValid] = useState(false);
 
-    const emailChangeHandler = event => {
+    useEffect(() => {
+        const identifier = setTimeout(() => {
+            setFormIsValid(
+                emailIsValid && passwordIsValid
+            );
+        }, 500);
+
+        return () => {
+            clearTimeout(identifier);
+        };
+    }, [emailIsValid, passwordIsValid]);
+
+
+    const handleEmailChange = event => {
         setEnteredEmail(event.target.value);
+    };
 
-        setFormIsValid(
-            event.target.value.includes('@') && enteredPassword.trim().length > 6
-        );
-    }
-
-    const passwordChangeHandler = event => {
+    const handlePasswordChange = event => {
         setEnteredPassword(event.target.value);
+    };
 
-        setFormIsValid(
-            enteredEmail.includes('@') && event.target.value.trim().length > 6
-        );
-    }
+    const handleValidateEmail = () => {
+        setEmailIsValid(enteredEmail.length > 0 && enteredEmail.includes('@'));
+    };
+
+    const handleValidatePassword = () => {
+        setPasswordIsValid(enteredPassword.length > 0 && enteredPassword.trim().length > 8);
+    };
 
     const handleLoginSubmit = (event) => {
         event.preventDefault();
         if (formIsValid) {
             props.onDriverAuth(enteredEmail, enteredPassword);
-        } else {
-            console.log('Form is not valid');
         }
     };
 
@@ -66,14 +79,18 @@ const Login = props => {
                     type="email"
                     placeholder="johndoe@example.com"
                     value={enteredEmail}
-                    onChange={emailChangeHandler}
+                    isValid={emailIsValid}
+                    onChange={handleEmailChange}
+                    onBlur={handleValidateEmail}
                 />
                 <Input
                     id="password"
                     label="Password"
                     type="password"
                     value={enteredPassword}
-                    onChange={passwordChangeHandler}
+                    isValid={passwordIsValid}
+                    onChange={handlePasswordChange}
+                    onBlur={handleValidatePassword}
                 />
                 <div className={`${classes["login-footer"]} text-center`}>
                     <p>Utilizator nou? <Link to="/register">Inregistrati-va aici.</Link></p>
