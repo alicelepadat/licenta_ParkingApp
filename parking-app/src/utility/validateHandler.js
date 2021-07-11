@@ -1,3 +1,5 @@
+import {format} from 'date-fns';
+
 export const checkValidity = (value, rules) => {
     let isValid = true;
 
@@ -25,6 +27,16 @@ export const checkValidity = (value, rules) => {
     if (rules.isPhoneNumber) {
         const pattern = /(\+4|)?(07[0-9]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?(\s|\.|)?([0-9]{3}(\s|\.|)){2}$/;
         isValid = pattern.test(value) && isValid
+    }
+
+    if (rules.isLicenseNumber) {
+        const pattern = /[A-Za-z]\d{8}[A-Za-z]$/;
+        isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isExpirationDate) {
+        const todayDate = format(new Date(), "yyyy-MM-dd");
+        isValid = value.localeCompare(todayDate) === 1 || value.localeCompare(todayDate) === 0;
     }
 
     return isValid;

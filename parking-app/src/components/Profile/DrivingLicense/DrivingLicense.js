@@ -1,11 +1,61 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Card, Col, Row} from "react-bootstrap";
 
 import classes from './DrivingLicense.module.css';
 import Input from "../../UI/Input/Input";
 import {Check, X} from "react-feather";
+import * as validate from '../../../utility/validateHandler';
+import {connect} from "react-redux";
+import * as actionCreators from "../../../store/actions";
+import * as date from '../../../utility/dateFormat';
+import {format} from 'date-fns';
 
 const DrivingLicense = props => {
+
+    // const [enteredLicenseNumber, setEnteredLicenseNumber] = useState(props.user.license ? props.user.license.number : '');
+    const [isLicenseNumberValid, setIsLicenseNumberValid] = useState();
+    // const [enteredExpirationDate, setEnteredExpirationDate] = useState(props.user.license ? props.user.license.expirationDate : '');
+    const [isLicenseDateValid, setIsLicenseDateValid] = useState();
+
+    const validateRules = {
+        enteredLicenseNumber: {
+            isRequired: true,
+            isLicenseNumber: true,
+        },
+        enteredExpirationDate: {
+            isRequired: true,
+            isExpirationDate: true,
+        }
+    }
+
+    const handleValidateNumber = (event) => {
+        setIsLicenseNumberValid(validate.checkValidity(
+            event.target.value,
+            validateRules.enteredLicenseNumber)
+        );
+    };
+
+    const handleValidateDate = (event) => {
+        setIsLicenseDateValid(validate.checkValidity(
+            event.target.value,
+            validateRules.enteredExpirationDate)
+        );
+    };
+
+    const handleSubmitLicense = (event) => {
+        event.preventDefault();
+
+        const license = {
+            number: props.licenseField.enteredLicenseNumber,
+            expirationDate: props.licenseField.enteredExpirationDate,
+        }
+
+        if (isLicenseNumberValid && isLicenseDateValid) {
+            props.onLicenseAdd(props.user.id, license);
+
+            props.onAddSuccess();
+        }
+    };
 
     return (
         <Card className={classes["license"]}>
@@ -35,12 +85,15 @@ const DrivingLicense = props => {
                                 id="enteredLicensePlate"
                                 label="Numar:"
                                 type="text"
-                                name="number"
-                                value={props.user.userDrivingLicense.number}
-                                onChange={props.onInputChange}
+                                placeholder="Numarul permisului de conducere"
+                                name="enteredLicenseNumber"
+                                isValid={isLicenseNumberValid}
+                                value={props.licenseField.enteredLicenseNumber}
+                                onChange={props.onLicenseChange}
+                                onBlur={handleValidateNumber}
                             />
                             :
-                            <Card.Text>Numar: <span> {props.user.userDrivingLicense.number}</span></Card.Text>
+                            <Card.Text>Numar: <span> {props.user.license.number}</span></Card.Text>
                     }
                 </div>
                 <div className={classes["license__valability"]}>
@@ -50,13 +103,15 @@ const DrivingLicense = props => {
                                 id="enteredExpirationDate"
                                 label="Expira la:"
                                 type="date"
-                                name="expirationDate"
-                                value={props.user.userDrivingLicense.expirationDate}
-                                onChange={props.onInputChange}
+                                name="enteredExpirationDate"
+                                isValid={isLicenseDateValid}
+                                value={props.licenseField.enteredExpirationDate ? date.dateFormat(props.licenseField.enteredExpirationDate) : format(new Date(), "yyyy-MM-dd")}
+                                onChange={props.onLicenseChange}
+                                onBlur={handleValidateDate}
                             />
                             :
                             <Card.Text>Expira
-                                la: <span> {props.user.userDrivingLicense.expirationDate}</span></Card.Text>
+                                la: <span> {date.dateFormat(props.user.license.expirationDate)}</span></Card.Text>
                     }
                 </div>
             </Card.Body>
@@ -64,11 +119,24 @@ const DrivingLicense = props => {
                 props.showAddActions &&
                 <Card.Footer className={classes["license-add_actions"]}>
                     <button title="Anuleaza" onClick={props.onAddClose}><X/></button>
-                    <button title="Salveaza permis"><Check/></button>
+                    <button title="Salveaza permis" onClick={handleSubmitLicense}><Check/></button>
                 </Card.Footer>
             }
         </Card>
     )
 };
 
-export default DrivingLicense;
+const mapStateToProps = state => {
+    return {
+        loading: state.driverData.loading,
+        error: state.driverData.error,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLicenseAdd: (driverId, license) => dispatch(actionCreators.addDriverLicense(driverId, license)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrivingLicense);

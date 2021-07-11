@@ -116,7 +116,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onDriverAuth: (email, password) => dispatch(actionCreators.driverAuth(email, password)),
-
     }
 }
 

@@ -24,7 +24,9 @@ namespace ParkingApp.Main.API.Controllers
             try
             {
                 if (!ModelState.IsValid)
+                {
                     return BadRequest(ModelState);
+                }
 
                 var driver = await _driverService.AuthenticateAsync(request);
 
@@ -34,6 +36,31 @@ namespace ParkingApp.Main.API.Controllers
                 }
 
                 return Ok(driver.Id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDriverById(int driverId)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var driver = await _driverService.GetByIdAsync(driverId, false);
+
+                if (driver == null)
+                {
+                    return NotFound("Soferul nu exista.");
+                }
+
+                return Ok(driver);
             }
             catch (Exception e)
             {
@@ -65,6 +92,65 @@ namespace ParkingApp.Main.API.Controllers
                 }
 
                 return Ok(inserted.Id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut("license/{driverId}")]
+        public async Task<IActionResult> AddDrivingLicense(int driverId, [FromBody] NewDrivingLicenseDto license)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var driver = await _driverService.GetByIdAsync(driverId, false);
+
+                if (driver == null)
+                {
+                    return NotFound("Soferul nu exista.");
+                }
+
+                await _driverService.UpdateLicenseAsync(driverId, license);
+
+                return Ok(license);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPut("{driverId}")]
+        public async Task<IActionResult> UpdateDriver(int driverId, [FromBody] DriverDto driver)
+        {
+            try
+            {
+                if (driver.Id != driverId)
+                {
+                    ModelState.AddModelError(
+                        "Identifier",
+                        "Request body not apropiate for ID");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (await _driverService.GetByIdAsync(driverId) == null)
+                {
+                    return NotFound("Soferul nu exista");
+                }
+
+                await _driverService.UpdateDriverAsync(driver);
+
+                return NoContent();
             }
             catch (Exception e)
             {

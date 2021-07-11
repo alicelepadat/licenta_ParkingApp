@@ -32,14 +32,11 @@ namespace ParkingApp.Main.Services
             return _mapper.Map<Driver, DriverDto>(account);
         }
 
-        public async Task<DriverDto> GetByIdAsync(int driverId, bool includeVehicles = false)
+        public async Task<DriverDto> GetByIdAsync(int driverId, bool includeVehicles)
         {
             Driver model;
 
-            if (includeVehicles)
-                model = await _unitOfWork.DriverRepository.GetByIdWithVehiclesAsync(driverId);
-            else
-                model = await _unitOfWork.DriverRepository.SingleOrDefaultAsync(x => x.Id == driverId);
+            model = await _unitOfWork.DriverRepository.GetByIdAsync(driverId, includeVehicles);
             
             return _mapper.Map<Driver, DriverDto>(model);
         }
@@ -64,5 +61,34 @@ namespace ParkingApp.Main.Services
             return driverFound != null;
         }
 
+        public async Task UpdateLicenseAsync(int driverId, NewDrivingLicenseDto license)
+        {
+            var entity = await _unitOfWork.DriverRepository.GetByIdAsync(driverId);
+
+            var date = DateTime.Parse(license.ExpirationDate, System.Globalization.CultureInfo.CurrentCulture);
+
+            var model = _mapper.Map<NewDrivingLicenseDto, DrivingLicense>(license);
+
+            model.ExpirationDate = date;
+
+            await _unitOfWork.DrivingLicenseRepository.AddAsync(model);
+
+            entity.License = model;
+
+            await _unitOfWork.CommitAsync();
+        }
+
+        public async Task UpdateDriverAsync(DriverDto driver)
+        {
+            var entity = await _unitOfWork.DriverRepository.GetByIdAsync(driver.Id);
+
+            entity.User.Email = driver.User.Email;
+            entity.User.Phone = driver.User.Phone;
+            entity.User.Password = BC.HashPassword(driver.User.Password);
+            entity.License.Number = driver.License.Number;
+            entity.License.ExpirationDate = driver.License.ExpirationDate;
+
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

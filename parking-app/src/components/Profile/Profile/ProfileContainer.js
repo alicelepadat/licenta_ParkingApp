@@ -1,64 +1,88 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Card from "../../UI/Card/Card";
 import classes from "./Profile.module.css";
 import DriverProfile from "../Driver/Driver";
 import EditProfile from "../EditProfile/EditProfile";
+import * as actionCreators from "../../../store/actions";
+import {connect} from "react-redux";
+import LoadingSpinner from "../../UI/Loading/Loading";
 
 const ProfileContainer = props => {
 
-    const [userData, setUserData] = useState({
-        userName: 'Alice',
-        userEmail: 'alice22@gmail.com',
-        userPassword: 'alicethebest',
-        userDrivingLicense: {
-            number: 'BF768GHHJN',
-            expirationDate: '2024-05-23',
-        },
+    const [showEditFields, setShowEditFields] = useState(false);
+
+    const [userLicenseInput, setUserLicenseInput] = useState({
+        enteredLicenseNumber: props.driver ? props.driver.license.number : '',
+        enteredExpirationDate: props.driver ? props.driver.license.expirationDate : '',
     });
 
-    const hasDrivingLicense = Object.keys(userData.userDrivingLicense).length > 0;
+    useEffect(() => {
+        if (props.driverId) {
+            props.onFetchDriverData(props.driverId);
+        }
+    }, []);
 
     const handleInputChange = (event) => {
-        setUserData((prevState) => {
+        setUserLicenseInput((prevState) => {
             return {
                 ...prevState,
                 [event.target.name]: event.target.value
             };
-        })
-    }
+        });
+    };
 
-    const [showEditFields, setShowEditFields] = useState(false);
+    const hasDrivingLicense = props.driver ? (!!props.driver.license) : false;
 
     const handleEditClick = () => {
         setShowEditFields(true);
-    }
+    };
 
     const handleEditClose = () => {
         setShowEditFields(false);
-    }
+    };
 
     return (
         <div className="container mt-4 mb-4 d-flex justify-content-center">
             <Card className={classes["user-card"]}>
                 {
-                    showEditFields ?
-                        <EditProfile
-                            user={userData}
-                            hasDrivingLicense={hasDrivingLicense}
-                            onInputChange={handleInputChange}
-                            onClose={handleEditClose}
-                            showEdit={showEditFields}
-                        />
+                    props.loading ?
+                        <LoadingSpinner/>
                         :
-                        <DriverProfile
-                            user={userData}
-                            hasDrivingLicense={hasDrivingLicense}
-                            onEdit={handleEditClick}
-                        />
+                        (!props.error && showEditFields) ?
+                            <EditProfile
+                                user={props.driver}
+                                hasDrivingLicense={hasDrivingLicense}
+                                onClose={handleEditClose}
+                                showEdit={showEditFields}
+                                licenseField={userLicenseInput}
+                                onLicenseChange={handleInputChange}
+                            />
+                            :
+                            <DriverProfile
+                                user={props.driver}
+                                hasDrivingLicense={hasDrivingLicense}
+                                onEdit={handleEditClick}
+                            />
                 }
             </Card>
         </div>
     );
 };
 
-export default ProfileContainer;
+const mapStateToProps = state => {
+    return {
+        loading: state.driverData.loading,
+        error: state.driverData.error,
+        driver: state.driverData.driver,
+        driverId: state.driverAuth.userId,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onDriverLogout: () => dispatch(actionCreators.driverLogout()),
+        onFetchDriverData: (driverId) => dispatch(actionCreators.fetchDriverData(driverId)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

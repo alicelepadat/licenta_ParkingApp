@@ -2,14 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="driver Auth + local storage">
-      <change afterPath="$PROJECT_DIR$/src/utility/validateHandler.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/actions/driverDataActions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/actions/driverVehiclesActions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/reducers/driverDataReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/reducers/driverVehiclesReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utility/dateFormat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/DriverController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/DriverController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/DriverRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/DriverRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/IDriverRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/IDriverRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/DriverDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/DriverDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/NewDrivingLicenseDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/NewDrivingLicenseDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IDriverService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IDriverService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/DriverService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/DriverService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Auth/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Login/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Auth/Register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Register/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Register/Register.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Register/Register.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/Input/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Input/Input.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/Input/Input.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Input/Input.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/DrivingLicense/DrivingLicense.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/EditProfile/EditProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile/ProfileContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile/ProfileContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/actionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/reducers/authDriverReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/authDriverReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/validateHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/validateHandler.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +94,8 @@
       <workItem from="1625762011931" duration="4602000" />
       <workItem from="1625825393089" duration="12084000" />
       <workItem from="1625849910249" duration="6250000" />
-      <workItem from="1625898113576" duration="7602000" />
+      <workItem from="1625898113576" duration="7702000" />
+      <workItem from="1625986420138" duration="32335000" />
     </task>
     <task id="LOCAL-00001" summary="vehicles page">
       <created>1625320747601</created>
@@ -110,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625857612428</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="auth + register validations">
+      <created>1625905840033</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1625905840033</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,6 +163,7 @@
     <MESSAGE value="driver's edit profile" />
     <MESSAGE value="map changes" />
     <MESSAGE value="driver Auth + local storage" />
-    <option name="LAST_COMMIT_MESSAGE" value="driver Auth + local storage" />
+    <MESSAGE value="auth + register validations" />
+    <option name="LAST_COMMIT_MESSAGE" value="auth + register validations" />
   </component>
 </project>

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.DomainModels;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ParkingApp.Main.DataAcces.Repository
@@ -20,11 +18,21 @@ namespace ParkingApp.Main.DataAcces.Repository
                 .SingleOrDefaultAsync(d => d.User.Email.ToLower() == email.ToLower());
         }
 
-        public async Task<Driver> GetByIdWithVehiclesAsync(int driverId)
+        public async Task<Driver> GetByIdAsync(int driverId, bool includeVehicles = false)
         {
-            return await _parkingMainContext.Drivers
-                .Include(d=>d.Vehicles)
-                .SingleOrDefaultAsync(x => x.Id == driverId);
+            if (includeVehicles)
+            {
+                return await _parkingMainContext.Drivers
+                    .Include(d => d.Vehicles)
+                    .SingleOrDefaultAsync(x => x.Id == driverId);
+            }
+            else
+            {
+                return await _parkingMainContext.Drivers
+                    .Include(d=>d.User)
+                    .Include(d=>d.License)
+                    .SingleOrDefaultAsync(x => x.Id == driverId);
+            }
         }
     }
 }

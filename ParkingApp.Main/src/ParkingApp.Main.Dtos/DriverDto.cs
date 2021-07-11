@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ParkingApp.Main.Dtos
 {
@@ -13,6 +14,7 @@ namespace ParkingApp.Main.Dtos
 
         public DrivingLicenseDto License { get; set; }
 
+        [JsonIgnore]
         public List<VehicleDto> Vehicles { get; set; }
     }
 }

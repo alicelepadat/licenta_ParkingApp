@@ -17,6 +17,10 @@
     color: var(--LightRed);
 }
 
+.license__valability input {
+    width: 100%;
+}
+
 .license-add_actions button{
     background: none;
     color: inherit;

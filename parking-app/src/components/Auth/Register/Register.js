@@ -91,11 +91,11 @@ const Register = (props) => {
     };
 
     const handleVerifyPassword = (event) => {
-        const isValid = userInput.enteredPassword === event.target.value ? true : false;
+        const isValid = userInput.enteredPassword === event.target.value;
         setPasswordIsVerified(
             validate.checkValidity(event.target.value, validateRules[event.target.name]) && isValid
-        )
-    }
+        );
+    };
 
     const handleShowPassword = (event) => {
         event.preventDefault();

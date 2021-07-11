@@ -8,6 +8,6 @@ namespace ParkingApp.Main.Dtos
         [MaxLength(12)]
         public string Number { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
+        public string ExpirationDate { get; set; }
     }
 }

@@ -7,19 +7,19 @@ import {Link} from "react-router-dom";
 import DrivingLicense from "../DrivingLicense/DrivingLicense";
 import Button from "../../UI/Button/Button";
 
-import {connect} from "react-redux";
-import * as actionCreators from '../../../store/actions/index';
-
-
 const DriverProfile = props => {
 
     const [showNewDrivingLicense, setShowNewDrivingLicense] = useState(false);
 
     const handleAddDrivingLicenseClick = () => {
         setShowNewDrivingLicense(true);
-    }
+    };
 
     const handleAddClose = () => {
+        setShowNewDrivingLicense(false);
+    };
+
+    const handleAddSuccess = () => {
         setShowNewDrivingLicense(false);
     }
 
@@ -28,7 +28,7 @@ const DriverProfile = props => {
             <Row className="d-flex align-items-center">
                 <Col md={3} className="text-center">
                     <img className="rounded"
-                         src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+                         src="http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"
                          width="155"
                          height="155"
                          alt="poza de profil"
@@ -38,10 +38,13 @@ const DriverProfile = props => {
                     <div className={classes.username}>
                         <div className="d-flex flex-column">
                             <h4 className="mb-2">
-                                {props.user.userName}
+                                {props.user && props.user.user.name}
                             </h4>
                             <span className="mt-2">
-                                {props.user.userEmail}
+                                {props.user && props.user.user.email}
+                            </span>
+                            <span className="mt-2">
+                                {props.user && props.user.user.phone}
                             </span>
                         </div>
                         <button onClick={props.onEdit} title="Editeaza profilul">
@@ -79,8 +82,12 @@ const DriverProfile = props => {
                     </div>
                     :
                     <div className={classes["user-license"]}>
-                        <DrivingLicense user={props.user} showEdit={showNewDrivingLicense}
-                                        showAddActions={showNewDrivingLicense} onAddClose={handleAddClose}/>
+                        <DrivingLicense
+                            user={props.user}
+                            showEdit={showNewDrivingLicense}
+                            showAddActions={showNewDrivingLicense}
+                            onAddClose={handleAddClose}
+                            onAddSuccess={handleAddSuccess}/>
                     </div>
             }
             <div className={classes["user-logout"]}>
@@ -92,10 +99,4 @@ const DriverProfile = props => {
     );
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onDriverLogout: () => dispatch(actionCreators.driverLogout()),
-    }
-}
-
-export default connect(null, mapDispatchToProps)(DriverProfile);
+export default DriverProfile;

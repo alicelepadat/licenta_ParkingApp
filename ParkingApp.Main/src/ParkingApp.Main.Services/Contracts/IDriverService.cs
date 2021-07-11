@@ -12,5 +12,9 @@ namespace ParkingApp.Main.Services.Contracts
         Task<DriverDto> CreateAsync(NewDriverDto driver);
 
         Task<DriverDto> AuthenticateAsync(AuthenticationRequestDto request);
+
+        Task UpdateLicenseAsync(int driverId, NewDrivingLicenseDto license);
+
+        Task UpdateDriverAsync(DriverDto driver);
     }
 }
