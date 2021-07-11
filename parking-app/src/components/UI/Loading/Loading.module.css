@@ -1,0 +1,7 @@
+.loading-container div {
+    width: 100px;
+    height: 100px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}

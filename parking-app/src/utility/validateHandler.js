@@ -34,6 +34,11 @@ export const checkValidity = (value, rules) => {
         isValid = pattern.test(value) && isValid;
     }
 
+    if (rules.isLicensePlate) {
+        const pattern = /[A-Z]{1,2}[0-9]{1,3}[A-Z]{3}$/;
+        isValid = pattern.test(value) && isValid;
+    }
+
     if (rules.isExpirationDate) {
         const todayDate = format(new Date(), "yyyy-MM-dd");
         isValid = value.localeCompare(todayDate) === 1 || value.localeCompare(todayDate) === 0;

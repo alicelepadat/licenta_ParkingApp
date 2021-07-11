@@ -27,7 +27,8 @@ const driverAuthSuccess = (state, action) => {
 const driverAuthFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
-        loading: false
+        loading: false,
+        isDriverLoggedIn: false,
     });
 };
 

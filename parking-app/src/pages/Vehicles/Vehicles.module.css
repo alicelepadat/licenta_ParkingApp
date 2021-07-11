@@ -6,7 +6,11 @@
     text-align: center;
 }
 
-.vehicle-card {
+.noVehicle-card h3 {
+    margin: 2rem 0;
+}
+
+.vehicle-card, .noVehicle-card {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     background-color: var(--DarkBlue);
     border-radius: 10px;

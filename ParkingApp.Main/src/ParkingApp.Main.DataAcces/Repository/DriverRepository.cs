@@ -23,7 +23,10 @@ namespace ParkingApp.Main.DataAcces.Repository
             if (includeVehicles)
             {
                 return await _parkingMainContext.Drivers
+                    .Include(d=>d.User)
+                    .Include(d=>d.License)
                     .Include(d => d.Vehicles)
+                    .ThenInclude(v=>v.DriverReservations)
                     .SingleOrDefaultAsync(x => x.Id == driverId);
             }
             else

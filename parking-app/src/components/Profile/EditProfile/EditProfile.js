@@ -82,10 +82,10 @@ const EditProfile = props => {
             },
             license: {
                 id: props.user.license.id,
-                number: props.licenseField.enteredLicenseNumber,
-                expirationDate: props.licenseField.enteredExpirationDate,
+                number: props.licenseField.enteredLicenseNumber ? props.licenseField.enteredLicenseNumber : props.driver.license.number,
+                expirationDate: props.licenseField.enteredExpirationDate ? props.licenseField.enteredExpirationDate : props.driver.license.expirationDate,
             },
-        }
+        };
 
         if (inputIsValid.email && inputIsValid.phone && inputIsValid.newPassword) {
             props.onDriverUpdate(props.userId, driverUpdateData);
@@ -173,6 +173,7 @@ const mapStateToProps = state => {
         loading: state.driverAuth.loading,
         error: state.driverAuth.error,
         userId: state.driverAuth.userId,
+        driver: state.driverData.user,
     }
 }
 

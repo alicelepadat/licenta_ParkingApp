@@ -43,8 +43,8 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetDriverById(int driverId)
+        [HttpGet("{driverId}")]
+        public async Task<IActionResult> GetDriverById(int driverId, bool includeVehicles = false)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var driver = await _driverService.GetByIdAsync(driverId, false);
+                var driver = await _driverService.GetByIdAsync(driverId, includeVehicles);
 
                 if (driver == null)
                 {
@@ -138,19 +138,21 @@ namespace ParkingApp.Main.API.Controllers
                         "Request body not apropiate for ID");
                 }
 
+                var driverExist = await _driverService.GetByIdAsync(driverId);
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
 
-                if (await _driverService.GetByIdAsync(driverId) == null)
+                if (driverExist == null)
                 {
                     return NotFound("Soferul nu exista");
                 }
 
                 await _driverService.UpdateDriverAsync(driver);
 
-                return NoContent();
+                return Ok(driver);
             }
             catch (Exception e)
             {

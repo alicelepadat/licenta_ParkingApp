@@ -119,19 +119,22 @@ const Register = (props) => {
             }
         };
 
+        console.log(data)
+
         if (formIsValid) {
             props.onDriverRegister(data);
-        }
 
-        setUserInput((prevState) => {
-            return {
-                ...prevState,
-                enteredName: '',
-                enteredEmail: '',
-                enteredPhone: '',
-                enteredPassword: '',
-            };
-        });
+            setUserInput((prevState) => {
+                return {
+                    ...prevState,
+                    enteredName: '',
+                    enteredEmail: '',
+                    enteredPhone: '',
+                    enteredPassword: '',
+                    enteredVerifyPassword: '',
+                };
+            });
+        }
     };
 
     return (

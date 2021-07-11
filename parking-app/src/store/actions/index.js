@@ -13,4 +13,6 @@ export {
 
 export {
     fetchDriverVehicles,
+    deleteDriverVehicle,
+    addDriverVehicle,
 } from './driverVehiclesActions';

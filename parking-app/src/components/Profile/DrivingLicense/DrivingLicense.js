@@ -12,9 +12,7 @@ import {format} from 'date-fns';
 
 const DrivingLicense = props => {
 
-    // const [enteredLicenseNumber, setEnteredLicenseNumber] = useState(props.user.license ? props.user.license.number : '');
     const [isLicenseNumberValid, setIsLicenseNumberValid] = useState();
-    // const [enteredExpirationDate, setEnteredExpirationDate] = useState(props.user.license ? props.user.license.expirationDate : '');
     const [isLicenseDateValid, setIsLicenseDateValid] = useState();
 
     const validateRules = {
@@ -105,7 +103,7 @@ const DrivingLicense = props => {
                                 type="date"
                                 name="enteredExpirationDate"
                                 isValid={isLicenseDateValid}
-                                value={props.licenseField.enteredExpirationDate ? date.dateFormat(props.licenseField.enteredExpirationDate) : format(new Date(), "yyyy-MM-dd")}
+                                value={props.licenseField.enteredExpirationDate}
                                 onChange={props.onLicenseChange}
                                 onBlur={handleValidateDate}
                             />

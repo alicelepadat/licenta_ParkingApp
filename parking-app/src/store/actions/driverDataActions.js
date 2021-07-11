@@ -21,26 +21,29 @@ export const fetchDriverDataFail = (error) => {
     };
 };
 
-export const addDrivingLicenseSuccess = () => {
+export const addDrivingLicenseSuccess = (license) => {
     return {
         type: actionTypes.ADD_DRIVER_LICENSE_SUCCESS,
+        license: license,
     };
 };
 
-export const updateDriverSuccess = () => {
+export const updateDriverSuccess = (driver) => {
     return {
         type: actionTypes.UPDATE_DRIVER_SUCCESS,
+        driver: driver,
     };
 };
 
 export const fetchDriverData = (driverId) => {
     return dispatch => {
         dispatch(fetchDriverDataStart());
-        axios.get(`/drivers?driverId=${driverId}`)
+        axios.get(`/drivers/${driverId}?includeVehicles=${true}`)
             .then(response => {
                 dispatch(fetchDriverDataSuccess(response.data));
-            }).catch(error=>{
-                dispatch(fetchDriverDataFail(error.response));
+            }).catch(error => {
+            const response = error.response ? error.response : 'Network error';
+            dispatch(fetchDriverDataFail(response));
         });
     };
 };
@@ -50,8 +53,9 @@ export const addDriverLicense = (driverId, licenseData) => {
         dispatch(fetchDriverDataStart());
         axios.put(`/drivers/license/${driverId}`, licenseData)
             .then(response => {
-                dispatch(addDrivingLicenseSuccess());
-            }).catch(error=>{
+                console.log(response.data)
+                dispatch(addDrivingLicenseSuccess(response.data));
+            }).catch(error => {
             dispatch(fetchDriverDataFail(error.response));
         });
     };
@@ -62,8 +66,8 @@ export const updateDriver = (driverId, driverUpdateData) => {
         dispatch(fetchDriverDataStart());
         axios.put(`/drivers/${driverId}`, driverUpdateData)
             .then(response => {
-                dispatch(updateDriverSuccess());
-            }).catch(error=>{
+                dispatch(updateDriverSuccess(response.data));
+            }).catch(error => {
             dispatch(fetchDriverDataFail(error.response));
         });
     };

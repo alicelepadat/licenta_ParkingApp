@@ -33,6 +33,9 @@ const addDriverLicenseSuccess = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: false,
+        driver: updateObject(state.driver, {
+            license: action.license,
+        }),
     });
 };
 
@@ -40,6 +43,7 @@ const driverUpdateSuccess = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: false,
+        driver: action.driver,
     });
 };
 

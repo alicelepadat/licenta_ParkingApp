@@ -4,13 +4,29 @@ import classes from "./NewVehicle.module.css";
 import InfoHeader from "../UI/InfoHeader/InfoHeader";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
+import * as validate from '../../utility/validateHandler';
 
 const NewVehicle = props => {
 
-    const [enteredLicensePlate, setEnteredLicensePlate] = useState('');
+    const [isLicensePlateValid, setIsLicensePlateValid] = useState();
 
-    const handleInputChange = (event) => {
-        setEnteredLicensePlate(event.target.value);
+    const rules = {
+        enteredLicensePlate: {
+            isRequired: true,
+            isLicensePlate: true,
+        },
+    };
+
+    const validateLicensePlate = (event) => {
+        setIsLicensePlateValid(
+            validate.checkValidity(event.target.value, rules.enteredLicensePlate)
+        );
+    }
+
+    const handleSubmit = () => {
+        if (isLicensePlateValid) {
+            props.onAdd();
+        }
     }
 
     return (
@@ -23,10 +39,13 @@ const NewVehicle = props => {
                     type="text"
                     placeholder="B99BBB"
                     name="enteredLicensePlate"
-                    value={enteredLicensePlate}
-                    onChange={handleInputChange}/>
+                    isValid={isLicensePlateValid}
+                    value={props.data}
+                    onChange={props.onChange}
+                    onBlur={validateLicensePlate}
+                />
                 <div className={classes["new-vehicle__actions"]}>
-                    <Button type="submit">Adauga</Button>
+                    <Button type="submit" onClick={handleSubmit}>Adauga</Button>
                 </div>
             </form>
         </Card>

@@ -6,10 +6,15 @@ import {ArrowRight, Edit} from "react-feather";
 import {Link} from "react-router-dom";
 import DrivingLicense from "../DrivingLicense/DrivingLicense";
 import Button from "../../UI/Button/Button";
+import EditProfile from "../EditProfile/EditProfile";
 
 const DriverProfile = props => {
 
     const [showNewDrivingLicense, setShowNewDrivingLicense] = useState(false);
+
+    const reservationNumber = props.user ? props.user.vehicles.map((vehicle) => {
+        return vehicle.driverReservations.length
+    }) : 0;
 
     const handleAddDrivingLicenseClick = () => {
         setShowNewDrivingLicense(true);
@@ -28,7 +33,7 @@ const DriverProfile = props => {
             <Row className="d-flex align-items-center">
                 <Col md={3} className="text-center">
                     <img className="rounded"
-                         src="http://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png"
+                         src="/profile.png"
                          width="155"
                          height="155"
                          alt="poza de profil"
@@ -59,7 +64,7 @@ const DriverProfile = props => {
                             <Link to="/cars"
                                   title="Vezi vehicule"
                             >
-                                2
+                                {props.user ? props.user.vehicles.length : 0}
                             </Link>
                         </Col>
                         <Col className={`d-flex flex-column ${classes["user-reservations"]}`}>
@@ -69,7 +74,7 @@ const DriverProfile = props => {
                             <Link to="/reservations"
                                   title="Vezi rezervari"
                             >
-                                3
+                                {reservationNumber}
                             </Link>
                         </Col>
                     </Row>
@@ -87,7 +92,10 @@ const DriverProfile = props => {
                             showEdit={showNewDrivingLicense}
                             showAddActions={showNewDrivingLicense}
                             onAddClose={handleAddClose}
-                            onAddSuccess={handleAddSuccess}/>
+                            onAddSuccess={handleAddSuccess}
+                            licenseField={props.licenseField}
+                            onLicenseChange={props.onLicenseChange}
+                        />
                     </div>
             }
             <div className={classes["user-logout"]}>

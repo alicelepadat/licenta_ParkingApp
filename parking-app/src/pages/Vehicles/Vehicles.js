@@ -9,10 +9,16 @@ import FloatingButton from "../../components/UI/FloatingButton/FloatingButton";
 import NewVehicle from "../../components/NewVehicle/NewVehicle";
 import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
+import LoadingSpinner from "../../components/UI/Loading/Loading";
 
 const Vehicles = (props) => {
 
     const [showAddVehicle, setShowAddVehicle] = useState(false);
+    const [enteredLicensePlate, setEnteredLicensePlate] = useState('');
+
+    const handleInputChange = (event) => {
+        setEnteredLicensePlate(event.target.value);
+    };
 
     useEffect(() => {
         if (props.userId) {
@@ -28,25 +34,56 @@ const Vehicles = (props) => {
         setShowAddVehicle(false);
     };
 
+    const handleVehicleAdd = () => {
+        props.onDriverVehicleAdd(props.userId, {
+            licensePlate: enteredLicensePlate,
+        });
+
+        setShowAddVehicle(false);
+        setEnteredLicensePlate('');
+    };
+
+    const vehicleList = (
+        <CardDeck>
+            {
+                props.vehicles.length > 0 && props.vehicles.map((vehicle, index) => (
+                    <Card key={index} className={classes["vehicle-card"]}>
+                        <Card.Body className="text-center">
+                            <Card.Title>
+                                <BiCar size={25} color='white'/>
+                            </Card.Title>
+                            <Card.Text className={classes["vehicle-card__text"]}>
+                                {vehicle.licensePlate}
+                            </Card.Text>
+                            <Button
+                                onClick={() => {
+                                    props.onDriverVehicleDelete(props.userId, vehicle.id)
+                                }}
+                            >
+                                Sterge
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                ))
+            }
+        </CardDeck>
+    );
+
+    const noVehicleFoundInfo = (
+        <Card className={classes["noVehicle-card"]}>
+            <h3>
+                Nu ati adaugat niciun vehicul.
+            </h3>
+        </Card>
+    );
+
     return (
         <div className={classes["vehicles-container"]}>
-            <CardDeck>
-                {
-                    props.vehicles.length > 0 && props.vehicles.map((vehicle, index) => (
-                        <Card key={index} className={classes["vehicle-card"]}>
-                            <Card.Body className="text-center">
-                                <Card.Title>
-                                    <BiCar size={25} color='white'/>
-                                </Card.Title>
-                                <Card.Text className={classes["vehicle-card__text"]}>
-                                    {vehicle.licensePlate}
-                                </Card.Text>
-                                <Button>Sterge</Button>
-                            </Card.Body>
-                        </Card>
-                    ))
-                }
-            </CardDeck>
+            {
+                props.loading ? <LoadingSpinner/>
+                    :
+                    props.vehicles.length > 0 ? vehicleList : noVehicleFoundInfo
+            }
 
             <div className={classes["vehicles-actions"]}>
                 <FloatingButton onClick={handleAddVehicleClick}>
@@ -54,7 +91,14 @@ const Vehicles = (props) => {
                 </FloatingButton>
             </div>
 
-            {showAddVehicle && <NewVehicle onCloseClick={handleCloseClick}/>}
+            {
+                showAddVehicle &&
+                <NewVehicle
+                    data={enteredLicensePlate}
+                    onChange={handleInputChange}
+                    onCloseClick={handleCloseClick}
+                    onAdd={handleVehicleAdd}/>
+            }
         </div>
     );
 };
@@ -65,13 +109,15 @@ const mapStateToProps = state => {
         loading: state.driverVehicles.loading,
         error: state.driverVehicles.error,
         vehicles: state.driverVehicles.vehicles,
-    }
-}
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         onDriverVehiclesFetch: (userId) => dispatch(actionCreators.fetchDriverVehicles(userId)),
-    }
-}
+        onDriverVehicleDelete: (userId, vehicleId) => dispatch(actionCreators.deleteDriverVehicle(userId, vehicleId)),
+        onDriverVehicleAdd: (userId, vehicle) => dispatch(actionCreators.addDriverVehicle(userId, vehicle)),
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Vehicles);
