@@ -23,6 +23,7 @@ export {
     deleteReservation,
     addDriverReservation,
     addAnonimReservation,
+    fetchAnonimReservations,
 } from './reservationActions';
 
 export {

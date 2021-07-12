@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.DomainModels;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ParkingApp.Main.DataAcces.Repository
 {

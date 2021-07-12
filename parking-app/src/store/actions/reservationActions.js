@@ -14,6 +14,13 @@ export const fetchReservationsSuccess = (reservations) => {
     };
 };
 
+export const fetchAnonimReservationsSuccess = (vehicle) => {
+    return {
+        type: actionTypes.FETCH_VEHICLE_RESERVATIONS_SUCCESS,
+        vehiclesReservation: vehicle,
+    };
+};
+
 export const fetchReservationsFail = (error) => {
     return {
         type: actionTypes.FETCH_RESERVATIONS_FAIL,
@@ -104,9 +111,14 @@ export const addAnonimReservation = (reservationData, areaId) => {
     };
 };
 
-export const getAnonimDriverReservation = (vehicleId) => {
+export const fetchAnonimReservations = (vehicleId) => {
     return dispatch => {
         dispatch(fetchReservationsStart());
-        //  TODO: get reservation dupa vehicleId pentru sofer anonim --- backend + call in frontend
-    }
-}
+        axios.get(`/vehicle/${vehicleId}`)
+            .then(response => {
+                dispatch(fetchAnonimReservationsSuccess(response.data));
+            }).catch(error => {
+            dispatch(fetchReservationsFail(error.response.data))
+        });
+    };
+};

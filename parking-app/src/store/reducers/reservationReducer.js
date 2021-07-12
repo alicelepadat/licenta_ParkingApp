@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
     driverReservations: [],
+    vehiclesReservation: {},
     error: null,
     loading: false,
 };
@@ -17,6 +18,14 @@ const fetchReservationsStart = (state, action) => {
 const fetchReservationsSuccess = (state, action) => {
     return updateObject(state, {
         driverReservations: action.driverReservations,
+        error: null,
+        loading: false,
+    });
+};
+
+const fetchVehiclesReservationsSuccess = (state, action) => {
+    return updateObject(state, {
+        vehiclesReservation: action.vehiclesReservation,
         error: null,
         loading: false,
     });
@@ -75,6 +84,8 @@ const reservationsReducer = (state = initialState, action) => {
             return deleteReservationSuccess(state, action);
         case actionTypes.ADD_RESERVATION_SUCCESS:
             return addReservationSuccese(state, action);
+        case actionTypes.FETCH_VEHICLE_RESERVATIONS_SUCCESS:
+            return fetchVehiclesReservationsSuccess(state, action);
         default:
             return state;
     }

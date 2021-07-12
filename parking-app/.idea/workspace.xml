@@ -2,57 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="driver vehicles">
-      <change afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Common/Files/lista_parcari.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/actions/parkingAreaActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/actions/reservationActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/reducers/parkingAreaReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/reducers/reservationReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/DriverController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/DriverController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/ParkingAreaController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/ParkingAreaController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/ReservationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/ReservationController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Common/Enums/ReservationStateEnum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Common/Enums/ReservationStateEnum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/DbSeedExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/DbSeedExtension.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Migrations/20210622182822_InitialMigration.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Migrations/20210622182822_InitialMigration.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Migrations/20210709172256_SecondMigration.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Migrations/20210709172256_SecondMigration.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Migrations/ParkingMainContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Migrations/ParkingMainContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/ParkingApp.Main.DataAcces.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/ParkingApp.Main.DataAcces.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/ParkingMainContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/ParkingMainContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DomainModels/ParkingArea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DomainModels/ParkingArea.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DomainModels/Reservation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DomainModels/Reservation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/NewReservationDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/NewReservationDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/ParkingAreaDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/ParkingAreaDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/ReservationDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Dtos/ReservationDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IParkingAreaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IParkingAreaService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IReservationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IReservationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/ParkingAreaService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/ParkingAreaService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/ReservationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/ReservationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/IReservationRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/IReservationRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/IVehicleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/IVehicleRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/ReservationRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/ReservationRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/VehicleRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.DataAcces/Repository/VehicleRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Register/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navigation/navigationData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation/navigationData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Driver/Driver.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile/ProfileContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile/ProfileContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationDate/ReservationDate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReservationsFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReservationsFilter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsList/ReservationsList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsList/ReservationsList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/Input/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Input/Input.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Reservations/Reservations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reservations/Reservations.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Reservations/Reservations.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reservations/Reservations.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/actions/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/actionTypes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/actions/authDriverActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/authDriverActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/actions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/reducers/authDriverReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/authDriverReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/dateFormat.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/dateFormat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/reservationActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/reservationActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/reducers/reservationReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/reservationReducer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +78,8 @@
       <workItem from="1625898113576" duration="7702000" />
       <workItem from="1625986420138" duration="32335000" />
       <workItem from="1626026577194" duration="10992000" />
-      <workItem from="1626070593828" duration="29004000" />
+      <workItem from="1626070593828" duration="29142000" />
+      <workItem from="1626118205683" duration="2808000" />
     </task>
     <task id="LOCAL-00001" summary="vehicles page">
       <created>1625320747601</created>
@@ -178,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626039111033</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="driver vehicles">
+      <created>1626115838795</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1626115838797</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
