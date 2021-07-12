@@ -1,9 +1,11 @@
 import classes from './ReservationDate.module.css';
+import * as format from '../../../utility/dateFormat';
 
 const ReservationDate = props => {
-    const month = props.date.toLocaleString('en-US', {month: 'long'});
-    const day = props.date.toLocaleString('en-US', {day: '2-digit'});
-    const year = props.date.getFullYear();
+    const date = format.dateFormat(props.date).split('-');
+    const day = date[2];
+    const month = date[1];
+    const year = date[0];
 
     return (
         <div className={classes["reservation-date"]}>

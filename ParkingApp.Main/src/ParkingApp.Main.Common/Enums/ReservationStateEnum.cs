@@ -2,9 +2,9 @@
 {
     public enum ReservationStateEnum
     {
-        REGISTERED = 110,
-        IN_PROGRESS = 100,
-        CANCELLED = 130,
-        FINISHED = 120
+        ACTIVE = 100,
+        IN_PROGRESS = 110,
+        CANCELLED = 120,
+        FINISHED = 130
     }
 }

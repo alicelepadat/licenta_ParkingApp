@@ -7,8 +7,10 @@ import NewReservation from "../../components/Reservations/NewReservation/NewRese
 import Search from "../../components/Map/Search/Search";
 
 import data from '../../data/parcari.json';
+import * as actionCreators from "../../store/actions";
+import {connect} from "react-redux";
 
-export default function Home() {
+function Home(props) {
 
     const [viewport, setViewport] = useState({
         latitude: 44.439663,
@@ -17,13 +19,12 @@ export default function Home() {
     });
 
     const [showPopup, setShowPopup] = useState(false);
-    const [selectedArea, setSelectedArea] = useState(null);
     const [showReserveForm, setShowReserveForm] = useState(false);
     const [showSearchContainer, setShowSearchContainer] = useState(false);
 
     const handleViewportChange = (event) => {
         setViewport(event);
-    }
+    };
 
     const handleAreaClick = (area, coords) => {
         setViewport({
@@ -33,10 +34,12 @@ export default function Home() {
             zoom: 19,
             transitionDuration: 1000
         });
-        setSelectedArea(area);
+
+        props.onFetchParkingArea(area["AMPLASAMENT"]);
+
         setShowPopup(true);
         setShowSearchContainer(false);
-    }
+    };
 
     const handleClusterExpansion = (zoom, coords) => {
         setViewport({
@@ -60,9 +63,9 @@ export default function Home() {
     const handleCloseClick = event => {
         setShowPopup(false);
         setShowReserveForm(false);
-        setSelectedArea(null);
+        props.onCloseAreaSelection();
         setShowSearchContainer(false);
-        selectedArea && setViewport({
+        props.selectedArea && setViewport({
             ...viewport,
             zoom: 11,
             transitionDuration: 2000
@@ -91,15 +94,33 @@ export default function Home() {
 
             {
                 showPopup && <InfoContainer
-                    area={selectedArea}
+                    loading={props.loading}
+                    area={props.selectedArea}
                     onReserve={handleReserveClick}
                     onCloseClick={handleCloseClick}
                 />
             }
 
-            {showReserveForm && <NewReservation area={selectedArea} onCloseClick={handleCloseClick}/>}
+            {showReserveForm && <NewReservation area={props.selectedArea} onCloseClick={handleCloseClick}/>}
 
         </React.Fragment>
 
     );
 };
+
+const mapStateToProps = state => {
+    return {
+        loading: state.parkingArea.loading,
+        error: state.parkingArea.error,
+        selectedArea: state.parkingArea.selectedArea,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchParkingArea: (name) => dispatch(actionCreators.fetchParkingArea(name)),
+        onCloseAreaSelection: () => dispatch(actionCreators.closeAreaSelection()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

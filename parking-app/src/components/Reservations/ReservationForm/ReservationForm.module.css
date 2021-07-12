@@ -1,5 +1,5 @@
 .new-reservation__controls  {
-    margin-bottom: 1rem;
+    margin: 1rem 0;
     text-align: left;
 }
 
@@ -55,4 +55,9 @@
 .control button {
     margin-left: 1rem;
     margin-right: 0;
+}
+
+.invalid input, .invalid select {
+    border: 1px solid var(--LightRed);
+    background-color: var(--ErrorRed);
 }

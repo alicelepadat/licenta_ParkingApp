@@ -48,6 +48,7 @@ const ProfileContainer = props => {
             licenseField={userLicenseInput}
             onEdit={handleEditClick}
             onLicenseChange={handleInputChange}
+            onDriverLogout={props.onDriverLogout}
         />
     );
 

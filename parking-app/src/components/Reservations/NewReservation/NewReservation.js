@@ -6,15 +6,8 @@ import ReservationForm from "../ReservationForm/ReservationForm";
 import classes from './NewReservation.module.css';
 import InfoHeader from "../../UI/InfoHeader/InfoHeader";
 import {Elements} from "@stripe/react-stripe-js";
-
-const DUMMY_VEHICLES = [
-    {
-        licensePlate: 'DB99ALI',
-    },
-    {
-        licensePlate: 'DB05LPY',
-    }
-]
+import {connect} from "react-redux";
+import * as actionCreators from "../../../store/actions";
 
 const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh")
 
@@ -25,10 +18,31 @@ const NewReservation = (props) => {
             <InfoHeader title="Rezervare noua" onCloseClick={props.onCloseClick}/>
 
             <Elements stripe={stripePromise}>
-                <ReservationForm area={props.area} vehicles={DUMMY_VEHICLES} />
+                <ReservationForm
+                    userId={props.userId}
+                    area={props.selectedArea}
+                    vehicles={props.vehicles}
+                    onDriverAdd={props.onDriverReservationAdd}
+                    onAnonimAdd={props.onAnonimReservationAdd}
+                />
             </Elements>
         </div>
-    )
-}
+    );
+};
 
-export default NewReservation;
+const mapStateToProps = state => {
+    return {
+        vehicles: state.driverVehicles.vehicles,
+        selectedArea: state.parkingArea.selectedArea,
+        userId: state.driverAuth.userId,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onDriverReservationAdd: (data, userId, areaId) => dispatch(actionCreators.addDriverReservation(data, userId, areaId)),
+        onAnonimReservationAdd: (data, areaId) => dispatch(actionCreators.addAnonimReservation(data, areaId)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewReservation);

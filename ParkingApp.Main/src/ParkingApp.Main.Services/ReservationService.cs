@@ -35,38 +35,47 @@ namespace ParkingApp.Main.Services
             return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
         }
 
+        public async Task<IEnumerable<ReservationDto>> GetVehiclesReservationsAsync(string licensePlate)
+        {
+            var model = await _unitOfWork.ReservationRepository.GetVehicleReservationsAsync(licensePlate);
+
+            return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
+        }
+
         public async Task<bool> ReservationExistsAsync(DateTime date, DateTime startTime, DateTime endTime, int parkingAreaId)
         {
             var reservationFound = await _unitOfWork.ReservationRepository
                 .SingleOrDefaultAsync(r => 
                     r.ParkingAreaId == parkingAreaId && r.ReservationDate.Date == date.Date && 
                     (startTime >= r.StartTime || startTime <= r.EndTime) && (endTime >= r.StartTime || endTime <= r.EndTime)
-                    && (r.State == ReservationStateEnum.REGISTERED || r.State == ReservationStateEnum.IN_PROGRESS));
+                    && (r.State == ReservationStateEnum.ACTIVE || r.State == ReservationStateEnum.IN_PROGRESS));
 
             return reservationFound != null;
         }
 
-        public async Task<int> CreateAsync(int driverId, int parkingAreaId, NewReservationDto reservation)
+        public async Task<ReservationDto> CreateAsync(int? driverId, int parkingAreaId, NewReservationDto reservation)
         {
             var model = _mapper.Map<NewReservationDto, Reservation>(reservation);
+
             model.ParkingAreaId = parkingAreaId;
 
-            model.Vehicle.DriverId = driverId;
+            var area = await _unitOfWork.ParkingAreaRepository.GetByIdAsync(parkingAreaId);
 
-            model.ReservationDate =
-                DateTime.Parse(reservation.ReservationDate, System.Globalization.CultureInfo.CurrentCulture);
+            model.ParkingArea = area;
+            model.Vehicle.DriverId = driverId;
+            model.ReservationDate = DateTime.Parse(reservation.ReservationDate, System.Globalization.CultureInfo.CurrentCulture);
             model.StartTime = DateTime.Parse(reservation.StartTime, System.Globalization.CultureInfo.CurrentCulture);
             model.EndTime = DateTime.Parse(reservation.EndTime, System.Globalization.CultureInfo.CurrentCulture);
-            model.State = ReservationStateEnum.REGISTERED;
-
-            var area = await _unitOfWork.ParkingAreaRepository.GetByIdAsync(parkingAreaId);
+            model.State = ReservationStateEnum.ACTIVE;
+            model.Price = CalculateReservationPrice(model);
+           
             if (area.AvailableSpots > 0)
             {
                 area.AvailableSpots -= 1;
             }
 
-            var vehicleExists = await _unitOfWork.VehicleRepository
-                .SingleOrDefaultAsync(v => v.LicensePlate == model.Vehicle.LicensePlate);
+            var vehicleExists = await _unitOfWork.VehicleRepository.SingleOrDefaultAsync(v => v.LicensePlate == model.Vehicle.LicensePlate);
+           
             if (vehicleExists != null)
             {
                 model = new Reservation
@@ -87,7 +96,7 @@ namespace ParkingApp.Main.Services
 
             await _unitOfWork.CommitAsync();
 
-            return model.Id;
+            return _mapper.Map<Reservation, ReservationDto>(model);
         }
 
         public async Task DeleteAsync(int reservationId)
@@ -106,11 +115,22 @@ namespace ParkingApp.Main.Services
             return _mapper.Map<Reservation, ReservationDto>(model);
         }
 
-        public async Task UpdateReservationStateAsync(ReservationDto reservation, ReservationStateEnum newState)
+        public async Task UpdateReservationStateAsync(ReservationDto reservation)
         {
             var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservation.Id);
 
-            reservation.State = newState;
+            if(model.State == ReservationStateEnum.ACTIVE && model.ReservationDate.Date == DateTime.Now.Date)
+            {
+                if(model.StartTime.TimeOfDay <= DateTime.Now.TimeOfDay && model.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
+                {
+                    model.State = ReservationStateEnum.IN_PROGRESS;
+                }
+            };
+
+            if(model.State == ReservationStateEnum.IN_PROGRESS && model.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
+            {
+                model.State = ReservationStateEnum.FINISHED;
+            }
 
             model.State = reservation.State;
 
@@ -126,6 +146,21 @@ namespace ParkingApp.Main.Services
             model.State = reservation.State;
 
             await _unitOfWork.CommitAsync();
+        }
+
+        public static decimal CalculateReservationPrice(Reservation model)
+        {
+            TimeSpan reservationTime = model.EndTime - model.StartTime;
+
+            var hours = reservationTime.Hours;
+            if(reservationTime.Minutes > 0)
+            {
+                hours += 1;
+            }
+
+            var price = model.ParkingArea.PricePerHour * hours;
+
+            return price;
         }
     }
 }

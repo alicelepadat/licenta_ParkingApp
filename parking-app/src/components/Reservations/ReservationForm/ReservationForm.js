@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 
 import classes from './ReservationForm.module.css';
 import Input from "../../UI/Input/Input";
@@ -6,22 +6,98 @@ import Button from "../../UI/Button/Button";
 import {Col, Row} from "react-bootstrap";
 import {ArrowRight, Plus} from 'react-feather';
 import ReservationPayment from "../ReservationPayment/ReservationPayment";
+import {format} from 'date-fns';
+import * as formatData from '../../../utility/dateFormat';
+import * as validate from "../../../utility/validateHandler";
 
 const ReservationForm = (props) => {
+
+    const today = format(new Date(), "yyyy-MM-dd");
+    const startTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 30)).toString();
+    const endTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 90)).toString();
+
     const [userInput, setUserInput] = useState({
-        enteredDate: '',
-        enteredStartTime: '',
-        enteredEndTime: '',
+        enteredDate: today,
+        enteredStartTime: startTime,
+        enteredEndTime: endTime,
         enteredLicensePlate: '',
     });
+
+    const [isUserInputValid, setIsUserInputValid] = useState({
+        enteredDate: true,
+        enteredStartTime: true,
+        enteredEndTime: true,
+        enteredLicensePlate: null,
+    });
+
+    const [formIsValid, setFormIsValid] = useState(null);
+
+    const rules = {
+        enteredDate: {
+            isRequired: true,
+        },
+        enteredStartTime: {
+            isRequired: true,
+        },
+        enteredEndTime: {
+            isRequired: true,
+        },
+        enteredLicensePlate: {
+            isRequired: true,
+            isLicensePlate: true,
+        },
+    };
+
+    useEffect(() => {
+        const identifier = setTimeout(() => {
+            setFormIsValid(
+                isUserInputValid.enteredDate && isUserInputValid.enteredStartTime && isUserInputValid.enteredEndTime && isUserInputValid.enteredLicensePlate
+            );
+        }, 500);
+
+        return () => {
+            clearTimeout(identifier);
+        };
+    }, [isUserInputValid]);
+
+    const validateUserInput = (event) => {
+        setIsUserInputValid((prevState => {
+            return {
+                ...prevState,
+                [event.target.name]:
+                    validate.checkValidity(event.target.value,
+                        rules[event.target.name]),
+            };
+        }));
+    };
 
     const [showLicensePlateInput, setShowLicensePlateInput] = useState(false);
 
     const [goToPayment, setGoToPayment] = useState(false);
 
+    console.log(isUserInputValid)
+
     const handleGoToPayment = () => {
-        setGoToPayment(true);
-    }
+        if (formIsValid) {
+
+            const reservationData = {
+                reservationDate: userInput.enteredDate,
+                startTime: userInput.enteredStartTime,
+                endTime: userInput.enteredEndTime,
+                vehicle: {
+                    licensePlate: userInput.enteredLicensePlate,
+                },
+            };
+
+            if (props.userId) {
+                props.onDriverAdd(reservationData, props.userId, props.area.id);
+            } else {
+                props.onAnonimAdd(reservationData, props.area.id);
+            }
+
+            setGoToPayment(true);
+        }
+    };
 
     const handleInputChange = (event) => {
         setUserInput((prevState) => {
@@ -29,23 +105,21 @@ const ReservationForm = (props) => {
                 ...prevState,
                 [event.target.name]: event.target.value
             };
-        })
-    }
+        });
+    };
 
     const handleAddLicensePlate = () => {
         setShowLicensePlateInput(true);
-    }
-
-    console.log(goToPayment)
+    };
 
     return (
         <Fragment>
             <form>
                 {
                     goToPayment ?
-                        <h5>Efectueaza plata pentru rezervarea la {props.area["AMPLASAMENT"]}</h5>
+                        <h5>Efectueaza plata pentru rezervarea la {props.area.emplacement}</h5>
                         :
-                        <h3>{props.area["AMPLASAMENT"]}</h3>
+                        <h3>{props.area.emplacement}</h3>
                 }
                 {
                     !goToPayment ?
@@ -56,7 +130,10 @@ const ReservationForm = (props) => {
                                 type="date"
                                 name="enteredDate"
                                 value={userInput.enteredDate}
-                                onChange={handleInputChange}/>
+                                isValid={isUserInputValid.enteredDate}
+                                onChange={handleInputChange}
+                                onBlur={validateUserInput}
+                            />
                             <Row>
                                 <Col>
                                     <Input
@@ -64,6 +141,8 @@ const ReservationForm = (props) => {
                                         label="De la"
                                         type="time"
                                         name="enteredStartTime"
+                                        min={startTime}
+                                        isValid={isUserInputValid.enteredStartTime}
                                         value={userInput.enteredStartTime}
                                         onChange={handleInputChange}/>
                                 </Col>
@@ -74,15 +153,26 @@ const ReservationForm = (props) => {
                                         type="time"
                                         name="enteredEndTime"
                                         value={userInput.enteredEndTime}
-                                        onChange={handleInputChange}/>
+                                        isValid={isUserInputValid.enteredEndTime}
+                                        onChange={handleInputChange}
+                                        onBlur={validateUserInput}
+                                    />
                                 </Col>
                             </Row>
-                            <div className={classes.control}>
+                            <div
+                                className={`${classes.control} ${isUserInputValid.enteredLicensePlate === false ? classes.invalid : ''}`}>
                                 <label htmlFor="enteredLicensePlate">Numar inmatriculare</label>
                                 {
                                     props.vehicles.length > 0 && !showLicensePlateInput ?
                                         <div>
-                                            <select defaultValue="Selecteaza">
+                                            <select
+                                                defaultValue="Selecteaza"
+                                                name="enteredLicensePlate"
+                                                value={userInput.enteredLicensePlate}
+                                                aria-invalid={!isUserInputValid.enteredLicensePlate}
+                                                onChange={handleInputChange}
+                                                onBlur={validateUserInput}
+                                            >
                                                 <option value="Selecteaza" disabled={true}>Selecteaza</option>
                                                 {
                                                     props.vehicles.map((vehicle, index) => (
@@ -102,7 +192,9 @@ const ReservationForm = (props) => {
                                             id="enteredLicensePlate"
                                             name="enteredLicensePlate"
                                             value={userInput.enteredLicensePlate}
+                                            aria-invalid={!isUserInputValid.enteredLicensePlate}
                                             onChange={handleInputChange}
+                                            onBlur={validateUserInput}
                                         />
                                 }
                             </div>

@@ -18,6 +18,7 @@ const Input = props => {
                 onChange={props.onChange}
                 onBlur={props.onBlur}
                 disabled={props.disabled ? props.disabled : false}
+                min={props.min}
             />
         </div>
     );

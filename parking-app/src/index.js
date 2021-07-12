@@ -11,11 +11,15 @@ import thunk from "redux-thunk";
 import driverAuthReducer from "./store/reducers/authDriverReducer";
 import driverDataReducer from "./store/reducers/driverDataReducer";
 import driverVehiclesReducer from "./store/reducers/driverVehiclesReducer";
+import reservationReducer from "./store/reducers/reservationReducer";
+import parkingAreaReducer from "./store/reducers/parkingAreaReducer";
 
 const rootReducer = combineReducers({
     driverAuth: driverAuthReducer,
     driverData: driverDataReducer,
     driverVehicles: driverVehiclesReducer,
+    reservations: reservationReducer,
+    parkingArea: parkingAreaReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

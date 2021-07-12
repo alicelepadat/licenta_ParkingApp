@@ -6,7 +6,7 @@ namespace ParkingApp.Main.DomainModels
     public class ParkingArea : BaseEntity
     {
         [Required]
-        public string Location { get; set; }
+        public string Emplacement { get; set; }
         
         [Required]
         public int TotalSpots { get; set; }
@@ -19,6 +19,8 @@ namespace ParkingApp.Main.DomainModels
 
         [Required]
         public string City { get; set; }
+        
+        public string EmplacementLocation { get; set; }
         
         public Admin Admin { get; set; }
 

@@ -3,7 +3,8 @@ import {updateObject} from "../utility";
 
 const initialState = {
     isDriverLoggedIn: false,
-    userId: null,
+    userId: localStorage.getItem("driverId"),
+    driverEmail: null,
     error: null,
     loading: false,
 };
@@ -19,6 +20,15 @@ const driverAuthSuccess = (state, action) => {
     return updateObject(state, {
         isDriverLoggedIn: true,
         userId: action.userId,
+        error: null,
+        loading: false,
+    });
+};
+
+const driverRegisterSuccess = (state, action) => {
+    return updateObject(state, {
+        isDriverLoggedIn: true,
+        driverEmail: action.email,
         error: null,
         loading: false,
     });
@@ -45,6 +55,8 @@ const driverAuthReducer = (state = initialState, action) => {
             return driverAuthStart(state, action);
         case actionTypes.AUTH_DRIVER_SUCCESS:
             return driverAuthSuccess(state, action);
+        case actionTypes.AUTH_REGISTER_DRIVER_SUCCESS:
+            return driverRegisterSuccess(state, action);
         case actionTypes.AUTH_DRIVER_FAIL:
             return driverAuthFail(state, action);
         case actionTypes.AUTH_DRIVER_LOGOUT:

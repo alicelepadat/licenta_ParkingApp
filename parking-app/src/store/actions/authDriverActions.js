@@ -14,6 +14,13 @@ export const driverAuthSucces = (userId) => {
     };
 };
 
+export const driverRegisterSucces = (email) => {
+    return {
+        type: actionTypes.AUTH_REGISTER_DRIVER_SUCCESS,
+        email: email,
+    };
+};
+
 export const driverAuthFail = (error) => {
     return {
         type: actionTypes.AUTH_DRIVER_FAIL,
@@ -76,7 +83,7 @@ export const driverRegister = (registerData) => {
     return dispatch => {
         axios.post('/drivers/register', registerData)
             .then(response => {
-                dispatch(driverAuthSucces(response.data));
+                dispatch(driverRegisterSucces(response.data));
             }).catch(error => {
             dispatch(driverAuthFail(error.response))
         });

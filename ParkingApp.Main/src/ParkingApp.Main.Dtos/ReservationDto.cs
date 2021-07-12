@@ -17,6 +17,10 @@ namespace ParkingApp.Main.Dtos
         [Required] 
         public DateTime EndTime { get; set; }
 
+        public decimal Price { get; set; }
+
+        public bool IsPaid { get; set; }
+
         public ReservationStateEnum State { get; set; }
 
         public VehicleDto Vehicle { get; set; }

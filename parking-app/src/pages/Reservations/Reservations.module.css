@@ -9,3 +9,14 @@
 .reservations__filter {
     padding: 0.2rem 1rem;
 }
+
+.noReservation-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    background-color: var(--DarkBlue);
+    border-radius: 10px;
+    margin: 1rem;
+}
+
+.noReservation-card h3 {
+    padding: 2rem 0;
+}

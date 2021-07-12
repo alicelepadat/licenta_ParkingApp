@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ParkingApp.Main.Common.Enums;
@@ -12,7 +9,7 @@ using ParkingApp.Main.Services.Contracts;
 namespace ParkingApp.Main.API.Controllers
 {
     [ApiController]
-    [Route("api/drivers/{driverId}/reservations")]
+    [Route("api/reservations")]
     public class ReservationController : Controller
     {
         private readonly IReservationService _reservationService;
@@ -26,8 +23,8 @@ namespace ParkingApp.Main.API.Controllers
             _areaService = areaService ?? throw new ArgumentNullException(nameof(areaService));
         }
 
-        [HttpGet(Name = "GetDriverReservations")]
-        public async Task<IActionResult> UpdateReservationStatus(int driverId)
+        [HttpGet("{driverId}", Name = "GetDriverReservations")]
+        public async Task<IActionResult> GetDriverReservations(int driverId)
         {
             try
             {
@@ -47,16 +44,10 @@ namespace ParkingApp.Main.API.Controllers
 
                 foreach (var r in allReservations)
                 {
-                    if (r.State == ReservationStateEnum.REGISTERED && r.ReservationDate.Date == DateTime.Now.Date &&
-                            r.StartTime.TimeOfDay <= DateTime.Now.TimeOfDay && DateTime.Now.TimeOfDay<=r.EndTime.TimeOfDay)
-                    {
-                        await _reservationService.UpdateReservationStateAsync(r, ReservationStateEnum.IN_PROGRESS);
-                    }
+                    await _reservationService.UpdateReservationStateAsync(r);
 
-                    if (r.State == ReservationStateEnum.IN_PROGRESS &&
-                            r.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
+                    if (r.State == ReservationStateEnum.FINISHED)
                     {
-                        await _reservationService.UpdateReservationStateAsync(r, ReservationStateEnum.FINISHED);
                         await _areaService.UpdateAvailableSpotsAsync(r.ParkingArea);
                     }
                 }
@@ -68,7 +59,7 @@ namespace ParkingApp.Main.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
             }
         }
-        
+
         [HttpGet]
         [Route("{parkingAreaId}")]
         public async Task<IActionResult> GetUnavailableIntervals(string reservationDate, string startTime, string endTime, int parkingAreaId)
@@ -89,41 +80,43 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateReservation(int driverId, int parkingAreaId, NewReservationDto reservation)
+        [HttpPost("{parkingAreaId}")]
+        public async Task<IActionResult> CreateReservation(int? driverId, int parkingAreaId, NewReservationDto reservation)
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId, true);
+                var area = await _areaService.GetAreaByIdAsync(parkingAreaId);
 
-                if (driver == null)
+                if (area == null && area.AvailableSpots <= 0)
                 {
-                    return NotFound("Autentificati-va sau creati un cont pentru a rezerva.");
+                    return BadRequest("Nu exista locuri disponibile.");
                 }
 
-                var rezervations = await _reservationService.GetDriverReservationsAsync(driverId);
+                var reservations = await _reservationService.GetVehiclesReservationsAsync(reservation.Vehicle.LicensePlate);
 
-                foreach(var r in rezervations)
+                foreach (var r in reservations)
                 {
-                    if(r.ParkingArea.Id == parkingAreaId && 
-                        (r.State == ReservationStateEnum.REGISTERED || r.State == ReservationStateEnum.IN_PROGRESS))
+                    if (r.ParkingArea.Id == parkingAreaId && (r.State == ReservationStateEnum.ACTIVE || r.State == ReservationStateEnum.IN_PROGRESS))
                     {
                         return BadRequest("Aveti deja o rezervare activa in zona aleasa.");
                     }
                 }
+
                 var date = DateTime.Parse(reservation.ReservationDate, System.Globalization.CultureInfo.CurrentCulture);
                 var startTime = DateTime.Parse(reservation.StartTime, System.Globalization.CultureInfo.CurrentCulture);
                 var endTime = DateTime.Parse(reservation.EndTime, System.Globalization.CultureInfo.CurrentCulture);
-                
+
                 if (await _reservationService.ReservationExistsAsync(date, startTime, endTime, parkingAreaId))
                 {
                     return BadRequest("Interval nevalid.");
                 }
 
-                if((date.Date <DateTime.Now.Date || date.Date == DateTime.Now.Date) && 
-                    (startTime.TimeOfDay < DateTime.Now.TimeOfDay || endTime.TimeOfDay < DateTime.Now.TimeOfDay))
+                if (date.Date < DateTime.Now.Date || date.Date == DateTime.Now.Date)
                 {
-                    return BadRequest("Nu puteti selecta o ora din trecut.");
+                    if (startTime.TimeOfDay < DateTime.Now.TimeOfDay || endTime.TimeOfDay < DateTime.Now.TimeOfDay)
+                    {
+                        return BadRequest("Nu puteti selecta o ora din trecut.");
+                    }
                 }
 
                 if ((endTime - startTime).TotalHours < 1)
@@ -131,22 +124,38 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest("Perioada minima de rezervare este de o ora.");
                 }
 
-                if(DateTime.Now.Date == date.Date && (startTime.TimeOfDay - DateTime.Now.TimeOfDay).TotalMinutes < 30)
+                if (DateTime.Now.Date == date.Date && (startTime.TimeOfDay - DateTime.Now.TimeOfDay).TotalMinutes < 30)
                 {
                     return BadRequest("Puteti rezerva cu minim 30 de minute inainte.");
                 }
 
                 if (!ModelState.IsValid)
+                {
                     return BadRequest(ModelState);
+                }
 
-                var insertedId = await _reservationService.CreateAsync(driverId, parkingAreaId, reservation);
+                var inserted = new ReservationDto();
 
-                if (insertedId == 0)
+                if (driverId != null)
+                {
+                    var driver = await _driverService.GetByIdAsync((int)driverId, true);
+
+                    if (driver != null)
+                    {
+                        inserted = await _reservationService.CreateAsync(driverId, parkingAreaId, reservation);
+                    }
+                }
+                else
+                {
+                    inserted = await _reservationService.CreateAsync(null, parkingAreaId, reservation);
+                }
+
+                if (inserted == null)
                 {
                     return Problem();
                 }
 
-                return CreatedAtRoute("GetDriverReservations", new { driverId }, insertedId);
+                return Ok(inserted.Vehicle.Id);
             }
             catch (Exception)
             {
@@ -154,7 +163,7 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
-        [HttpPatch("{reservationId}")]
+        [HttpPatch("{reservationId}/driver/{driverId}")]
         public async Task<IActionResult> CancelReservation(int driverId, int reservationId)
         {
             try
@@ -182,7 +191,7 @@ namespace ParkingApp.Main.API.Controllers
 
                 await _areaService.UpdateAvailableSpotsAsync(reservation.ParkingArea);
 
-                return Ok(reservation.State);
+                return Ok(reservation);
             }
             catch (Exception)
             {
@@ -191,6 +200,7 @@ namespace ParkingApp.Main.API.Controllers
         }
 
         [HttpDelete]
+        [Route("{reservationId}/driver/{driverId}")]
         public async Task<IActionResult> DeleteReservation(int driverId, int reservationId)
         {
             try

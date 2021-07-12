@@ -6,23 +6,25 @@ import Button from "../../UI/Button/Button";
 import InfoHeader from "../../UI/InfoHeader/InfoHeader";
 import {Col, Row} from "react-bootstrap";
 import {FaDirections} from "react-icons/all";
+import LoadingSpinner from "../../UI/Loading/Loading";
 
 const InfoContainer = props => {
-    return (
+
+    const areaInfo = (
         <Card className={classes["area_info"]}>
-            <InfoHeader title={props.area["AMPLASAMENT"]} onCloseClick={props.onCloseClick}/>
+            <InfoHeader title={props.area.emplacement} onCloseClick={props.onCloseClick}/>
             <ul>
                 <li>
                     <label>Locuri disponibile: </label>
-                    <strong> {props.area["NR. LOCURI"]}</strong>
+                    <strong> {props.area.availableSpots}</strong>
                 </li>
                 <li>
                     <label>Pret/ora: </label>
-                    <strong> {props.area["PRET"]}</strong>
+                    <strong> {props.area.pricePerHour} RON</strong>
                 </li>
                 <li>
                     <label>Localizare amplasament: </label>
-                    <strong> {props.area["LOCALIZARE AMPLASAMENT"].length > 0 ? props.area["LOCALIZARE AMPLASAMENT"] : '-'}</strong>
+                    <strong> {props.area.emplacementLocation !== '' ? props.area.emplacementLocation : '-'}</strong>
                 </li>
             </ul>
             <Row>
@@ -32,10 +34,18 @@ const InfoContainer = props => {
                     </Button>
                 </Col>
                 <Col className="text-end">
-                    <Button onClick={props.onReserve}>Rezerva</Button>
+                    <Button onClick={props.onReserve} disabled={props.area.availableSpots === 0}>Rezerva</Button>
                 </Col>
             </Row>
         </Card>
+    );
+
+    return (
+        <React.Fragment>
+            {
+                props.loading ? <LoadingSpinner/> : props.area && areaInfo
+            }
+        </React.Fragment>
     );
 }
 

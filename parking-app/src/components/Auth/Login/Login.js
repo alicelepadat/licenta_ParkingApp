@@ -11,7 +11,7 @@ import * as actionCreators from '../../../store/actions/index';
 import Loading from "../../UI/Loading/Loading";
 
 const Login = props => {
-    const [enteredEmail, setEnteredEmail] = useState('');
+    const [enteredEmail, setEnteredEmail] = useState(props.email ? props.email : '');
     const [emailIsValid, setEmailIsValid] = useState();
     const [enteredPassword, setEnteredPassword] = useState('');
     const [passwordIsValid, setPasswordIsValid] = useState();
@@ -110,6 +110,7 @@ const mapStateToProps = state => {
         loading: state.driverAuth.loading,
         error: state.driverAuth.error,
         userId: state.driverAuth.userId,
+        email: state.driverAuth.driverEmail,
     }
 }
 

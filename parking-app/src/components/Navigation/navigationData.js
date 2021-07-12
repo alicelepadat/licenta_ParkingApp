@@ -4,7 +4,7 @@ import { BiCar } from 'react-icons/bi';
 export const headerData = [
     {
         title: 'Acasa',
-        path: '/home',
+        path: '/',
         icon: <Home />
     },
     {

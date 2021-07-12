@@ -10,5 +10,9 @@ namespace ParkingApp.Main.Services.Contracts
 
         Task UpdateAvailableSpotsAsync(ParkingAreaDto parkingArea);
 
+        Task<ParkingAreaDto> GetAreaByNameAsync(string emplacement);
+
+        Task<ParkingAreaDto> GetAreaByIdAsync(int id);
+
     }
 }

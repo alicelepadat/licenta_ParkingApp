@@ -91,7 +91,7 @@ namespace ParkingApp.Main.API.Controllers
                     return Problem("A aparut o problema la inregistrare.");
                 }
 
-                return Ok(inserted.Id);
+                return Ok(inserted.User.Email);
             }
             catch (Exception e)
             {

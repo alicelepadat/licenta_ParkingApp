@@ -121,7 +121,7 @@ const Register = (props) => {
 
         console.log(data)
 
-        if (formIsValid) {
+        if (formIsValid && !props.error) {
             props.onDriverRegister(data);
 
             setUserInput((prevState) => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import classes from './Driver.module.css';
 import {Col, Row} from "react-bootstrap";
@@ -12,9 +12,7 @@ const DriverProfile = props => {
 
     const [showNewDrivingLicense, setShowNewDrivingLicense] = useState(false);
 
-    const reservationNumber = props.user ? props.user.vehicles.map((vehicle) => {
-        return vehicle.driverReservations.length
-    }) : 0;
+    const reservationNumber = 0;
 
     const handleAddDrivingLicenseClick = () => {
         setShowNewDrivingLicense(true);

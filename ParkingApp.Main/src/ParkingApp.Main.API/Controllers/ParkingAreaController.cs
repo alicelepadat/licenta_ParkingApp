@@ -26,7 +26,28 @@ namespace ParkingApp.Main.API.Controllers
             {
                 var areas = await _parkingAreaService.GetAllAreasAsync();
 
+
                 return Ok(areas);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+            }
+        }
+
+        [HttpGet ("{name}")]
+        public async Task<IActionResult> GetAreaByName(string name)
+        {
+            try
+            {
+                var area = await _parkingAreaService.GetAreaByNameAsync(name);
+
+                if(area == null)
+                {
+                    return NotFound("Nu exista zona de parcare.");
+                }
+
+                return Ok(area);
             }
             catch (Exception)
             {

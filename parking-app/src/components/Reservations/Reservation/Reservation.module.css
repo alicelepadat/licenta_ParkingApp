@@ -33,9 +33,18 @@
 }
 
 .reservation button {
+    color: white;
+}
+
+.reservation__actions button {
+    color: var(--DarkBlue);
+    margin: 0 1rem 1.5rem 1rem;
+}
+
+.reservation button,
+.reservation__actions button {
     background-color: transparent;
     border: none;
-    color: white;
     padding: 0 1rem;
     text-align: center;
     cursor: pointer;
@@ -43,6 +52,15 @@
 
 .reservation button:hover {
     color: var(--LighterBlue);
+}
+
+.reservation__actions button:hover {
+    color: var(--LighterRed);
+}
+
+.reservation__actions button:disabled,
+.reservation__actions button:disabled:hover {
+    color: gray;
 }
 
 @media (max-width: 580px) {

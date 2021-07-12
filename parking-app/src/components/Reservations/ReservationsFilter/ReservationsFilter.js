@@ -14,6 +14,7 @@ const ReservationsFilter = props => {
                 <label>Filtreaza dupa status</label>
                 <select value={props.selectedStatus} onChange={filterChangeHandler}>
                     <option value='activa'>activa</option>
+                    <option value='progres'>in progres</option>
                     <option value='anulata'>anulata</option>
                     <option value='terminata'>terminata</option>
                 </select>

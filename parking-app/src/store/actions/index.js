@@ -16,3 +16,16 @@ export {
     deleteDriverVehicle,
     addDriverVehicle,
 } from './driverVehiclesActions';
+
+export {
+    fetchDriverReservations,
+    cancelReservation,
+    deleteReservation,
+    addDriverReservation,
+    addAnonimReservation,
+} from './reservationActions';
+
+export {
+    fetchParkingArea,
+    closeAreaSelection,
+} from './parkingAreaActions';
