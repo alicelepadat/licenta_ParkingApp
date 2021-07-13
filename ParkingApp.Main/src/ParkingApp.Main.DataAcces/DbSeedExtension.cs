@@ -27,7 +27,30 @@ namespace ParkingApp.Main.DataAcces
                 Role = UserRoleEnum.ADMINISTRATOR
             };
 
+            var user = new User
+            {
+                Id = 3,
+                CreatedOn = DateTime.Now,
+                Name = "ADMIN_AREA342",
+                Email = "admin_area342@easypark.com",
+                Phone = "0734670055",
+                Password = BC.HashPassword("admin_area342"),
+                Role = UserRoleEnum.ADMIN
+            };
+
+
             builder.Entity<User>().HasData(administrator);
+            builder.Entity<User>().HasData(user);
+
+            var admin = new Admin
+            {
+                Id = 1,
+                CreatedOn = DateTime.Now,
+                UserId = user.Id,
+                ParkingAreaId = 342
+            };
+
+            builder.Entity<Admin>().HasData(admin);
 
             ImportAsync(builder, file);
         }

@@ -49,11 +49,11 @@ const driverUpdateSuccess = (state, action) => {
 
 const driverDataReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.FETCH_DRIVER_DATA_START:
+        case actionTypes.FETCH_USER_DATA_START:
             return fetchDriverDataStart(state, action);
-        case actionTypes.FETCH_DRIVER_DATA_SUCCESS:
+        case actionTypes.FETCH_USER_DATA_SUCCESS:
             return fetchDriverDataSuccess(state, action);
-        case actionTypes.FETCH_DRIVER_DATA_FAIL:
+        case actionTypes.FETCH_USER_DATA_FAIL:
             return fetchDriverDataFail(state, action);
         case actionTypes.ADD_DRIVER_LICENSE_SUCCESS:
             return addDriverLicenseSuccess(state, action);

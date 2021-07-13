@@ -58,7 +58,7 @@ namespace ParkingApp.Main.API.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
             }
         }
 

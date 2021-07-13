@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import classes from './Driver.module.css';
 import { Col, Row } from "react-bootstrap";
@@ -6,13 +6,21 @@ import { ArrowRight, Edit } from "react-feather";
 import { Link, useHistory } from "react-router-dom";
 import DrivingLicense from "../DrivingLicense/DrivingLicense";
 import Button from "../../UI/Button/Button";
+import { connect } from 'react-redux';
+import * as actionCreators from "../../../store/actions";
 
 const DriverProfile = props => {
     const history = useHistory();
 
+    useEffect(() => {
+        if (props.userId) {
+            props.onFetchReservations(props.userId)
+        }
+    }, [])
+
     const [showNewDrivingLicense, setShowNewDrivingLicense] = useState(false);
 
-    const reservationNumber = 0;
+    const reservationNumber = props.reservations ? props.reservations.length : 0;
 
     const handleAddDrivingLicenseClick = () => {
         setShowNewDrivingLicense(true);
@@ -32,8 +40,6 @@ const DriverProfile = props => {
         props.onDriverLogout();
         history.push('/login');
     }
-
-    console.log(props.user)
 
     return (
         <React.Fragment>
@@ -114,4 +120,17 @@ const DriverProfile = props => {
     );
 };
 
-export default DriverProfile;
+const mapStateToProps = state => {
+    return {
+        userId: state.driverAuth.userId,
+        reservations: state.reservations.reservations,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchReservations: (userId) => dispatch(actionCreators.fetchDriverReservations(userId)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DriverProfile);

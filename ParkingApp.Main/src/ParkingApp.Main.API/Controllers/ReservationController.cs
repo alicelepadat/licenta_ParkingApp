@@ -91,6 +91,32 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
+        [HttpGet("{areaId}/area")]
+        public async Task<IActionResult> GetParkingAreaReservations(int areaId)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var reservations = await _reservationService.GetParkingAreaReservationsAsync(areaId);
+
+                foreach (var r in reservations)
+                {
+                    await _reservationService.UpdateReservationStateAsync(r);
+
+                }
+
+                return Ok(reservations);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+            }
+        }
+
         [HttpGet]
         [Route("{parkingAreaId}/intervals")]
         public async Task<IActionResult> GetUnavailableIntervals(string reservationDate, string startTime, string endTime, int parkingAreaId)

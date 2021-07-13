@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import {updateObject} from "../utility";
+import { updateObject } from "../utility";
 
 const initialState = {
     vehicles: [],
@@ -8,7 +8,7 @@ const initialState = {
 }
 
 const fetchDriverVehiclesStart = (state, action) => {
-    return updateObject(state, {loading: true});
+    return updateObject(state, { loading: true });
 };
 
 const fetchDriverVehiclesSuccess = (state, action) => {
@@ -20,8 +20,8 @@ const fetchDriverVehiclesSuccess = (state, action) => {
 
 const fetchDriverVehiclesFail = (state, action) => {
     return updateObject(state, {
-        loading: false,
         error: action.error,
+        loading: false,
     });
 };
 
@@ -47,9 +47,9 @@ const addDriverVehicleSuccess = (state, action) => {
 
 const fetchVehicleSuccess = (state, action) => {
     let updatedList = state.vehicles;
-    if(state.vehicles.length > 0){
+    if (state.vehicles.length > 0) {
         state.vehicles.forEach(item => {
-            if(item.id === action.vehicle.id){
+            if (item.id === action.vehicle.id) {
                 return updatedList;
             }
         });

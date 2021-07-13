@@ -47,10 +47,10 @@ export const fetchDriverVehicles = (userId) => {
         dispatch(fetchDriverVehiclesStart());
         axios.get(`/drivers/${userId}/vehicles`)
             .then(response => {
-                dispatch(fetchDriverVehiclesSuccess(response.data))
+                dispatch(fetchDriverVehiclesSuccess(response.data));
             }).catch(error => {
-            fetchDriverVehiclesFail(error.response)
-        });
+                dispatch(fetchDriverVehiclesFail(error.response));
+            })
     };
 };
 
@@ -61,8 +61,8 @@ export const fetchVehicle = (vehicleId) => {
             .then(response => {
                 dispatch(fetchVehicleSuccess(response.data));
             }).catch(error => {
-            dispatch(fetchDriverVehiclesFail(error.response))
-        });
+                dispatch(fetchDriverVehiclesFail(error.response))
+            });
     };
 };
 
@@ -73,8 +73,8 @@ export const deleteDriverVehicle = (userId, vehicleId) => {
             .then(() => {
                 dispatch(deleteDriverVehicleSuccess(vehicleId));
             }).catch(error => {
-            dispatch(fetchDriverVehiclesFail((error.response)));
-        });
+                dispatch(fetchDriverVehiclesFail((error.response)));
+            });
     };
 };
 
@@ -85,7 +85,7 @@ export const addDriverVehicle = (userId, vehicle) => {
             .then((response) => {
                 dispatch(addDriverVehicleSuccess(response.data));
             }).catch(error => {
-            dispatch(fetchDriverVehiclesFail(error.response));
-        });
+                dispatch(fetchDriverVehiclesFail(error.response));
+            });
     };
 };

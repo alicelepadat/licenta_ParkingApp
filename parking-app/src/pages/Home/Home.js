@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import MapContainer from "../../components/Map/MapContainer/MapContainer";
 import UserLocation from "../../components/Map/UserLocation/UserLocation";
 import Layers from "../../components/Map/Layers/layers";
@@ -8,7 +8,7 @@ import Search from "../../components/Map/Search/Search";
 
 import data from '../../data/parcari.json';
 import * as actionCreators from "../../store/actions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 function Home(props) {
 
@@ -40,7 +40,7 @@ function Home(props) {
         }
         else {
             const vehicleId = localStorage.getItem(`identifier`);
-            if(vehicleId) {
+            if (vehicleId) {
                 props.onFetchVechicle(vehicleId)
             }
         }
@@ -77,7 +77,7 @@ function Home(props) {
         setShowSearchContainer(false);
         props.selectedArea && setViewport({
             ...viewport,
-            zoom: 11,
+            zoom: 12,
             transitionDuration: 2000
         });
     }
@@ -98,8 +98,8 @@ function Home(props) {
                 onAreaClick={handleAreaClick}
                 onClusterExpansion={handleClusterExpansion}
             >
-                <Layers/>
-                <UserLocation/>
+                <Layers />
+                <UserLocation />
             </MapContainer>
 
             {
@@ -111,7 +111,7 @@ function Home(props) {
                 />
             }
 
-            {showReserveForm && <NewReservation area={props.selectedArea} onCloseClick={handleCloseClick}/>}
+            {showReserveForm && <NewReservation area={props.selectedArea} onCloseClick={handleCloseClick} />}
 
         </React.Fragment>
 

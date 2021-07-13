@@ -53,7 +53,7 @@ const Register = (props) => {
         enteredPassword: null,
     });
 
-    const [passwordIsVerified, setPasswordIsVerified] = useState(false);
+    const [passwordIsVerified, setPasswordIsVerified] = useState(null);
     const [formIsValid, setFormIsValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showVerifyPassword, setShowVerifyPassword] = useState(false);
@@ -91,10 +91,12 @@ const Register = (props) => {
     };
 
     const handleVerifyPassword = (event) => {
-        const isValid = userInput.enteredPassword === event.target.value;
-        setPasswordIsVerified(
-            validate.checkValidity(event.target.value, validateRules[event.target.name]) && isValid
-        );
+        if (userInput.enteredPassword.length > 0) {
+            const isValid = userInput.enteredPassword === event.target.value;
+            setPasswordIsVerified(
+                validate.checkValidity(event.target.value, validateRules[event.target.name]) && isValid
+            );
+        }
     };
 
     const handleShowPassword = (event) => {

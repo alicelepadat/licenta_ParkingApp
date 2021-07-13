@@ -23,6 +23,7 @@ export {
 export {
     fetchDriverReservations,
     fetchAnonimDriverReservations,
+    fetchAreaReservations,
     cancelReservation,
     deleteReservation,
     addDriverReservation,

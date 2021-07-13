@@ -48,7 +48,7 @@ const Navigation = (props) => {
                         <li className={classes["nav-text"]} onClick={handleNavClick}>
                             <NavLink to={props.userId !== null ? "/profile" : "/login"}>
                                 <User />
-                                <span>Profil</span>
+                                <span>Utilizator</span>
                             </NavLink>
                         </li>
                     </ul>

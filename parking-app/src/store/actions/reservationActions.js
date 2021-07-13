@@ -48,8 +48,8 @@ export const fetchDriverReservations = (userId) => {
             .then(response => {
                 dispatch(fetchReservationsSuccess(response.data));
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response));
-        });
+                dispatch(fetchReservationsFail(error.response));
+            });
     };
 };
 
@@ -60,8 +60,20 @@ export const fetchAnonimDriverReservations = (vehicleId) => {
             .then(response => {
                 dispatch(fetchReservationsSuccess(response.data));
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response));
-        });
+                dispatch(fetchReservationsFail(error.response));
+            });
+    };
+};
+
+export const fetchAreaReservations = (areaId) => {
+    return dispatch => {
+        dispatch(fetchReservationsStart());
+        axios.get(`/reservations/${areaId}/area`)
+            .then(response => {
+                dispatch(fetchReservationsSuccess(response.data));
+            }).catch(error => {
+                dispatch(fetchReservationsFail(error.response));
+            });
     };
 };
 
@@ -72,8 +84,8 @@ export const cancelReservation = (userId, reservationId) => {
             .then(response => {
                 dispatch(cancelReservationsSuccess(response.data));
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response));
-        })
+                dispatch(fetchReservationsFail(error.response));
+            })
     };
 };
 
@@ -84,8 +96,8 @@ export const deleteReservation = (userId, reservationId) => {
             .then(() => {
                 dispatch(deleteReservationsSuccess(reservationId));
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response));
-        });
+                dispatch(fetchReservationsFail(error.response));
+            });
     };
 };
 
@@ -97,8 +109,8 @@ export const addDriverReservation = (reservationData, userId, areaId) => {
             .then(response => {
                 dispatch(addReservationSuccess());
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response))
-        });
+                dispatch(fetchReservationsFail(error.response))
+            });
     };
 };
 
@@ -111,7 +123,7 @@ export const addAnonimReservation = (reservationData, areaId) => {
                 localStorage.setItem(`identifier`, response.data)
                 dispatch(addReservationSuccess());
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response))
-        });
+                dispatch(fetchReservationsFail(error.response))
+            });
     };
 };

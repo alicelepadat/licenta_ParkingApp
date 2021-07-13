@@ -1,8 +1,8 @@
-import {updateObject} from "../utility";
+import { updateObject } from "../utility";
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-    driverReservations: [],
+    reservations: [],
     error: null,
     loading: false,
 };
@@ -16,7 +16,7 @@ const fetchReservationsStart = (state, action) => {
 
 const fetchReservationsSuccess = (state, action) => {
     return updateObject(state, {
-        driverReservations: action.driverReservations,
+        reservations: action.driverReservations,
         error: null,
         loading: false,
     });
@@ -30,25 +30,25 @@ const fetchReservationsFail = (state, action) => {
 };
 
 const cancelReservationSuccess = (state, action) => {
-    const updatedList = state.driverReservations.map(item => {
+    const updatedList = state.reservations.map(item => {
         if (item.id === action.reservation.id) {
-            return Object.assign({}, item, {state: action.reservation.state})
+            return Object.assign({}, item, { state: action.reservation.state })
         }
         return item;
     });
     return updateObject(state, {
-        driverReservations: updatedList,
+        reservations: updatedList,
         error: null,
         loading: false,
     });
 };
 
 const deleteReservationSuccess = (state, action) => {
-    const updatedList = state.driverReservations.filter(item => {
+    const updatedList = state.reservations.filter(item => {
         return item.id !== action.reservationId
     });
     return updateObject(state, {
-        driverReservations: updatedList,
+        reservations: updatedList,
         error: null,
         loading: false
     });

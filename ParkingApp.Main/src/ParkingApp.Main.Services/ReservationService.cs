@@ -161,5 +161,12 @@ namespace ParkingApp.Main.Services
 
             return price;
         }
+
+        public async Task<IEnumerable<ReservationDto>> GetParkingAreaReservationsAsync(int areaId)
+        {
+            var model = await _unitOfWork.ReservationRepository.GetParkingAreaReservationsAsync(areaId);
+
+            return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
+        }
     }
 }

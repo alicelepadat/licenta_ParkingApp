@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Card from "../../UI/Card/Card";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 
 import classes from './Login.module.css';
-import {Link, useHistory} from 'react-router-dom';
-import {connect} from "react-redux";
+import { Link, useHistory } from 'react-router-dom';
+import { connect } from "react-redux";
 import * as actionCreators from '../../../store/actions/index';
 import Loading from "../../UI/Loading/Loading";
-import {Col, Row} from "react-bootstrap";
-import {Eye, EyeOff} from "react-feather";
+import { Col, Row } from "react-bootstrap";
+import { Eye, EyeOff } from "react-feather";
 
 const Login = props => {
     const history = useHistory();
@@ -60,15 +60,15 @@ const Login = props => {
         }
     };
 
-    useEffect(()=>{
-        if(props.userId){
+    useEffect(() => {
+        if (props.userId) {
             props.getUserRole(props.userId);
         }
     }, [props])
 
-    useEffect(()=>{
-        if(props.role){
-            switch (props.role){
+    useEffect(() => {
+        if (props.role) {
+            switch (props.role) {
                 case 210:
                     history.push("/reservations");
                     break;
@@ -85,23 +85,20 @@ const Login = props => {
 
     return (
         <Card className={classes.login}>
-            <div className={classes["login-header"]}>
-                <div>
-                    {
-                        props.loading ? props.loading && <Loading/>
-                            :
+            {
+                props.loading ? <Loading />
+                    : <div className={classes["login-header"]}>
+                        <div>
                             <img
                                 src="https://www.iconpacks.net/icons/2/free-parking-sign-icon-1641-thumb.png"
                                 alt="parking-logo"
                                 width="100"
                                 height="100"
                             />
-                    }
-
-                </div>
-                <h2>Autentificare</h2>
-            </div>
-
+                        </div>
+                        <h2>Autentificare</h2>
+                    </div>
+            }
             <form onSubmit={handleLoginSubmit}>
                 <Input
                     id="email"
@@ -128,7 +125,7 @@ const Login = props => {
                     <Col className={classes["show-password"]}>
                         <button onClick={handleShowPassword} title="Arata parola">
                             {
-                                showPassword ? <EyeOff/> : <Eye/>
+                                showPassword ? <EyeOff /> : <Eye />
                             }
                         </button>
                     </Col>

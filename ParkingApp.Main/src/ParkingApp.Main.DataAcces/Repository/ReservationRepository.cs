@@ -50,5 +50,14 @@ namespace ParkingApp.Main.DataAcces.Repository
                 .Where(v => v.Vehicle.LicensePlate == licensePlate)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Reservation>> GetParkingAreaReservationsAsync(int areaId)
+        {
+            return await _parkingMainContext.Reservations
+                .Include(r => r.ParkingArea)
+                .Include(r => r.Vehicle)
+                .Where(r => r.ParkingArea.Id == areaId)
+                .ToListAsync();
+        }
     }
 }

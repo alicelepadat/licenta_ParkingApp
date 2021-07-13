@@ -3,20 +3,20 @@ import axios from '../axios';
 
 export const fetchDriverDataStart = () => {
     return {
-        type: actionTypes.FETCH_DRIVER_DATA_START,
+        type: actionTypes.FETCH_USER_DATA_START,
     };
 };
 
 export const fetchDriverDataSuccess = (driver) => {
     return {
-        type: actionTypes.FETCH_DRIVER_DATA_SUCCESS,
+        type: actionTypes.FETCH_USER_DATA_SUCCESS,
         driver: driver,
     };
 };
 
 export const fetchDriverDataFail = (error) => {
     return {
-        type: actionTypes.FETCH_DRIVER_DATA_FAIL,
+        type: actionTypes.FETCH_USER_DATA_FAIL,
         error: error,
     };
 };

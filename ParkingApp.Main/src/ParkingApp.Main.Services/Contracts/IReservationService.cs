@@ -13,6 +13,8 @@ namespace ParkingApp.Main.Services.Contracts
 
         Task<IEnumerable<ReservationDto>> GetVehiclesReservationsAsync(string licensePlate);
 
+        Task<IEnumerable<ReservationDto>> GetParkingAreaReservationsAsync(int areaId);
+
         Task<ReservationDto> GetByIdAsync(int reservattionId, bool includeParkingArea = false);
         
         Task<bool> ReservationExistsAsync(DateTime date, DateTime startTime, DateTime endTime, int parkingAreaId);

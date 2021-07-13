@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Card from "../../components/UI/Card/Card";
 import ReservationsFilter from "../../components/Reservations/ReservationsFilter/ReservationsFilter";
 import ReservationsList from "../../components/Reservations/ReservationsList/ReservationsList";
 
 import classes from './Reservations.module.css';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
 import LoadingSpinner from "../../components/UI/Loading/Loading";
 
@@ -15,11 +15,23 @@ const Reservations = (props) => {
 
     useEffect(() => {
         if (props.userId) {
-            props.onfetchDriverReservations(props.userId);
+            props.getUserRole(props.userId);
+        }
+    }, [props]);
+
+    useEffect(() => {
+        if (props.userId) {
+            switch (props.role) {
+                case 210:
+                    props.onFetchAreaReservations(342);
+                    break;
+                default:
+                    props.onfetchDriverReservations(props.userId);
+            }
         }
         else {
             const vehicleId = localStorage.getItem(`identifier`);
-            if(vehicleId) {
+            if (vehicleId) {
                 props.onFetchAnonimReservations(vehicleId);
             }
         }
@@ -50,7 +62,7 @@ const Reservations = (props) => {
         <div>
             <Card className={classes["reservations__filter"]}>
                 <ReservationsFilter selectedStatus={filteredStatus}
-                                    onChangeFilter={filterChangeHandler}/>
+                    onChangeFilter={filterChangeHandler} />
             </Card>
             <ReservationsList
                 getStatus={getReservationState}
@@ -70,7 +82,7 @@ const Reservations = (props) => {
     return (
         <div className={classes.reservations}>
             {
-                props.loading ? <LoadingSpinner/> :
+                props.loading ? <LoadingSpinner /> :
                     props.reservations.length > 0 ? reservationsData : noReservationFoundInfo
             }
         </div>
@@ -82,7 +94,8 @@ const mapStateToProps = state => {
         loading: state.reservations.loading,
         error: state.reservations.error,
         userId: state.driverAuth.userId,
-        reservations: state.reservations.driverReservations,
+        role: state.driverAuth.role,
+        reservations: state.reservations.reservations,
         vehicles: state.driverVehicles.vehicles
     };
 };
@@ -92,6 +105,8 @@ const mapDispatchToProps = dispatch => {
         onfetchDriverReservations: (userId) => dispatch(actionCreators.fetchDriverReservations(userId)),
         onCancelReservation: (userId, reservationId) => dispatch(actionCreators.cancelReservation(userId, reservationId)),
         onFetchAnonimReservations: (vehicleId) => dispatch(actionCreators.fetchAnonimDriverReservations(vehicleId)),
+        onFetchAreaReservations: (areaId) => dispatch(actionCreators.fetchAreaReservations(areaId)),
+        getUserRole: (userId) => dispatch(actionCreators.getUserRole(userId)),
     };
 };
 
