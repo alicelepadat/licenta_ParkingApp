@@ -14,13 +14,6 @@ export const fetchReservationsSuccess = (reservations) => {
     };
 };
 
-export const fetchAnonimReservationsSuccess = (vehicle) => {
-    return {
-        type: actionTypes.FETCH_VEHICLE_RESERVATIONS_SUCCESS,
-        vehiclesReservation: vehicle,
-    };
-};
-
 export const fetchReservationsFail = (error) => {
     return {
         type: actionTypes.FETCH_RESERVATIONS_FAIL,
@@ -52,6 +45,18 @@ export const fetchDriverReservations = (userId) => {
     return dispatch => {
         dispatch(fetchReservationsStart());
         axios.get(`/reservations/${userId}`)
+            .then(response => {
+                dispatch(fetchReservationsSuccess(response.data));
+            }).catch(error => {
+            dispatch(fetchReservationsFail(error.response));
+        });
+    };
+};
+
+export const fetchAnonimDriverReservations = (vehicleId) => {
+    return dispatch => {
+        dispatch(fetchReservationsStart());
+        axios.get(`/reservations/${vehicleId}/vehicle`)
             .then(response => {
                 dispatch(fetchReservationsSuccess(response.data));
             }).catch(error => {
@@ -92,7 +97,7 @@ export const addDriverReservation = (reservationData, userId, areaId) => {
             .then(response => {
                 dispatch(addReservationSuccess());
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response.data))
+            dispatch(fetchReservationsFail(error.response))
         });
     };
 };
@@ -103,22 +108,10 @@ export const addAnonimReservation = (reservationData, areaId) => {
         axios.post(`/reservations/${areaId}`,
             reservationData)
             .then(response => {
-                localStorage.setItem(`identifier_${response.data}`, response.data)
+                localStorage.setItem(`identifier`, response.data)
                 dispatch(addReservationSuccess());
             }).catch(error => {
-            dispatch(fetchReservationsFail(error.response.data))
-        });
-    };
-};
-
-export const fetchAnonimReservations = (vehicleId) => {
-    return dispatch => {
-        dispatch(fetchReservationsStart());
-        axios.get(`/vehicle/${vehicleId}`)
-            .then(response => {
-                dispatch(fetchAnonimReservationsSuccess(response.data));
-            }).catch(error => {
-            dispatch(fetchReservationsFail(error.response.data))
+            dispatch(fetchReservationsFail(error.response))
         });
     };
 };

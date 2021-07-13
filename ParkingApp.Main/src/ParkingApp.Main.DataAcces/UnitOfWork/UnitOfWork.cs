@@ -9,11 +9,12 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
     {
         private readonly ParkingMainContext _parkingMainContext;
         private DriverRepository _driverRepository;
+        private AdminRepository _adminRepository;
         private Repository<User> _userRepository;
         private Repository<DrivingLicense> _drivingLicenseRepository;
         private ParkingAreaRepository _parkingAreaRepository;
         private ReservationRepository _reservationRepository;
-        private IVehicleRepository _vehicleRepository;
+        private VehicleRepository _vehicleRepository;
 
         public UnitOfWork(ParkingMainContext parkingMainContext)
         {
@@ -21,6 +22,8 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
         }
 
         public IDriverRepository DriverRepository => _driverRepository ??= new DriverRepository(_parkingMainContext);
+        
+        public IAdminRepository AdminRepository => _adminRepository ??= new AdminRepository(_parkingMainContext);
 
         public IRepository<User> UserRepository => _userRepository ??= new Repository<User>(_parkingMainContext);
 

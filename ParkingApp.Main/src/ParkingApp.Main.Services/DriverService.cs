@@ -20,50 +20,16 @@ namespace ParkingApp.Main.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<DriverDto> AuthenticateAsync(AuthenticationRequestDto request)
+        public async Task<DriverDto> GetByUSerIdAsync(int userId, bool includeVehicles)
         {
-            var account = await _unitOfWork.DriverRepository.GetByEmailAsync(request.Email);
-
-            if (account == null || !BC.Verify(request.Password, account.User.Password))
-            {
-                return null;
-            }
-
-            return _mapper.Map<Driver, DriverDto>(account);
-        }
-
-        public async Task<DriverDto> GetByIdAsync(int driverId, bool includeVehicles)
-        {
-            Driver model;
-
-            model = await _unitOfWork.DriverRepository.GetByIdAsync(driverId, includeVehicles);
-            
-            return _mapper.Map<Driver, DriverDto>(model);
-        }
-
-        public async Task<DriverDto> CreateAsync(NewDriverDto driver)
-        {
-            var model = _mapper.Map<NewDriverDto, Driver>(driver);
-
-            model.User.Password = BC.HashPassword(driver.User.Password);
-            
-            await _unitOfWork.DriverRepository.AddAsync(model);
-
-            await _unitOfWork.CommitAsync();
+            Driver model = await _unitOfWork.DriverRepository.GetByUserIdAsync(userId, includeVehicles);
 
             return _mapper.Map<Driver, DriverDto>(model);
-        }
-
-        public async Task<bool> DriverExistsAsync(string driverEmail)
-        {
-            var driverFound = await _unitOfWork.DriverRepository.GetByEmailAsync(driverEmail);
-
-            return driverFound != null;
         }
 
         public async Task UpdateLicenseAsync(int driverId, NewDrivingLicenseDto license)
         {
-            var entity = await _unitOfWork.DriverRepository.GetByIdAsync(driverId);
+            var entity = await _unitOfWork.DriverRepository.GetByUserIdAsync(driverId);
 
             var date = DateTime.Parse(license.ExpirationDate, System.Globalization.CultureInfo.CurrentCulture);
 
@@ -80,7 +46,7 @@ namespace ParkingApp.Main.Services
 
         public async Task UpdateDriverAsync(DriverDto driver)
         {
-            var entity = await _unitOfWork.DriverRepository.GetByIdAsync(driver.Id);
+            var entity = await _unitOfWork.DriverRepository.GetByUserIdAsync(driver.Id);
 
             entity.User.Email = driver.User.Email;
             entity.User.Phone = driver.User.Phone;

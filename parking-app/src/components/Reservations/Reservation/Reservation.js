@@ -34,6 +34,9 @@ const Reservation = props => {
                     <div>
                         <Row className={classes["reservation__info"]}>
                             <Col sm>
+                                <p>Vehicul: {props.vehicle}</p>
+                            </Col>
+                            <Col sm>
                                 <p>Status: {props.status}</p>
                             </Col>
                             <Col sm>

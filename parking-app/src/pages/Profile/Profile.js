@@ -1,24 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from "../../components/UI/Card/Card";
 import classes from "./Profile.module.css";
 import DriverProfile from "../../components/Profile/Driver/Driver";
 import EditProfile from "../../components/Profile/EditProfile/EditProfile";
 import * as actionCreators from "../../store/actions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import LoadingSpinner from "../../components/UI/Loading/Loading";
 
-const ProfileContainer = props => {
+const Profile = props => {
 
     const [showEditFields, setShowEditFields] = useState(false);
 
     const [userLicenseInput, setUserLicenseInput] = useState({
-        enteredLicenseNumber: props.driver ?  props.driver.license && props.driver.license.number : '',
-        enteredExpirationDate: props.driver ? props.driver.license &&  props.driver.license.expirationDate : '',
+        enteredLicenseNumber: props.driver ? props.driver.license && props.driver.license.number : '',
+        enteredExpirationDate: props.driver ? props.driver.license && props.driver.license.expirationDate : '',
     });
 
     useEffect(() => {
-        if (props.driverId) {
-            props.onFetchDriverData(props.driverId);
+        if (props.userId) {
+            props.onFetchDriverData(props.userId);
         }
     }, []);
 
@@ -41,6 +41,16 @@ const ProfileContainer = props => {
         setShowEditFields(false);
     };
 
+    const handleResetLicenseInput = () => {
+        setUserLicenseInput(prevState => {
+            return {
+                ...prevState,
+                enteredLicenseNumber: '',
+                enteredExpirationDate: '',
+            };
+        });
+    };
+
     const profile = (
         <DriverProfile
             user={props.driver}
@@ -49,6 +59,7 @@ const ProfileContainer = props => {
             onEdit={handleEditClick}
             onLicenseChange={handleInputChange}
             onDriverLogout={props.onDriverLogout}
+            onReset={handleResetLicenseInput}
         />
     );
 
@@ -67,7 +78,7 @@ const ProfileContainer = props => {
         <div className="container mt-4 mb-4 d-flex justify-content-center">
             {
                 props.loading ?
-                    <LoadingSpinner/>
+                    <LoadingSpinner />
                     :
                     <Card className={classes["user-card"]}>
                         {
@@ -84,15 +95,15 @@ const mapStateToProps = state => {
         loading: state.driverData.loading,
         error: state.driverData.error,
         driver: state.driverData.driver,
-        driverId: state.driverAuth.userId,
+        userId: state.driverAuth.userId,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onDriverLogout: () => dispatch(actionCreators.driverLogout()),
-        onFetchDriverData: (driverId) => dispatch(actionCreators.fetchDriverData(driverId)),
+        onDriverLogout: () => dispatch(actionCreators.authLogout()),
+        onFetchDriverData: (userId) => dispatch(actionCreators.fetchDriverData(userId)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -82,8 +82,8 @@ const EditProfile = props => {
             },
             license: {
                 id: props.user.license.id,
-                number: props.licenseField.enteredLicenseNumber ? props.licenseField.enteredLicenseNumber : props.driver.license.number,
-                expirationDate: props.licenseField.enteredExpirationDate ? props.licenseField.enteredExpirationDate : props.driver.license.expirationDate,
+                number: props.licenseField.enteredLicenseNumber ? props.licenseField.enteredLicenseNumber : props.user.license.number,
+                expirationDate: props.licenseField.enteredExpirationDate ? props.licenseField.enteredExpirationDate : props.user.license.expirationDate,
             },
         };
 

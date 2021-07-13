@@ -14,6 +14,8 @@ namespace ParkingApp.Main.Services
             services.AddTransient<IParkingAreaService, ParkingAreaService>();
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IVehicleService, VehicleService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IAdminService, AdminService>();
 
             return services;
         }

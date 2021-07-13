@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using ExcelDataReader;
 using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.Common.Enums;
 using ParkingApp.Main.DomainModels;
+using BC = BCrypt.Net.BCrypt;
+
 
 namespace ParkingApp.Main.DataAcces
 {
@@ -22,7 +23,7 @@ namespace ParkingApp.Main.DataAcces
                 Name = "ADMINISTRATOR",
                 Email = "administrator220@easypark.com",
                 Phone = "0723678956",
-                Password = "superadministrator",
+                Password = BC.HashPassword("superadministrator"),
                 Role = UserRoleEnum.ADMINISTRATOR
             };
 

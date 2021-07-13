@@ -1,4 +1,7 @@
-﻿namespace ParkingApp.Main.Services.Contracts
+﻿using System.Threading.Tasks;
+using ParkingApp.Main.Dtos;
+
+namespace ParkingApp.Main.Services.Contracts
 {
     public interface IAdminService
     {

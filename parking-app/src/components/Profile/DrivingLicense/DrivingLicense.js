@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
-import {Card, Col, Row} from "react-bootstrap";
+import React, { useState } from 'react';
+import { Card, Col, Row } from "react-bootstrap";
 
 import classes from './DrivingLicense.module.css';
 import Input from "../../UI/Input/Input";
-import {Check, X} from "react-feather";
+import { Check, X } from "react-feather";
 import * as validate from '../../../utility/validateHandler';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actionCreators from "../../../store/actions";
 import * as date from '../../../utility/dateFormat';
-import {format} from 'date-fns';
 
 const DrivingLicense = props => {
 
@@ -40,6 +39,8 @@ const DrivingLicense = props => {
         );
     };
 
+    console.log(props.user.user.id)
+
     const handleSubmitLicense = (event) => {
         event.preventDefault();
 
@@ -49,7 +50,7 @@ const DrivingLicense = props => {
         }
 
         if (isLicenseNumberValid && isLicenseDateValid) {
-            props.onLicenseAdd(props.user.id, license);
+            props.onLicenseAdd(props.user.user.id, license);
 
             props.onAddSuccess();
         }
@@ -116,8 +117,8 @@ const DrivingLicense = props => {
             {
                 props.showAddActions &&
                 <Card.Footer className={classes["license-add_actions"]}>
-                    <button title="Anuleaza" onClick={props.onAddClose}><X/></button>
-                    <button title="Salveaza permis" onClick={handleSubmitLicense}><Check/></button>
+                    <button title="Anuleaza" onClick={props.onAddClose}><X /></button>
+                    <button title="Salveaza permis" onClick={handleSubmitLicense}><Check /></button>
                 </Card.Footer>
             }
         </Card>

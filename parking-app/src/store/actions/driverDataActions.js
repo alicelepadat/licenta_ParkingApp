@@ -35,10 +35,10 @@ export const updateDriverSuccess = (driver) => {
     };
 };
 
-export const fetchDriverData = (driverId) => {
+export const fetchDriverData = (userId) => {
     return dispatch => {
         dispatch(fetchDriverDataStart());
-        axios.get(`/drivers/${driverId}?includeVehicles=${true}`)
+        axios.get(`/drivers/${userId}?includeVehicles=${true}`)
             .then(response => {
                 dispatch(fetchDriverDataSuccess(response.data));
             }).catch(error => {
@@ -66,6 +66,7 @@ export const updateDriver = (driverId, driverUpdateData) => {
         dispatch(fetchDriverDataStart());
         axios.put(`/drivers/${driverId}`, driverUpdateData)
             .then(response => {
+                console.log(response.data)
                 dispatch(updateDriverSuccess(response.data));
             }).catch(error => {
             dispatch(fetchDriverDataFail(error.response));

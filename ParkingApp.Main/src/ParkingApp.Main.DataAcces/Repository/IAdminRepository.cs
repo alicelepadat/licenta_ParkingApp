@@ -1,6 +1,8 @@
-﻿namespace ParkingApp.Main.DataAcces.Repository
+﻿using ParkingApp.Main.DomainModels;
+
+namespace ParkingApp.Main.DataAcces.Repository
 {
-    public interface IAdminRespository
+    public interface IAdminRepository : IRepository<Admin>
     {
         
     }

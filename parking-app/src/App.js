@@ -1,14 +1,15 @@
-import {Route, Switch, withRouter} from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import Home from './pages/Home/Home';
 import Navigation from "./components/Navigation/Navigation";
 import Vehicles from "./pages/Vehicles/Vehicles";
 import Reservations from "./pages/Reservations/Reservations";
 import Register from './components/Auth/Register/Register';
-import Profile from "./pages/Profile/Profile";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actionsCreators from './store/actions/index';
-import {useEffect} from "react";
+import { useEffect } from "react";
+import Login from "./components/Auth/Login/Login";
+import Profile from "./pages/Profile/Profile";
 
 function App(props) {
 
@@ -18,13 +19,15 @@ function App(props) {
 
     return (
         <div>
-            <Navigation/>
+            <Navigation />
             <Switch>
-                <Route exact path="/"><Home/></Route>
-                <Route exact path="/register"><Register/></Route>
-                <Route exact path="/profile"><Profile/></Route>
-                <Route exact path="/reservations"><Reservations/></Route>
-                <Route exact path="/cars"><Vehicles/></Route>
+                <Route exact path="/"><Home /></Route>
+                <Route exact path="/register"><Register /></Route>
+                <Route exact path="/login"><Login /></Route>
+                <Route path="/profile"><Profile /></Route>
+                <Route exact path="/reservations"><Reservations /></Route>
+
+                <Route exact path="/vehicles"><Vehicles /></Route>
             </Switch>
         </div>
     );
@@ -32,7 +35,7 @@ function App(props) {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTryDriverAutoSignin: () => dispatch(actionsCreators.driverAuthCheckState())
+        onTryDriverAutoSignin: () => dispatch(actionsCreators.authCheckState())
     }
 }
 

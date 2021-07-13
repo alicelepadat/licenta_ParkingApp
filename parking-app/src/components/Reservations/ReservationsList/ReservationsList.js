@@ -21,6 +21,7 @@ const ReservationsList = props => {
                         startTime={reservation.startTime}
                         endTime={reservation.endTime}
                         date={reservation.reservationDate}
+                        vehicle={reservation.vehicle.licensePlate}
                         price={reservation.price}
                         status={props.getStatus(reservation.state)}
                     />

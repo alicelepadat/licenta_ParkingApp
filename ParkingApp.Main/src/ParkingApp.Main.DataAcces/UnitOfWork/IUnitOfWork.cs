@@ -9,6 +9,7 @@ namespace ParkingApp.Main.DataAcces.UnitOfWork
     {
         Task<int> CommitAsync();
         IDriverRepository DriverRepository { get;  }
+        IAdminRepository AdminRepository { get;  }
         IVehicleRepository VehicleRepository { get;  }
         IRepository<User> UserRepository { get; }
         IRepository<DrivingLicense> DrivingLicenseRepository { get; }

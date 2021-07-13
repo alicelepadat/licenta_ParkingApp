@@ -5,16 +5,23 @@ import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 
 import classes from './Login.module.css';
-import {Link} from 'react-router-dom/cjs/react-router-dom.min';
+import {Link, useHistory} from 'react-router-dom';
 import {connect} from "react-redux";
 import * as actionCreators from '../../../store/actions/index';
 import Loading from "../../UI/Loading/Loading";
+import {Col, Row} from "react-bootstrap";
+import {Eye, EyeOff} from "react-feather";
 
 const Login = props => {
+    const history = useHistory();
+
     const [enteredEmail, setEnteredEmail] = useState(props.email ? props.email : '');
     const [emailIsValid, setEmailIsValid] = useState();
+
     const [enteredPassword, setEnteredPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [passwordIsValid, setPasswordIsValid] = useState();
+
     const [formIsValid, setFormIsValid] = useState(false);
 
     useEffect(() => {
@@ -49,8 +56,31 @@ const Login = props => {
     const handleLoginSubmit = (event) => {
         event.preventDefault();
         if (formIsValid) {
-            props.onDriverAuth(enteredEmail, enteredPassword);
+            props.onAuth(enteredEmail, enteredPassword);
         }
+    };
+
+    useEffect(()=>{
+        if(props.userId){
+            props.getUserRole(props.userId);
+        }
+    }, [props])
+
+    useEffect(()=>{
+        if(props.role){
+            switch (props.role){
+                case 210:
+                    history.push("/reservations");
+                    break;
+                default:
+                    history.push("/profile");
+            }
+        }
+    }, [props]);
+
+    const handleShowPassword = (event) => {
+        event.preventDefault();
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -83,15 +113,27 @@ const Login = props => {
                     onChange={handleEmailChange}
                     onBlur={handleValidateEmail}
                 />
-                <Input
-                    id="password"
-                    label="Password"
-                    type="password"
-                    value={enteredPassword}
-                    isValid={passwordIsValid}
-                    onChange={handlePasswordChange}
-                    onBlur={handleValidatePassword}
-                />
+                <Row>
+                    <Col md={10} sm={10} xs={9}>
+                        <Input
+                            id="password"
+                            label="Password"
+                            type={showPassword ? "text" : "password"}
+                            value={enteredPassword}
+                            isValid={passwordIsValid}
+                            onChange={handlePasswordChange}
+                            onBlur={handleValidatePassword}
+                        />
+                    </Col>
+                    <Col className={classes["show-password"]}>
+                        <button onClick={handleShowPassword} title="Arata parola">
+                            {
+                                showPassword ? <EyeOff/> : <Eye/>
+                            }
+                        </button>
+                    </Col>
+                </Row>
+
                 <div className={`${classes["login-footer"]} text-center`}>
                     <p>Utilizator nou? <Link to="/register">Inregistrati-va aici.</Link></p>
                 </div>
@@ -110,14 +152,15 @@ const mapStateToProps = state => {
         loading: state.driverAuth.loading,
         error: state.driverAuth.error,
         userId: state.driverAuth.userId,
-        email: state.driverAuth.driverEmail,
-    }
-}
+        role: state.driverAuth.role,
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
-        onDriverAuth: (email, password) => dispatch(actionCreators.driverAuth(email, password)),
-    }
-}
+        onAuth: (email, password) => dispatch(actionCreators.userAuth(email, password)),
+        getUserRole: (userId) => dispatch(actionCreators.getUserRole(userId)),
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

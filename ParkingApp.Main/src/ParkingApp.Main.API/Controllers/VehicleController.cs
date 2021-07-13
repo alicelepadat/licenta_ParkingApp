@@ -19,13 +19,33 @@ namespace ParkingApp.Main.API.Controllers
             _vehicleService = vehicleService ?? throw new ArgumentNullException(nameof(vehicleService));
             _driverService = driverService ?? throw new ArgumentNullException(nameof(driverService));
         }
-        
+
+        [HttpGet("/api/vehicle/{vehicleId}")]
+        public async Task<IActionResult> GetVehicleById(int vehicleId)
+        {
+            try
+            {
+                var vehicle = await _vehicleService.GetByIdAsync(vehicleId);
+
+                if (vehicle == null)
+                {
+                    return NotFound("Vehiculul solicitat nu exista.");
+                }
+
+                return Ok(vehicle);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetDriverVehicles(int driverId)
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId, true);
+                var driver = await _driverService.GetByUSerIdAsync(driverId, true);
                 
                 if (driver == null)
                 {
@@ -47,7 +67,7 @@ namespace ParkingApp.Main.API.Controllers
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId, true);
+                var driver = await _driverService.GetByUSerIdAsync(driverId, true);
 
                 if (driver == null)
                 {
@@ -59,12 +79,12 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest("Nu puteti adauga mai mult de 4 vehicule.");
                 }
 
-                if(await _vehicleService.VehicleExistsAsync(driverId, vehicle.LicensePlate))
+                if(await _vehicleService.VehicleExistsAsync(driver.Id, vehicle.LicensePlate))
                 {
                     return BadRequest("Vehicul deja adaugat.");
                 }
 
-                var inserted = await _vehicleService.CreateAsync(driverId, vehicle);
+                var inserted = await _vehicleService.CreateAsync(driver.Id, vehicle);
 
                 return Ok(inserted);
             }
@@ -79,7 +99,7 @@ namespace ParkingApp.Main.API.Controllers
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId);
+                var driver = await _driverService.GetByUSerIdAsync(driverId);
 
                 if (driver == null)
                 {

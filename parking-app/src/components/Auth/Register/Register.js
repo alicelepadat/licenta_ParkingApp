@@ -1,19 +1,21 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import Card from '../../UI/Card/Card';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
-import {Row, Col} from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
-import {ArrowLeft, Eye, EyeOff} from "react-feather";
+import { ArrowLeft, Eye, EyeOff } from "react-feather";
 
 import classes from "./Register.module.css";
 import * as actionCreators from "../../../store/actions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as validate from '../../../utility/validateHandler';
-import {Link} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Register = (props) => {
+    const history = useHistory();
+
     const [userInput, setUserInput] = useState({
         enteredName: "",
         enteredEmail: "",
@@ -52,9 +54,7 @@ const Register = (props) => {
     });
 
     const [passwordIsVerified, setPasswordIsVerified] = useState(false);
-
     const [formIsValid, setFormIsValid] = useState(false);
-
     const [showPassword, setShowPassword] = useState(false);
     const [showVerifyPassword, setShowVerifyPassword] = useState(false);
 
@@ -70,7 +70,7 @@ const Register = (props) => {
         };
     }, [inputIsValid, passwordIsVerified]);
 
-    const handleInputChange = (event) => {
+    const handleInputChange = event => {
         setUserInput((prevState) => {
             return {
                 ...prevState,
@@ -119,8 +119,6 @@ const Register = (props) => {
             }
         };
 
-        console.log(data)
-
         if (formIsValid && !props.error) {
             props.onDriverRegister(data);
 
@@ -134,23 +132,25 @@ const Register = (props) => {
                     enteredVerifyPassword: '',
                 };
             });
+
+            history.push('/login');
         }
     };
 
     return (
         <Card className={classes.register}>
-            <Link to="/profile">
+            <Link to="/login">
                 <button title="Inapoi la autentificare" className={classes["go-back"]}>
-                    <ArrowLeft/>
+                    <ArrowLeft />
                 </button>
             </Link>
 
             <div className={`${classes["register-header"]} d-flex flex-column text-center`}>
                 <div>
                     <img src="https://www.iconpacks.net/icons/2/free-parking-sign-icon-1641-thumb.png"
-                         alt="parking-logo"
-                         width="100"
-                         height="100"/>
+                        alt="parking-logo"
+                        width="100"
+                        height="100" />
                 </div>
                 <h2> Inregistrare </h2>
             </div>
@@ -206,7 +206,7 @@ const Register = (props) => {
                     <Col className={classes["register__actions"]}>
                         <button onClick={handleShowPassword} title="Arata parola">
                             {
-                                showPassword ? <EyeOff/> : <Eye/>
+                                showPassword ? <EyeOff /> : <Eye />
                             }
                         </button>
                     </Col>
@@ -228,7 +228,7 @@ const Register = (props) => {
                     <Col className={classes["register__actions"]}>
                         <button onClick={handleShowVerifyPassword} title="Arata parola">
                             {
-                                showVerifyPassword ? <EyeOff/> : <Eye/>
+                                showVerifyPassword ? <EyeOff /> : <Eye />
                             }
                         </button>
                     </Col>
@@ -247,7 +247,6 @@ const mapStateToProps = state => {
     return {
         loading: state.driverAuth.loading,
         error: state.driverAuth.error,
-        userId: state.driverAuth.userId,
     }
 }
 

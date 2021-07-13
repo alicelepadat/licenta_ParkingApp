@@ -1,91 +1,121 @@
 import * as actionTypes from './actionTypes';
 import axios from '../axios';
 
-export const driverAuthStart = () => {
+export const authStart = () => {
     return {
-        type: actionTypes.AUTH_DRIVER_START,
+        type: actionTypes.AUTH_START,
     };
 };
 
-export const driverAuthSucces = (userId) => {
+export const authSucces = (userId) => {
     return {
-        type: actionTypes.AUTH_DRIVER_SUCCESS,
+        type: actionTypes.AUTH_SUCCESS,
         userId: userId,
     };
 };
 
-export const driverRegisterSucces = (email) => {
+export const registerSucces = (email) => {
     return {
-        type: actionTypes.AUTH_REGISTER_DRIVER_SUCCESS,
+        type: actionTypes.REGISTER_SUCCESS,
         email: email,
     };
 };
 
-export const driverAuthFail = (error) => {
+export const userRoleSucces = (role) => {
     return {
-        type: actionTypes.AUTH_DRIVER_FAIL,
+        type: actionTypes.USER_ROLE_SUCCESS,
+        role: role,
+    };
+};
+
+export const authFail = (error) => {
+    return {
+        type: actionTypes.AUTH_FAIL,
         error: error,
     };
 };
 
-export const driverLogout = () => {
-    localStorage.removeItem('driverId');
+export const authLogout = () => {
+    localStorage.removeItem('userId');
     return {
-        type: actionTypes.AUTH_DRIVER_LOGOUT
+        type: actionTypes.AUTH_LOGOUT
     };
 };
 
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
-            dispatch(driverLogout());
+            dispatch(authLogout());
         }, expirationTime * 1000);
     };
 };
 
-export const driverAuth = (email, password) => {
+export const authCheckState = () => {
     return dispatch => {
-        dispatch(driverAuthStart());
-        axios.post('/drivers/authenticate', {
-            email: email,
-            password: password
-        }).then(response => {
-            const expirationTime = 7200;
-            const expirationDate = new Date(new Date().getTime() + expirationTime * 1000);
-            localStorage.setItem('driverId', response.data);
-            localStorage.setItem('expirationDate', expirationDate);
-            dispatch(driverAuthSucces(response.data));
-            dispatch(checkAuthTimeout(expirationTime));
-        }).catch(error => {
-            dispatch(driverAuthFail(error.response));
-        });
-    };
-};
-
-export const driverAuthCheckState = () => {
-    return dispatch => {
-        const driverId = localStorage.getItem('driverId');
+        const driverId = localStorage.getItem('userId');
         if (!driverId) {
-            dispatch(driverLogout());
+            dispatch(authLogout());
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate <= new Date()) {
-                dispatch(driverLogout());
+                dispatch(authLogout());
             } else {
-                dispatch(driverAuthSucces(driverId));
+                dispatch(authSucces(driverId));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
         }
     };
 };
 
+export const userAuth = (email, password) => {
+    return dispatch => {
+        dispatch(authStart());
+        axios.post('/user/authenticate', {
+            email: email,
+            password: password
+        }).then(response => {
+            const expirationTime = 7200;
+            const expirationDate = new Date(new Date().getTime() + expirationTime * 1000);
+            localStorage.setItem('userId', response.data);
+            localStorage.setItem('expirationDate', expirationDate);
+            dispatch(authSucces(response.data));
+            dispatch(checkAuthTimeout(expirationTime));
+        }).catch(error => {
+            dispatch(authFail(error.response));
+        });
+    };
+};
+
+
 export const driverRegister = (registerData) => {
     return dispatch => {
-        axios.post('/drivers/register', registerData)
+        axios.post('/user/driver-register', registerData)
             .then(response => {
-                dispatch(driverRegisterSucces(response.data));
+                dispatch(registerSucces(response.data));
             }).catch(error => {
-            dispatch(driverAuthFail(error.response))
+            dispatch(authFail(error.response))
+        });
+    };
+};
+
+export const adminRegister = (registerData) => {
+    return dispatch => {
+        axios.post('/user/admin-register', registerData)
+            .then(response => {
+                dispatch(registerSucces(response.data));
+            }).catch(error => {
+            dispatch(authFail(error.response))
+        });
+    };
+};
+
+export const getUserRole = (userId) => {
+    return dispatch => {
+        axios.get(`/user/${userId}/role`)
+            .then(response => {
+                dispatch(userRoleSucces(response.data));
+            }).catch(error => {
+            dispatch(authFail(error.response))
         });
     };
 };

@@ -17,6 +17,12 @@ const Reservations = (props) => {
         if (props.userId) {
             props.onfetchDriverReservations(props.userId);
         }
+        else {
+            const vehicleId = localStorage.getItem(`identifier`);
+            if(vehicleId) {
+                props.onFetchAnonimReservations(vehicleId);
+            }
+        }
     }, []);
 
     const getReservationState = (state) => {
@@ -31,8 +37,6 @@ const Reservations = (props) => {
                 return 'terminata';
         }
     };
-
-    console.log(props.loading)
 
     const filterChangeHandler = selectedStatus => {
         setFilteredStatus(selectedStatus);
@@ -79,6 +83,7 @@ const mapStateToProps = state => {
         error: state.reservations.error,
         userId: state.driverAuth.userId,
         reservations: state.reservations.driverReservations,
+        vehicles: state.driverVehicles.vehicles
     };
 };
 
@@ -86,6 +91,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onfetchDriverReservations: (userId) => dispatch(actionCreators.fetchDriverReservations(userId)),
         onCancelReservation: (userId, reservationId) => dispatch(actionCreators.cancelReservation(userId, reservationId)),
+        onFetchAnonimReservations: (vehicleId) => dispatch(actionCreators.fetchAnonimDriverReservations(vehicleId)),
     };
 };
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using ParkingApp.Main.Common.Enums;
 
 namespace ParkingApp.Main.Dtos
 {
@@ -21,6 +22,8 @@ namespace ParkingApp.Main.Dtos
         [Phone]
         [MaxLength(12)]
         public string Phone { get; set; }
+        
+        public UserRoleEnum Role { get; set; } = UserRoleEnum.DRIVER;
 
         [Required]
         [MinLength(8)]

@@ -15,12 +15,14 @@ namespace ParkingApp.Main.API.Controllers
         private readonly IReservationService _reservationService;
         private readonly IDriverService _driverService;
         private readonly IParkingAreaService _areaService;
+        private readonly IVehicleService _vehicleService;
 
-        public ReservationController(IReservationService reservationService, IDriverService driverService, IParkingAreaService areaService)
+        public ReservationController(IReservationService reservationService, IDriverService driverService, IParkingAreaService areaService, IVehicleService vehicleService)
         {
             _reservationService = reservationService ?? throw new ArgumentNullException(nameof(reservationService));
             _driverService = driverService ?? throw new ArgumentNullException(nameof(driverService));
             _areaService = areaService ?? throw new ArgumentNullException(nameof(areaService));
+            _vehicleService = vehicleService ?? throw new ArgumentNullException(nameof(vehicleService));
         }
 
         [HttpGet("{driverId}", Name = "GetDriverReservations")]
@@ -28,11 +30,11 @@ namespace ParkingApp.Main.API.Controllers
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId, true);
+                var driver = await _driverService.GetByUSerIdAsync(driverId, true);
 
                 if (driver == null)
                 {
-                    return NotFound("Autentificati-va sau creati un cont pentru a rezerva.");
+                    return NotFound("Autentificati-va pentru a vedea rezervarile.");
                 }
 
                 if (!ModelState.IsValid)
@@ -40,16 +42,12 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var allReservations = await _reservationService.GetDriverReservationsAsync(driverId);
+                var allReservations = await _reservationService.GetDriverReservationsAsync(driver.Id);
 
                 foreach (var r in allReservations)
                 {
                     await _reservationService.UpdateReservationStateAsync(r);
 
-                    if (r.State == ReservationStateEnum.FINISHED)
-                    {
-                        await _areaService.UpdateAvailableSpotsAsync(r.ParkingArea);
-                    }
                 }
 
                 return Ok(allReservations);
@@ -60,8 +58,41 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
+        [HttpGet("{vehicleId}/vehicle")]
+        public async Task<IActionResult> GetVehicleReservations(int vehicleId)
+        {
+            try
+            {
+                var vehicle = await _vehicleService.GetByIdAsync(vehicleId, true);
+
+                if (vehicle == null)
+                {
+                    return NotFound("Autentificati-va pentru a vedea rezervarile.");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var reservations = vehicle.DriverReservations;
+
+                foreach (var r in reservations)
+                {
+                    await _reservationService.UpdateReservationStateAsync(r);
+
+                }
+
+                return Ok(reservations);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+            }
+        }
+
         [HttpGet]
-        [Route("{parkingAreaId}")]
+        [Route("{parkingAreaId}/intervals")]
         public async Task<IActionResult> GetUnavailableIntervals(string reservationDate, string startTime, string endTime, int parkingAreaId)
         {
             try
@@ -94,17 +125,17 @@ namespace ParkingApp.Main.API.Controllers
 
                 var reservations = await _reservationService.GetVehiclesReservationsAsync(reservation.Vehicle.LicensePlate);
 
-                foreach (var r in reservations)
-                {
-                    if (r.ParkingArea.Id == parkingAreaId && (r.State == ReservationStateEnum.ACTIVE || r.State == ReservationStateEnum.IN_PROGRESS))
-                    {
-                        return BadRequest("Aveti deja o rezervare activa in zona aleasa.");
-                    }
-                }
-
                 var date = DateTime.Parse(reservation.ReservationDate, System.Globalization.CultureInfo.CurrentCulture);
                 var startTime = DateTime.Parse(reservation.StartTime, System.Globalization.CultureInfo.CurrentCulture);
                 var endTime = DateTime.Parse(reservation.EndTime, System.Globalization.CultureInfo.CurrentCulture);
+
+                foreach (var r in reservations)
+                {
+                    if (r.ReservationDate.Date == date && (r.State == ReservationStateEnum.ACTIVE || r.State == ReservationStateEnum.IN_PROGRESS))
+                    {
+                        return BadRequest("Aveti deja o rezervare activa astazi.");
+                    }
+                }
 
                 if (await _reservationService.ReservationExistsAsync(date, startTime, endTime, parkingAreaId))
                 {
@@ -138,11 +169,11 @@ namespace ParkingApp.Main.API.Controllers
 
                 if (driverId != null)
                 {
-                    var driver = await _driverService.GetByIdAsync((int)driverId, true);
+                    var driver = await _driverService.GetByUSerIdAsync((int)driverId, true);
 
                     if (driver != null)
                     {
-                        inserted = await _reservationService.CreateAsync(driverId, parkingAreaId, reservation);
+                        inserted = await _reservationService.CreateAsync(driver.Id, parkingAreaId, reservation);
                     }
                 }
                 else
@@ -168,7 +199,7 @@ namespace ParkingApp.Main.API.Controllers
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId, true);
+                var driver = await _driverService.GetByUSerIdAsync(driverId, true);
 
                 if (driver == null)
                 {
@@ -205,7 +236,7 @@ namespace ParkingApp.Main.API.Controllers
         {
             try
             {
-                var driver = await _driverService.GetByIdAsync(driverId);
+                var driver = await _driverService.GetByUSerIdAsync(driverId);
 
                 if (driver == null)
                 {

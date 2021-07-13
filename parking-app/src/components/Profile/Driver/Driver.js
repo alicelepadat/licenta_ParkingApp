@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 
 import classes from './Driver.module.css';
-import {Col, Row} from "react-bootstrap";
-import {ArrowRight, Edit} from "react-feather";
-import {Link} from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
+import { ArrowRight, Edit } from "react-feather";
+import { Link, useHistory } from "react-router-dom";
 import DrivingLicense from "../DrivingLicense/DrivingLicense";
 import Button from "../../UI/Button/Button";
-import EditProfile from "../EditProfile/EditProfile";
 
 const DriverProfile = props => {
+    const history = useHistory();
 
     const [showNewDrivingLicense, setShowNewDrivingLicense] = useState(false);
 
@@ -20,21 +20,30 @@ const DriverProfile = props => {
 
     const handleAddClose = () => {
         setShowNewDrivingLicense(false);
+        props.onReset();
     };
 
     const handleAddSuccess = () => {
         setShowNewDrivingLicense(false);
+        props.onReset();
     }
+
+    const handleLogout = () => {
+        props.onDriverLogout();
+        history.push('/login');
+    }
+
+    console.log(props.user)
 
     return (
         <React.Fragment>
             <Row className="d-flex align-items-center">
                 <Col md={3} className="text-center">
                     <img className="rounded"
-                         src="/profile.png"
-                         width="155"
-                         height="155"
-                         alt="poza de profil"
+                        src="/profile.png"
+                        width="155"
+                        height="155"
+                        alt="poza de profil"
                     />
                 </Col>
                 <Col>
@@ -51,26 +60,26 @@ const DriverProfile = props => {
                             </span>
                         </div>
                         <button onClick={props.onEdit} title="Editeaza profilul">
-                            <Edit/>
+                            <Edit />
                         </button>
                     </div>
                     <Row className="mt-4 text-white">
                         <Col className={`d-flex flex-column ${classes["user-vehicles"]}`}>
-                                <span>
-                                    Vehicule
-                                </span>
-                            <Link to="/cars"
-                                  title="Vezi vehicule"
+                            <span>
+                                Vehicule
+                            </span>
+                            <Link to="/vehicles"
+                                title="Vezi vehicule"
                             >
                                 {props.user ? props.user.vehicles.length : 0}
                             </Link>
                         </Col>
                         <Col className={`d-flex flex-column ${classes["user-reservations"]}`}>
-                                <span>
-                                    Rezervari
-                                </span>
+                            <span>
+                                Rezervari
+                            </span>
                             <Link to="/reservations"
-                                  title="Vezi rezervari"
+                                title="Vezi rezervari"
                             >
                                 {reservationNumber}
                             </Link>
@@ -97,8 +106,8 @@ const DriverProfile = props => {
                     </div>
             }
             <div className={classes["user-logout"]}>
-                <Button onClick={props.onDriverLogout}>
-                    Iesi din cont <ArrowRight/>
+                <Button onClick={handleLogout}>
+                    Iesi din cont <ArrowRight />
                 </Button>
             </div>
         </React.Fragment>

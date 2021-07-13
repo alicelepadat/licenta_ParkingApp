@@ -39,15 +39,9 @@ namespace ParkingApp.Main.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<VehicleDto> GetByIdAsync(int vehicleId)
+        public async Task<VehicleDto> GetByIdAsync(int vehicleId, bool getWithReservations = false)
         {
-            var model = await _unitOfWork.VehicleRepository.GetWithReservationsAsync(vehicleId, true);
-
-            foreach (var r in model.DriverReservations)
-            {
-                r.VehicleId = null;
-                r.Vehicle = null;
-            }
+            var model = await _unitOfWork.VehicleRepository.GetWithReservationsAsync(vehicleId, getWithReservations);
             
             return _mapper.Map<Vehicle, VehicleDto>(model);
         }

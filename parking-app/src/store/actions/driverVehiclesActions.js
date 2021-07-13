@@ -14,7 +14,7 @@ export const fetchDriverVehiclesSuccess = (vehicles) => {
     };
 };
 
-export const fetchDriverVehiclesFailed = (error) => {
+export const fetchDriverVehiclesFail = (error) => {
     return {
         type: actionTypes.FETCH_DRIVER_VEHICLES_FAIL,
         error: error
@@ -35,6 +35,13 @@ export const addDriverVehicleSuccess = (vehicle) => {
     };
 };
 
+export const fetchVehicleSuccess = (vehicle) => {
+    return {
+        type: actionTypes.FETCH_VEHICLE_SUCCESS,
+        vehicle: vehicle,
+    };
+};
+
 export const fetchDriverVehicles = (userId) => {
     return dispatch => {
         dispatch(fetchDriverVehiclesStart());
@@ -42,7 +49,19 @@ export const fetchDriverVehicles = (userId) => {
             .then(response => {
                 dispatch(fetchDriverVehiclesSuccess(response.data))
             }).catch(error => {
-            fetchDriverVehiclesFailed(error.response)
+            fetchDriverVehiclesFail(error.response)
+        });
+    };
+};
+
+export const fetchVehicle = (vehicleId) => {
+    return dispatch => {
+        dispatch(fetchDriverVehiclesStart());
+        axios.get(`/vehicle/${vehicleId}`)
+            .then(response => {
+                dispatch(fetchVehicleSuccess(response.data));
+            }).catch(error => {
+            dispatch(fetchDriverVehiclesFail(error.response))
         });
     };
 };
@@ -54,7 +73,7 @@ export const deleteDriverVehicle = (userId, vehicleId) => {
             .then(() => {
                 dispatch(deleteDriverVehicleSuccess(vehicleId));
             }).catch(error => {
-            dispatch(fetchDriverVehiclesFailed((error.response)));
+            dispatch(fetchDriverVehiclesFail((error.response)));
         });
     };
 };
@@ -66,7 +85,7 @@ export const addDriverVehicle = (userId, vehicle) => {
             .then((response) => {
                 dispatch(addDriverVehicleSuccess(response.data));
             }).catch(error => {
-            dispatch(fetchDriverVehiclesFailed(error.response));
+            dispatch(fetchDriverVehiclesFail(error.response));
         });
     };
 };

@@ -85,7 +85,8 @@ namespace ParkingApp.Main.Services
                     EndTime = model.EndTime,
                     State = model.State,
                     ParkingAreaId = model.ParkingAreaId,
-                    Vehicle = vehicleExists
+                    Vehicle = vehicleExists,
+                    Price = model.Price
                 };
                 await _unitOfWork.ReservationRepository.AddAsync(model);
             }
@@ -119,20 +120,18 @@ namespace ParkingApp.Main.Services
         {
             var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservation.Id);
 
-            if(model.State == ReservationStateEnum.ACTIVE && model.ReservationDate.Date == DateTime.Now.Date)
+            if (model.State == ReservationStateEnum.IN_PROGRESS && model.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
+            {
+                model.State = ReservationStateEnum.FINISHED;
+            }
+
+            if (model.State == ReservationStateEnum.ACTIVE && model.ReservationDate.Date == DateTime.Now.Date)
             {
                 if(model.StartTime.TimeOfDay <= DateTime.Now.TimeOfDay && model.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
                 {
                     model.State = ReservationStateEnum.IN_PROGRESS;
                 }
             };
-
-            if(model.State == ReservationStateEnum.IN_PROGRESS && model.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
-            {
-                model.State = ReservationStateEnum.FINISHED;
-            }
-
-            model.State = reservation.State;
 
             await _unitOfWork.CommitAsync();
         }

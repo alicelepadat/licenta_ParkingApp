@@ -5,7 +5,7 @@ namespace ParkingApp.Main.Services.Contracts
 {
     public interface IVehicleService
     {
-        Task<VehicleDto> GetByIdAsync(int vehicleId);
+        Task<VehicleDto> GetByIdAsync(int vehicleId, bool getWithReservations = false);
 
         Task<bool> VehicleExistsAsync(int driverId, string licensePlate);
 

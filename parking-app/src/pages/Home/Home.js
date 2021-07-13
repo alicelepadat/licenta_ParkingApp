@@ -35,6 +35,16 @@ function Home(props) {
             transitionDuration: 1000
         });
 
+        if (props.driverId) {
+            props.onFetchVehicles(props.driverId);
+        }
+        else {
+            const vehicleId = localStorage.getItem(`identifier`);
+            if(vehicleId) {
+                props.onFetchVechicle(vehicleId)
+            }
+        }
+
         props.onFetchParkingArea(area["AMPLASAMENT"]);
 
         setShowPopup(true);
@@ -113,12 +123,15 @@ const mapStateToProps = state => {
         loading: state.parkingArea.loading,
         error: state.parkingArea.error,
         selectedArea: state.parkingArea.selectedArea,
+        driverId: state.driverAuth.userId,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onFetchParkingArea: (name) => dispatch(actionCreators.fetchParkingArea(name)),
+        onFetchVehicles: (driverId) => dispatch(actionCreators.fetchDriverVehicles(driverId)),
+        onFetchVechicle: (vehicleId) => dispatch(actionCreators.fetchVehicle(vehicleId)),
         onCloseAreaSelection: () => dispatch(actionCreators.closeAreaSelection()),
     };
 };

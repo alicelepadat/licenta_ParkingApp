@@ -23,7 +23,6 @@ namespace ParkingApp.Main.DomainModels
         [MinLength(8)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
         public UserRoleEnum Role { get; set; } = UserRoleEnum.DRIVER;
     }
 }

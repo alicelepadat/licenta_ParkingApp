@@ -1,9 +1,11 @@
 export {
-    driverAuth,
+    userAuth,
     driverRegister,
-    driverAuthCheckState,
-    driverLogout,
-} from './authDriverActions';
+    adminRegister,
+    authCheckState,
+    authLogout,
+    getUserRole,
+} from './authActions';
 
 export {
     fetchDriverData,
@@ -15,15 +17,16 @@ export {
     fetchDriverVehicles,
     deleteDriverVehicle,
     addDriverVehicle,
+    fetchVehicle,
 } from './driverVehiclesActions';
 
 export {
     fetchDriverReservations,
+    fetchAnonimDriverReservations,
     cancelReservation,
     deleteReservation,
     addDriverReservation,
     addAnonimReservation,
-    fetchAnonimReservations,
 } from './reservationActions';
 
 export {

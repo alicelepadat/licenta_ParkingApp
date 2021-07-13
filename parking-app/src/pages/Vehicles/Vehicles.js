@@ -24,6 +24,12 @@ const Vehicles = (props) => {
         if (props.userId) {
             props.onDriverVehiclesFetch(props.userId);
         }
+        else {
+            const vehicleId = localStorage.getItem(`identifier`);
+            if(vehicleId) {
+                props.onFetchVechicle(vehicleId)
+            }
+        }
     }, []);
 
     const handleAddVehicleClick = () => {
@@ -117,6 +123,7 @@ const mapDispatchToProps = dispatch => {
         onDriverVehiclesFetch: (userId) => dispatch(actionCreators.fetchDriverVehicles(userId)),
         onDriverVehicleDelete: (userId, vehicleId) => dispatch(actionCreators.deleteDriverVehicle(userId, vehicleId)),
         onDriverVehicleAdd: (userId, vehicle) => dispatch(actionCreators.addDriverVehicle(userId, vehicle)),
+        onFetchVechicle: (vehicleId) => dispatch(actionCreators.fetchVehicle(vehicleId)),
     };
 };
 

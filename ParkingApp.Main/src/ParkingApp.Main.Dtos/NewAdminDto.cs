@@ -7,8 +7,6 @@ namespace ParkingApp.Main.Dtos
 
         public NewUserDto User { get; set; }
 
-        public int CompanyId { get; set; }
-
         public int? ParkingAreaId { get; set; }
     }
 }

@@ -4,9 +4,7 @@
 }
 
 .new-reservation__actions {
-    position: fixed;
-    bottom: 2rem;
-    right: 1rem;
+    text-align: end;
 }
 
 .control {
@@ -60,4 +58,13 @@
 .invalid input, .invalid select {
     border: 1px solid var(--LightRed);
     background-color: var(--ErrorRed);
+}
+
+.anonim-info a {
+    color: var(--Blue);
+    text-decoration: none;
+}
+
+.anonim-info a:hover {
+    color: var(--LighterBlue);
 }

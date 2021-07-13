@@ -17,9 +17,9 @@ namespace ParkingApp.Main.API.Controllers
         {
             _driverService = driverService ?? throw new ArgumentNullException(nameof(driverService));
         }
-
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate(AuthenticationRequestDto request)
+        
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetDriverById(int userId, bool includeVehicles = false)
         {
             try
             {
@@ -28,32 +28,7 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var driver = await _driverService.AuthenticateAsync(request);
-
-                if(driver == null)
-                {
-                    return NotFound("Email sau parola incorecte.");
-                }
-
-                return Ok(driver.Id);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
-
-        [HttpGet("{driverId}")]
-        public async Task<IActionResult> GetDriverById(int driverId, bool includeVehicles = false)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                var driver = await _driverService.GetByIdAsync(driverId, includeVehicles);
+                var driver = await _driverService.GetByUSerIdAsync(userId, includeVehicles);
 
                 if (driver == null)
                 {
@@ -61,37 +36,6 @@ namespace ParkingApp.Main.API.Controllers
                 }
 
                 return Ok(driver);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
-        }
-
-        [HttpPost("register")]
-        public async Task<IActionResult> CreateDriver(NewDriverDto driver)
-        {
-            try
-            {
-                if (await _driverService.DriverExistsAsync(driver.User.Email))
-                {
-                    ModelState.AddModelError(
-                        "Email",
-                        "Email-ul corespunde unui cont existent.");
-                }
-
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-               
-                var inserted = await _driverService.CreateAsync(driver);
-
-                if (inserted == null)
-                {
-                    return Problem("A aparut o problema la inregistrare.");
-                }
-
-                return Ok(inserted.User.Email);
             }
             catch (Exception e)
             {
@@ -109,7 +53,7 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var driver = await _driverService.GetByIdAsync(driverId, false);
+                var driver = await _driverService.GetByUSerIdAsync(driverId, false);
 
                 if (driver == null)
                 {
@@ -138,7 +82,7 @@ namespace ParkingApp.Main.API.Controllers
                         "Request body not apropiate for ID");
                 }
 
-                var driverExist = await _driverService.GetByIdAsync(driverId);
+                var driverExist = await _driverService.GetByUSerIdAsync(driverId);
 
                 if (!ModelState.IsValid)
                 {
@@ -152,7 +96,9 @@ namespace ParkingApp.Main.API.Controllers
 
                 await _driverService.UpdateDriverAsync(driver);
 
-                return Ok(driver);
+                var updatedDriver = await _driverService.GetByUSerIdAsync(driverId, true);
+
+                return Ok(updatedDriver);
             }
             catch (Exception e)
             {

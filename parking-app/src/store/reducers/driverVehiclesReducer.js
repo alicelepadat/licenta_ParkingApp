@@ -45,6 +45,25 @@ const addDriverVehicleSuccess = (state, action) => {
     });
 };
 
+const fetchVehicleSuccess = (state, action) => {
+    let updatedList = state.vehicles;
+    if(state.vehicles.length > 0){
+        state.vehicles.forEach(item => {
+            if(item.id === action.vehicle.id){
+                return updatedList;
+            }
+        });
+    }
+    else {
+        updatedList = [...state.vehicles, action.vehicle];
+    }
+    return updateObject(state, {
+        vehicles: updatedList,
+        error: null,
+        loading: false,
+    });
+};
+
 const driverVehiclesReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_DRIVER_VEHICLES_START:
@@ -57,6 +76,8 @@ const driverVehiclesReducer = (state = initialState, action) => {
             return deleteDriverVehicleSuccess(state, action);
         case actionTypes.ADD_DRIVER_VEHICLE_SUCCESS:
             return addDriverVehicleSuccess(state, action);
+        case actionTypes.FETCH_VEHICLE_SUCCESS:
+            return fetchVehicleSuccess(state, action);
         default:
             return state;
     }

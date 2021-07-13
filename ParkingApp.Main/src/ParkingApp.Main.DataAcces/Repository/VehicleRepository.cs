@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.DomainModels;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace ParkingApp.Main.DataAcces.Repository
 {
@@ -18,6 +17,7 @@ namespace ParkingApp.Main.DataAcces.Repository
             {
                 return await _parkingMainContext.Vehicles
                     .Include(v => v.DriverReservations)
+                    .ThenInclude(r=>r.ParkingArea)
                     .SingleOrDefaultAsync(v => v.Id == vehicleId);
             }
             else

@@ -8,7 +8,7 @@ import App from './App';
 import {Provider} from "react-redux";
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
-import driverAuthReducer from "./store/reducers/authDriverReducer";
+import driverAuthReducer from "./store/reducers/authReducer";
 import driverDataReducer from "./store/reducers/driverDataReducer";
 import driverVehiclesReducer from "./store/reducers/driverVehiclesReducer";
 import reservationReducer from "./store/reducers/reservationReducer";

@@ -9,16 +9,8 @@ namespace ParkingApp.Main.DataAcces.Repository
         public DriverRepository(ParkingMainContext parkingMainContext) : base(parkingMainContext)
         {
         }
-
-        public async Task<Driver> GetByEmailAsync(string email)
-        {
-            return await _parkingMainContext.Drivers
-                .Include(d => d.User)
-                .Include(d => d.License)
-                .SingleOrDefaultAsync(d => d.User.Email.ToLower() == email.ToLower());
-        }
-
-        public async Task<Driver> GetByIdAsync(int driverId, bool includeVehicles = false)
+        
+        public async Task<Driver> GetByUserIdAsync(int userId, bool includeVehicles = false)
         {
             if (includeVehicles)
             {
@@ -26,15 +18,14 @@ namespace ParkingApp.Main.DataAcces.Repository
                     .Include(d=>d.User)
                     .Include(d=>d.License)
                     .Include(d => d.Vehicles)
-                    .ThenInclude(v=>v.DriverReservations)
-                    .SingleOrDefaultAsync(x => x.Id == driverId);
+                    .SingleOrDefaultAsync(x => x.User.Id == userId);
             }
             else
             {
                 return await _parkingMainContext.Drivers
                     .Include(d=>d.User)
                     .Include(d=>d.License)
-                    .SingleOrDefaultAsync(x => x.Id == driverId);
+                    .SingleOrDefaultAsync(x => x.User.Id == userId);
             }
         }
     }

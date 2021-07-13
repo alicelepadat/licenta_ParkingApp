@@ -1,71 +1,75 @@
 import * as actionTypes from '../actions/actionTypes';
-import {updateObject} from "../utility";
+import { updateObject } from "../utility";
 
 const initialState = {
-    isDriverLoggedIn: false,
-    userId: localStorage.getItem("driverId"),
-    driverEmail: null,
+    userId: localStorage.getItem("userId"),
+    email: null,
     error: null,
     loading: false,
+    role: null,
 };
 
-const driverAuthStart = (state, action) => {
+const authStart = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: true
     });
 };
 
-const driverAuthSuccess = (state, action) => {
+const authSuccess = (state, action) => {
     return updateObject(state, {
-        isDriverLoggedIn: true,
         userId: action.userId,
         error: null,
         loading: false,
     });
 };
 
-const driverRegisterSuccess = (state, action) => {
+const authFail = (state, action) => {
     return updateObject(state, {
-        isDriverLoggedIn: true,
-        driverEmail: action.email,
+        error: action.error,
+        loading: false,
+    });
+};
+
+const authLogout = (state, action) => {
+    return updateObject(state, {
+        userId: null,
+    });
+};
+
+const registerSuccess = (state, action) => {
+    return updateObject(state, {
+        email: action.email,
         error: null,
         loading: false,
     });
 };
 
-const driverAuthFail = (state, action) => {
+const userRoleSuccess = (state, action) => {
     return updateObject(state, {
-        error: action.error,
+        role: action.role,
+        error: null,
         loading: false,
-        isDriverLoggedIn: false,
-    });
-};
-
-const driverAuthLogout = (state, action) => {
-    return updateObject(state, {
-        userId: null,
-        isDriverLoggedIn: false,
     });
 };
 
 const driverAuthReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.AUTH_DRIVER_START:
-            return driverAuthStart(state, action);
-        case actionTypes.AUTH_DRIVER_SUCCESS:
-            return driverAuthSuccess(state, action);
-        case actionTypes.AUTH_REGISTER_DRIVER_SUCCESS:
-            return driverRegisterSuccess(state, action);
-        case actionTypes.AUTH_DRIVER_FAIL:
-            return driverAuthFail(state, action);
-        case actionTypes.AUTH_DRIVER_LOGOUT:
-            return driverAuthLogout(state, action);
+        case actionTypes.AUTH_START:
+            return authStart(state, action);
+        case actionTypes.AUTH_SUCCESS:
+            return authSuccess(state, action);
+        case actionTypes.REGISTER_SUCCESS:
+            return registerSuccess(state, action);
+        case actionTypes.AUTH_FAIL:
+            return authFail(state, action);
+        case actionTypes.AUTH_LOGOUT:
+            return authLogout(state, action);
+        case actionTypes.USER_ROLE_SUCCESS:
+            return userRoleSuccess(state, action);
         default:
             return state;
     }
 };
 
 export default driverAuthReducer;
-
-
