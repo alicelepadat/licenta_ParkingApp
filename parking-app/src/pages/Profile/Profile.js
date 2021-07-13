@@ -1,26 +1,98 @@
-import React from 'react';
-import ProfileContainer from "../../components/Profile/Profile/ProfileContainer";
-import Login from "../../components/Auth/Login/Login";
+import React, {useEffect, useState} from 'react';
+import Card from "../../components/UI/Card/Card";
+import classes from "./Profile.module.css";
+import DriverProfile from "../../components/Profile/Driver/Driver";
+import EditProfile from "../../components/Profile/EditProfile/EditProfile";
+import * as actionCreators from "../../store/actions";
 import {connect} from "react-redux";
+import LoadingSpinner from "../../components/UI/Loading/Loading";
 
-const Profile = (props) => {
+const ProfileContainer = props => {
+
+    const [showEditFields, setShowEditFields] = useState(false);
+
+    const [userLicenseInput, setUserLicenseInput] = useState({
+        enteredLicenseNumber: props.driver ?  props.driver.license && props.driver.license.number : '',
+        enteredExpirationDate: props.driver ? props.driver.license &&  props.driver.license.expirationDate : '',
+    });
+
+    useEffect(() => {
+        if (props.driverId) {
+            props.onFetchDriverData(props.driverId);
+        }
+    }, []);
+
+    const handleInputChange = (event) => {
+        setUserLicenseInput((prevState) => {
+            return {
+                ...prevState,
+                [event.target.name]: event.target.value
+            };
+        });
+    };
+
+    const hasDrivingLicense = props.driver ? (!!props.driver.license) : false;
+
+    const handleEditClick = () => {
+        setShowEditFields(true);
+    };
+
+    const handleEditClose = () => {
+        setShowEditFields(false);
+    };
+
+    const profile = (
+        <DriverProfile
+            user={props.driver}
+            hasDrivingLicense={hasDrivingLicense}
+            licenseField={userLicenseInput}
+            onEdit={handleEditClick}
+            onLicenseChange={handleInputChange}
+            onDriverLogout={props.onDriverLogout}
+        />
+    );
+
+    const editProfile = (
+        <EditProfile
+            user={props.driver}
+            hasDrivingLicense={hasDrivingLicense}
+            onClose={handleEditClose}
+            showEdit={showEditFields}
+            licenseField={userLicenseInput}
+            onLicenseChange={handleInputChange}
+        />
+    );
 
     return (
-        <React.Fragment>
+        <div className="container mt-4 mb-4 d-flex justify-content-center">
             {
-                props.isDriverLoggedIn ?
-                    <ProfileContainer />
+                props.loading ?
+                    <LoadingSpinner/>
                     :
-                    <Login />
+                    <Card className={classes["user-card"]}>
+                        {
+                            showEditFields ? editProfile : profile
+                        }
+                    </Card>
             }
-        </React.Fragment>
+        </div>
     );
 };
 
 const mapStateToProps = state => {
     return {
-        isDriverLoggedIn: state.driverAuth.isDriverLoggedIn,
-    }
-}
+        loading: state.driverData.loading,
+        error: state.driverData.error,
+        driver: state.driverData.driver,
+        driverId: state.driverAuth.userId,
+    };
+};
 
-export default connect(mapStateToProps, null)(Profile);
+const mapDispatchToProps = dispatch => {
+    return {
+        onDriverLogout: () => dispatch(actionCreators.driverLogout()),
+        onFetchDriverData: (driverId) => dispatch(actionCreators.fetchDriverData(driverId)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
