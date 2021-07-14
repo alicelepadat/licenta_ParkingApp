@@ -8,13 +8,27 @@
 
 .reservations__filter {
     padding: 0.2rem 1rem;
+    background-color: var(--DarkBlue);
 }
 
 .noReservation-card {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     background-color: var(--DarkBlue);
-    border-radius: 10px;
-    margin: 1rem;
+    border-radius: 5px;
+}
+
+.noReservation-actions {
+    padding: 0 0 2rem 0;
+}
+
+.noReservation-actions a, .anonim-message a {
+    color: var(--Blue);
+    text-decoration: none;
+}
+
+.noReservation-actions a:hover, .anonim-message a:hover {
+    color: var(--LighterBlue);
+    text-decoration: none;
 }
 
 .noReservation-card h3 {

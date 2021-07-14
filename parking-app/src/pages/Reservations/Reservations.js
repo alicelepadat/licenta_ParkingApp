@@ -1,41 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Card from "../../components/UI/Card/Card";
 import ReservationsFilter from "../../components/Reservations/ReservationsFilter/ReservationsFilter";
 import ReservationsList from "../../components/Reservations/ReservationsList/ReservationsList";
 
 import classes from './Reservations.module.css';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import LoadingSpinner from "../../components/UI/Loading/Loading";
+import {Link} from "react-router-dom";
+import {X} from "react-feather";
+import InfoMessage from "../../components/UI/InfoMessage/InfoMessage";
 
 const Reservations = (props) => {
 
-    const [filteredStatus, setFilteredStatus] = useState('activa');
+    const identifier = localStorage.getItem('identifier');
+    const [filteredStatus, setFilteredStatus] = useState(props.role === 220 ? 'toate' : 'progres');
+    const [showAnonimMessage, setShowAnonimMessage] = useState(props.userId === null);
 
     useEffect(() => {
-        if (props.userId) {
-            props.getUserRole(props.userId);
+        if (props.role === 210 && props.user !== null) {
+            props.onFetchAreaReservations(props.user.parkingArea.id);
         }
-    }, [props]);
+    }, [props.user, props.role])
 
     useEffect(() => {
-        if (props.userId) {
+        if (props.userId && props.role) {
             switch (props.role) {
                 case 210:
-                    props.onFetchAreaReservations(342);
+                    console.log(props.role)
+                    props.onFetchAdminData(props.userId);
                     break;
-                default:
+                case 200:
+                    console.log(props.role);
                     props.onfetchDriverReservations(props.userId);
+                    break;
+                case 220:
+                    props.onFetchAllReservations();
+                    break
+                default:
+                    break
             }
         }
-        else {
-            const vehicleId = localStorage.getItem(`identifier`);
-            if (vehicleId) {
-                props.onFetchAnonimReservations(vehicleId);
+    }, [props.role]);
+
+
+    useEffect(() => {
+        if (!props.userId) {
+            if (identifier) {
+                props.onFetchAnonimReservations(identifier);
             }
         }
-    }, []);
+    }, [props.userId]);
 
     const getReservationState = (state) => {
         switch (state) {
@@ -50,21 +66,27 @@ const Reservations = (props) => {
         }
     };
 
+    const handleAnonimMessageClose = () => {
+        setShowAnonimMessage(false);
+    };
+
     const filterChangeHandler = selectedStatus => {
         setFilteredStatus(selectedStatus);
     };
 
-    const filteredReservations = props.reservations && props.reservations.filter(reservation => {
+    const filteredReservations = props.reservations && filteredStatus !== 'toate' ? props.reservations.filter(reservation => {
         return getReservationState(reservation.state) === filteredStatus;
-    });
+    }) : props.reservations;
+
 
     const reservationsData = (
         <div>
             <Card className={classes["reservations__filter"]}>
                 <ReservationsFilter selectedStatus={filteredStatus}
-                    onChangeFilter={filterChangeHandler} />
+                                    onChangeFilter={filterChangeHandler}/>
             </Card>
             <ReservationsList
+                loading={props.loading}
                 getStatus={getReservationState}
                 reservations={filteredReservations}
             />
@@ -76,14 +98,33 @@ const Reservations = (props) => {
             <h3>
                 Nu ati efectuat nicio rezervare.
             </h3>
+            {
+                props.userId === null &&
+                <div className={classes["noReservation-actions"]}>
+                    <p><Link to="/login">Autentificati-va</Link> sau <Link to="/">realizati o rezervare anonima</Link>.
+                    </p>
+                </div>
+            }
         </Card>
+    );
+
+    const anonimMessage = identifier !== null && (
+        <InfoMessage className={classes["anonim-message"]}
+                     onClick={handleAnonimMessageClose}
+                     message="Puteti vedea rezervarile pentru ultimul vehicul adaugat deoarece folositi aplicatia in mod anonim."
+        >
+            <p><Link to="/login">Autentificati-va</Link> sau <Link to="/register">inregistrati-va</Link> pentru a vedea
+                toate rezervarile.</p>
+        </InfoMessage>
     );
 
     return (
         <div className={classes.reservations}>
             {
-                props.loading ? <LoadingSpinner /> :
-                    props.reservations.length > 0 ? reservationsData : noReservationFoundInfo
+                (!props.loading && showAnonimMessage) && anonimMessage
+            }
+            {
+                !props.loading && props.reservations.length > 0 ? reservationsData : noReservationFoundInfo
             }
         </div>
     );
@@ -95,6 +136,7 @@ const mapStateToProps = state => {
         error: state.reservations.error,
         userId: state.driverAuth.userId,
         role: state.driverAuth.role,
+        user: state.driverData.user,
         reservations: state.reservations.reservations,
         vehicles: state.driverVehicles.vehicles
     };
@@ -106,7 +148,8 @@ const mapDispatchToProps = dispatch => {
         onCancelReservation: (userId, reservationId) => dispatch(actionCreators.cancelReservation(userId, reservationId)),
         onFetchAnonimReservations: (vehicleId) => dispatch(actionCreators.fetchAnonimDriverReservations(vehicleId)),
         onFetchAreaReservations: (areaId) => dispatch(actionCreators.fetchAreaReservations(areaId)),
-        getUserRole: (userId) => dispatch(actionCreators.getUserRole(userId)),
+        onFetchAdminData: (userId) => dispatch(actionCreators.fetchAdminData(userId)),
+        onFetchAllReservations: () => dispatch(actionCreators.fetchAllReservations()),
     };
 };
 

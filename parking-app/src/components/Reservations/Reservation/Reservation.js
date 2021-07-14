@@ -13,6 +13,8 @@ import {connect} from "react-redux";
 
 const Reservation = props => {
 
+    const showActions = props.role !== 220;
+
     return (
         <li>
             <Accordion>
@@ -33,38 +35,48 @@ const Reservation = props => {
                 <Accordion.Collapse eventKey="0" className={classes["reservation__info-collapse"]}>
                     <div>
                         <Row className={classes["reservation__info"]}>
-                            <Col sm>
-                                <p>Vehicul: {props.vehicle}</p>
-                            </Col>
+                            {
+                                props.role !== 220 &&
+                                <Col sm>
+                                    <p>Vehicul: {props.vehicle}</p>
+                                </Col>
+                            }
                             <Col sm>
                                 <p>Status: {props.status}</p>
                             </Col>
                             <Col sm>
-                                <p>Pret total: {props.price} RON</p>
+                                <p>Pret total rezervare: {props.price} RON</p>
                             </Col>
                             <Col md={12} lg={12} sm={12} xs={12}>
                                 <p>Amplasament parcare: {props.parkingArea.emplacementLocation}</p>
                             </Col>
                         </Row>
-                        <div className={classes["reservation__actions"]}>
-                            <button
-                                title="Anuleaza"
-                                onClick={() => {
-                                    props.onCancelReservation(props.userId, props.id)
-                                }}
-                                disabled={props.status === 'anulata'}
-                            >
-                                <X/>
-                            </button>
-                            <button
-                                title="Sterge"
-                                onClick={() => {
-                                    props.onDeleteReservation(props.userId, props.id)
-                                }}
-                            >
-                                <Trash2/>
-                            </button>
-                        </div>
+                        {
+                            showActions &&
+                            <div className={classes["reservation__actions"]}>
+                                <button
+                                    title="Anuleaza"
+                                    onClick={() => {
+                                        props.onCancelReservation(props.userId, props.id)
+                                    }}
+                                    disabled={props.status === 'terminata' || (((props.role === 200 || props.role === null) && props.status === 'progres') || (props.role === 210 && props.status !== 'progres'))}
+                                >
+                                    <X/>
+                                </button>
+                                {
+                                    (props.role === null || props.role === 200) &&
+                                    <button
+                                        title="Sterge"
+                                        onClick={() => {
+                                            props.onDeleteReservation(props.userId, props.id)
+                                        }}
+                                        disabled={props.status !== 'anulata'}
+                                    >
+                                        <Trash2/>
+                                    </button>
+                                }
+                            </div>
+                        }
                     </div>
                 </Accordion.Collapse>
             </Accordion>
@@ -75,6 +87,7 @@ const Reservation = props => {
 const mapStateToProps = state => {
     return {
         userId: state.driverAuth.userId,
+        role: state.driverAuth.role,
     };
 };
 

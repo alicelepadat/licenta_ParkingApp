@@ -13,6 +13,7 @@ const ReservationsFilter = props => {
             <div className={classes['reservations-filter__control']}>
                 <label>Filtreaza dupa status</label>
                 <select value={props.selectedStatus} onChange={filterChangeHandler}>
+                    <option value='toate'>toate</option>
                     <option value='activa'>activa</option>
                     <option value='progres'>in progres</option>
                     <option value='anulata'>anulata</option>

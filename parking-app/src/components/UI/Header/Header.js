@@ -1,8 +1,8 @@
 import React from 'react';
-import classes from "./InfoHeade.module.css";
+import classes from "./Header.module.css";
 import {X} from "react-feather";
 
-const InfoHeader = props => {
+const Header = props => {
     return (
         <div className={classes["info-header"]}>
             <h3>{props.title}</h3>
@@ -13,4 +13,4 @@ const InfoHeader = props => {
     );
 };
 
-export default InfoHeader;
+export default Header;

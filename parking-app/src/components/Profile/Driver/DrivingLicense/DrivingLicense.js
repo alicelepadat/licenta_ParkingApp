@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Card, Col, Row } from "react-bootstrap";
 
 import classes from './DrivingLicense.module.css';
-import Input from "../../UI/Input/Input";
+import Input from "../../../UI/Input/Input";
 import { Check, X } from "react-feather";
-import * as validate from '../../../utility/validateHandler';
+import * as validate from '../../../../utility/validateHandler';
 import { connect } from "react-redux";
-import * as actionCreators from "../../../store/actions";
-import * as date from '../../../utility/dateFormat';
+import * as actionCreators from "../../../../store/actions";
+import * as date from '../../../../utility/dateFormat';
 
 const DrivingLicense = props => {
 
@@ -38,8 +38,6 @@ const DrivingLicense = props => {
             validateRules.enteredExpirationDate)
         );
     };
-
-    console.log(props.user.user.id)
 
     const handleSubmitLicense = (event) => {
         event.preventDefault();

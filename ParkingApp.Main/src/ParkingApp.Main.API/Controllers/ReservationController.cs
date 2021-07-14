@@ -25,6 +25,32 @@ namespace ParkingApp.Main.API.Controllers
             _vehicleService = vehicleService ?? throw new ArgumentNullException(nameof(vehicleService));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllReservations()
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var allReservations = await _reservationService.GetReservationsAsync();
+
+                foreach (var r in allReservations)
+                {
+                    await _reservationService.UpdateReservationStateAsync(r);
+
+                }
+
+                return Ok(allReservations);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+            }
+        }
+
         [HttpGet("{driverId}", Name = "GetDriverReservations")]
         public async Task<IActionResult> GetDriverReservations(int driverId)
         {

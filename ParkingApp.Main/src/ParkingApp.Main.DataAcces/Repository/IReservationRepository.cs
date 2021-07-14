@@ -6,6 +6,7 @@ namespace ParkingApp.Main.DataAcces.Repository
 {
     public interface IReservationRepository : IRepository<Reservation>
     {
+        Task<IEnumerable<Reservation>> GetReservationsAsync();
 
         Task<IEnumerable<Reservation>> GetDriverReservationsAsync(int driverId);
         

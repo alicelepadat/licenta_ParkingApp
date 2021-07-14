@@ -9,9 +9,11 @@ export {
 
 export {
     fetchDriverData,
+    fetchAdminData,
     addDriverLicense,
     updateDriver,
-} from './driverDataActions';
+    removeUserData,
+} from './userDataActions';
 
 export {
     fetchDriverVehicles,
@@ -28,6 +30,7 @@ export {
     deleteReservation,
     addDriverReservation,
     addAnonimReservation,
+    fetchAllReservations,
 } from './reservationActions';
 
 export {

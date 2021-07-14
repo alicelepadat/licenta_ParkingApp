@@ -4,7 +4,7 @@ import {loadStripe} from "@stripe/stripe-js";
 import ReservationForm from "../ReservationForm/ReservationForm";
 
 import classes from './NewReservation.module.css';
-import InfoHeader from "../../UI/InfoHeader/InfoHeader";
+import Header from "../../UI/Header/Header";
 import {Elements} from "@stripe/react-stripe-js";
 import {connect} from "react-redux";
 import * as actionCreators from "../../../store/actions";
@@ -15,7 +15,7 @@ const NewReservation = (props) => {
 
     return (
         <div className={classes["new-reservation"]}>c
-            <InfoHeader title="Rezervare noua" onCloseClick={props.onCloseClick}/>
+            <Header title="Rezervare noua" onCloseClick={props.onCloseClick}/>
 
             <Elements stripe={stripePromise}>
                 <ReservationForm

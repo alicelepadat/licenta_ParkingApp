@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
 import Card from '../../UI/Card/Card';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
-import { Row, Col } from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 
-import { ArrowLeft, Eye, EyeOff } from "react-feather";
+import {ArrowLeft, Eye, EyeOff} from "react-feather";
 
 import classes from "./Register.module.css";
 import * as actionCreators from "../../../store/actions";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import * as validate from '../../../utility/validateHandler';
-import { Link, useHistory } from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import ErrorModal from "../../UI/ErrorModal/ErrorModal";
 
 const Register = (props) => {
     const history = useHistory();
@@ -57,6 +58,11 @@ const Register = (props) => {
     const [formIsValid, setFormIsValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showVerifyPassword, setShowVerifyPassword] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleError = () => {
+        setError(null);
+    };
 
     useEffect(() => {
         const identifier = setTimeout(() => {
@@ -137,110 +143,118 @@ const Register = (props) => {
 
             history.push('/login');
         }
+
+        if(props.error){
+            setError(props.error)
+        }
     };
+
+    const registerData = (
+        <form>
+            <Input
+                id="name"
+                label="Nume"
+                type="text"
+                placeholder="Introduceti numele"
+                name="enteredName"
+                value={userInput.enteredName}
+                isValid={inputIsValid.enteredName}
+                onChange={handleInputChange}
+                onBlur={handleValidateUserInput}
+            />
+            <Input
+                id="email"
+                label="E-mail"
+                type="email"
+                placeholder="Introduceti adresa de e-mail"
+                name="enteredEmail"
+                value={userInput.enteredEmail}
+                isValid={inputIsValid.enteredEmail}
+                onChange={handleInputChange}
+                onBlur={handleValidateUserInput}
+            />
+            <Input
+                id="phone"
+                label="Telefon"
+                type="text"
+                placeholder="Introduceti numarul de telefon"
+                name="enteredPhone"
+                value={userInput.enteredPhone}
+                isValid={inputIsValid.enteredPhone}
+                onChange={handleInputChange}
+                onBlur={handleValidateUserInput}
+            />
+            <Row>
+                <Col md={10} sm={10} xs={8}>
+                    <Input
+                        id="password"
+                        label="Parola"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Introduceti parola"
+                        name="enteredPassword"
+                        value={userInput.enteredPassword}
+                        isValid={inputIsValid.enteredPassword}
+                        onChange={handleInputChange}
+                        onBlur={handleValidateUserInput}
+                    />
+                </Col>
+                <Col className={classes["register__actions"]}>
+                    <button onClick={handleShowPassword} title="Arata parola">
+                        {
+                            showPassword ? <EyeOff/> : <Eye/>
+                        }
+                    </button>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={10} sm={10} xs={8}>
+                    <Input
+                        id="verifyPassword"
+                        label="Verificare parola"
+                        type={showVerifyPassword ? "text" : "password"}
+                        placeholder="Reintroduceti parola"
+                        name="enteredVerifyPassword"
+                        value={userInput.enteredVerifyPassword}
+                        isValid={passwordIsVerified}
+                        onChange={handleInputChange}
+                        onBlur={handleVerifyPassword}
+                    />
+                </Col>
+                <Col className={classes["register__actions"]}>
+                    <button onClick={handleShowVerifyPassword} title="Arata parola">
+                        {
+                            showVerifyPassword ? <EyeOff/> : <Eye/>
+                        }
+                    </button>
+                </Col>
+            </Row>
+            <div className="text-center">
+                <Button className="mt-3" type="submit" onClick={handleRegisterSubmit}>
+                    Inregistrare
+                </Button>
+            </div>
+        </form>
+    );
 
     return (
         <Card className={classes.register}>
             <Link to="/login">
-                <button title="Inapoi la autentificare" className={classes["go-back"]}>
-                    <ArrowLeft />
+                <button title="Mergi la autentificare" className={classes["go-back"]}>
+                    <ArrowLeft/>
                 </button>
             </Link>
 
             <div className={`${classes["register-header"]} d-flex flex-column text-center`}>
                 <div>
                     <img src="https://www.iconpacks.net/icons/2/free-parking-sign-icon-1641-thumb.png"
-                        alt="parking-logo"
-                        width="100"
-                        height="100" />
+                         alt="parking-logo"
+                         width="100"
+                         height="100"/>
                 </div>
                 <h2> Inregistrare </h2>
             </div>
-
-            <form>
-                <Input
-                    id="name"
-                    label="Nume"
-                    type="text"
-                    placeholder="Introduceti numele"
-                    name="enteredName"
-                    value={userInput.enteredName}
-                    isValid={inputIsValid.enteredName}
-                    onChange={handleInputChange}
-                    onBlur={handleValidateUserInput}
-                />
-                <Input
-                    id="email"
-                    label="E-mail"
-                    type="email"
-                    placeholder="Introduceti adresa de e-mail"
-                    name="enteredEmail"
-                    value={userInput.enteredEmail}
-                    isValid={inputIsValid.enteredEmail}
-                    onChange={handleInputChange}
-                    onBlur={handleValidateUserInput}
-                />
-                <Input
-                    id="phone"
-                    label="Telefon"
-                    type="text"
-                    placeholder="Introduceti numarul de telefon"
-                    name="enteredPhone"
-                    value={userInput.enteredPhone}
-                    isValid={inputIsValid.enteredPhone}
-                    onChange={handleInputChange}
-                    onBlur={handleValidateUserInput}
-                />
-                <Row>
-                    <Col md={10} sm={10} xs={8}>
-                        <Input
-                            id="password"
-                            label="Parola"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Introduceti parola"
-                            name="enteredPassword"
-                            value={userInput.enteredPassword}
-                            isValid={inputIsValid.enteredPassword}
-                            onChange={handleInputChange}
-                            onBlur={handleValidateUserInput}
-                        />
-                    </Col>
-                    <Col className={classes["register__actions"]}>
-                        <button onClick={handleShowPassword} title="Arata parola">
-                            {
-                                showPassword ? <EyeOff /> : <Eye />
-                            }
-                        </button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={10} sm={10} xs={8}>
-                        <Input
-                            id="verifyPassword"
-                            label="Verificare parola"
-                            type={showVerifyPassword ? "text" : "password"}
-                            placeholder="Reintroduceti parola"
-                            name="enteredVerifyPassword"
-                            value={userInput.enteredVerifyPassword}
-                            isValid={passwordIsVerified}
-                            onChange={handleInputChange}
-                            onBlur={handleVerifyPassword}
-                        />
-                    </Col>
-                    <Col className={classes["register__actions"]}>
-                        <button onClick={handleShowVerifyPassword} title="Arata parola">
-                            {
-                                showVerifyPassword ? <EyeOff /> : <Eye />
-                            }
-                        </button>
-                    </Col>
-                </Row>
-                <div className="text-center">
-                    <Button className="mt-3" type="submit" onClick={handleRegisterSubmit}>
-                        Inregistrare
-                    </Button>
-                </div>
-            </form>
+            {registerData}
+            {error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>}
         </Card>
     );
 };

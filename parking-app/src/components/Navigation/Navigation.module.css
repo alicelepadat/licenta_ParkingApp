@@ -8,7 +8,7 @@
 
 .nav-menu {
     background-color: white;
-    width: 65%;
+    width: 60%;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -60,7 +60,7 @@
     color: var(--LighterBlue);
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 900px) {
     .nav-menu {
         width: 25%;
     }

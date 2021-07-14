@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
     reservations: [],
+    reservationId: null,
     error: null,
     loading: false,
 };
@@ -56,6 +57,7 @@ const deleteReservationSuccess = (state, action) => {
 
 const addReservationSuccese = (state, action) => {
     return updateObject(state, {
+        reservationId: action.reservationId,
         loading: false,
         error: null,
     });

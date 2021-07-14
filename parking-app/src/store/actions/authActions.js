@@ -81,7 +81,8 @@ export const userAuth = (email, password) => {
             dispatch(authSucces(response.data));
             dispatch(checkAuthTimeout(expirationTime));
         }).catch(error => {
-            dispatch(authFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(authFail(response));
         });
     };
 };
@@ -93,7 +94,8 @@ export const driverRegister = (registerData) => {
             .then(response => {
                 dispatch(registerSucces(response.data));
             }).catch(error => {
-            dispatch(authFail(error.response))
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(authFail(response))
         });
     };
 };
@@ -104,7 +106,8 @@ export const adminRegister = (registerData) => {
             .then(response => {
                 dispatch(registerSucces(response.data));
             }).catch(error => {
-            dispatch(authFail(error.response))
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(authFail(response))
         });
     };
 };
@@ -115,7 +118,8 @@ export const getUserRole = (userId) => {
             .then(response => {
                 dispatch(userRoleSucces(response.data));
             }).catch(error => {
-            dispatch(authFail(error.response))
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(authFail(response))
         });
     };
 };

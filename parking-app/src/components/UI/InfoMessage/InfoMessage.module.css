@@ -1,0 +1,20 @@
+.info-message {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    background-color: var(--ShadowDarkBlue);
+    border-radius: 5px;
+}
+
+.info-message button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.info-message button:hover {
+    color: var(--LighterBlue);
+}
+
+.info-message p {
+    padding: 0.5rem 0;
+}

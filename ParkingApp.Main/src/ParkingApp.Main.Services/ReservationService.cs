@@ -120,7 +120,7 @@ namespace ParkingApp.Main.Services
         {
             var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservation.Id);
 
-            if (model.State == ReservationStateEnum.IN_PROGRESS && model.EndTime.TimeOfDay >= DateTime.Now.TimeOfDay)
+            if (model.State == ReservationStateEnum.IN_PROGRESS && model.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
             {
                 model.State = ReservationStateEnum.FINISHED;
             }
@@ -165,6 +165,13 @@ namespace ParkingApp.Main.Services
         public async Task<IEnumerable<ReservationDto>> GetParkingAreaReservationsAsync(int areaId)
         {
             var model = await _unitOfWork.ReservationRepository.GetParkingAreaReservationsAsync(areaId);
+
+            return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
+        }
+
+        public async Task<IEnumerable<ReservationDto>> GetReservationsAsync()
+        {
+            var model = await _unitOfWork.ReservationRepository.GetReservationsAsync();
 
             return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
         }

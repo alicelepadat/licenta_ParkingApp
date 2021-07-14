@@ -2,27 +2,27 @@ import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from "../utility";
 
 const initialState = {
-    driver: null,
+    user: null,
     error: null,
     loading: false,
 };
 
-const fetchDriverDataStart = (state, action) => {
+const fetchUserDataStart = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: true,
     });
 };
 
-const fetchDriverDataSuccess = (state, action) => {
+const fetchUserDataSuccess = (state, action) => {
     return updateObject(state, {
-        driver: action.driver,
+        user: action.user,
         error: null,
         loading: false,
     });
 };
 
-const fetchDriverDataFail = (state, action) => {
+const fetchUserDataFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
         loading: false,
@@ -33,7 +33,7 @@ const addDriverLicenseSuccess = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: false,
-        driver: updateObject(state.driver, {
+        user: updateObject(state.user, {
             license: action.license,
         }),
     });
@@ -43,25 +43,34 @@ const driverUpdateSuccess = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: false,
-        driver: action.driver,
+        user: action.driver,
     });
 };
 
-const driverDataReducer = (state = initialState, action) => {
+const removeUserDataSucces = (state, action) => {
+    return updateObject(state, {
+            user: null,
+        }
+    );
+};
+
+const userDataReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_USER_DATA_START:
-            return fetchDriverDataStart(state, action);
+            return fetchUserDataStart(state, action);
         case actionTypes.FETCH_USER_DATA_SUCCESS:
-            return fetchDriverDataSuccess(state, action);
+            return fetchUserDataSuccess(state, action);
         case actionTypes.FETCH_USER_DATA_FAIL:
-            return fetchDriverDataFail(state, action);
+            return fetchUserDataFail(state, action);
         case actionTypes.ADD_DRIVER_LICENSE_SUCCESS:
             return addDriverLicenseSuccess(state, action);
         case actionTypes.UPDATE_DRIVER_SUCCESS:
             return driverUpdateSuccess(state, action);
+        case actionTypes.REMOVE_USER_DATA_SUCCESS:
+            return removeUserDataSucces(state, action);
         default:
             return state;
     }
 };
 
-export default driverDataReducer;
+export default userDataReducer;

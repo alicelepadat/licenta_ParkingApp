@@ -1,16 +1,18 @@
 import React, {useState} from 'react';
-import Input from "../../UI/Input/Input";
+import Input from "../../../UI/Input/Input";
 import {Check, Edit, Eye, EyeOff} from "react-feather";
 
 import classes from './EditProfile.module.css';
 import {Col, Row} from "react-bootstrap";
-import InfoHeader from "../../UI/InfoHeader/InfoHeader";
+import Header from "../../../UI/Header/Header";
 import DrivingLicense from "../DrivingLicense/DrivingLicense";
-import * as validate from "../../../utility/validateHandler";
-import * as actionCreators from "../../../store/actions";
+import * as validate from "../../../../utility/validateHandler";
+import * as actionCreators from "../../../../store/actions";
 import {connect} from "react-redux";
+import {useHistory} from 'react-router-dom';
 
 const EditProfile = props => {
+    const history=useHistory();
 
     const [userInput, setUserInput] = useState({
         email: props.user.user.email,
@@ -70,7 +72,6 @@ const EditProfile = props => {
 
     const handleEditSubmit = (event) => {
         event.preventDefault();
-
         const driverUpdateData = {
             id: props.userId,
             user: {
@@ -78,7 +79,7 @@ const EditProfile = props => {
                 name: props.user.user.name,
                 email: userInput.email,
                 phone: userInput.phone,
-                password: userInput.newPassword ? userInput.newPassword : props.user.user.password,
+                password: userInput.newPassword
             },
             license: {
                 id: props.user.license.id,
@@ -90,13 +91,17 @@ const EditProfile = props => {
         if (inputIsValid.email && inputIsValid.phone && inputIsValid.newPassword) {
             props.onDriverUpdate(props.userId, driverUpdateData);
 
+            if (userInput.newPassword.length > 0 && inputIsValid.newPassword) {
+                props.onDriverLogout();
+                history.push("/login");
+            }
             props.onClose();
         }
     }
 
     return (
         <React.Fragment>
-            <InfoHeader title={`Editeaza profilul pentru ${props.user.user.name}`} onCloseClick={props.onClose}/>
+            <Header title={`Editeaza profilul pentru ${props.user.user.name}`} onCloseClick={props.onClose}/>
             <form>
                 <Input
                     id="enteredEmail"
@@ -181,6 +186,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onDriverUpdate: (driverId, driverUpdateData) => dispatch(actionCreators.updateDriver(driverId, driverUpdateData)),
         onFetchDriverData: (driverId) => dispatch(actionCreators.fetchDriverData(driverId)),
+        onDriverLogout: () => dispatch(actionCreators.authLogout()),
     }
 }
 

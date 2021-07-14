@@ -13,6 +13,8 @@ import {Link} from "react-router-dom";
 import LoadingSpinner from "../../UI/Loading/Loading";
 import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
+import ErrorModal from "../../UI/ErrorModal/ErrorModal";
+import Card from "../../UI/Card/Card";
 
 const ReservationForm = (props) => {
 
@@ -78,6 +80,17 @@ const ReservationForm = (props) => {
     const [showLicensePlateInput, setShowLicensePlateInput] = useState(false);
 
     const [goToPayment, setGoToPayment] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleError = () => {
+        setError(null);
+    };
+
+    useEffect(() => {
+        if (props.reservationId !== null) {
+            setGoToPayment(true);
+        }
+    }, [props.reservationId]);
 
     const handleGoToPayment = (event) => {
         event.preventDefault();
@@ -98,12 +111,10 @@ const ReservationForm = (props) => {
             } else {
                 props.onAnonimAdd(reservationData, props.area.id);
             }
+        }
 
-            console.log(props.error)
-
-            if (props.error === null) {
-                setGoToPayment(true);
-            }
+        if(props.error){
+            setError(props.error)
         }
     };
 
@@ -212,16 +223,14 @@ const ReservationForm = (props) => {
             <form>
                 {
                     goToPayment ?
-                        <h5>Efectueaza plata pentru rezervarea la {props.area.emplacement}</h5>
+                        <div>
+                            <h5>Efectueaza plata pentru rezervarea la {props.area.emplacement}</h5>
+                            <ReservationPayment loading={props.loading}/>
+                        </div>
                         :
                         <h3>{props.area.emplacement}</h3>
                 }
                 {!goToPayment && reservationForm}
-                {goToPayment &&
-                        <div>
-                            <ReservationPayment loading={props.loading}/>
-                        </div>
-                }
                 <div className={classes["new-reservation__actions"]}>
                     {
                         !goToPayment &&
@@ -232,15 +241,18 @@ const ReservationForm = (props) => {
                 </div>
             </form>
             }
+            {error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>}
         </Fragment>
     );
 }
 
 const mapStateToProps = state => {
-    return {
-        error: state.reservations.error,
-        loading: state.reservations.loading
-    };
-};
+        return {
+            error: state.reservations.error,
+            loading: state.reservations.loading,
+            reservationId: state.reservations.reservationId,
+        };
+    }
+;
 
 export default connect(mapStateToProps, null)(ReservationForm);

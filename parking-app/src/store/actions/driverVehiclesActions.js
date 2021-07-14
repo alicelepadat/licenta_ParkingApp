@@ -49,7 +49,8 @@ export const fetchDriverVehicles = (userId) => {
             .then(response => {
                 dispatch(fetchDriverVehiclesSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchDriverVehiclesFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchDriverVehiclesFail(response));
             })
     };
 };
@@ -61,7 +62,8 @@ export const fetchVehicle = (vehicleId) => {
             .then(response => {
                 dispatch(fetchVehicleSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchDriverVehiclesFail(error.response))
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchDriverVehiclesFail(response))
             });
     };
 };
@@ -73,7 +75,8 @@ export const deleteDriverVehicle = (userId, vehicleId) => {
             .then(() => {
                 dispatch(deleteDriverVehicleSuccess(vehicleId));
             }).catch(error => {
-                dispatch(fetchDriverVehiclesFail((error.response)));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchDriverVehiclesFail((response)));
             });
     };
 };
@@ -85,7 +88,8 @@ export const addDriverVehicle = (userId, vehicle) => {
             .then((response) => {
                 dispatch(addDriverVehicleSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchDriverVehiclesFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchDriverVehiclesFail(response));
             });
     };
 };

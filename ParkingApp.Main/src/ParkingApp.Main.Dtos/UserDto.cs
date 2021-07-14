@@ -25,8 +25,7 @@ namespace ParkingApp.Main.Dtos
         
         public UserRoleEnum Role { get; set; } = UserRoleEnum.DRIVER;
 
-        [Required]
-        [MinLength(8)]
+
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

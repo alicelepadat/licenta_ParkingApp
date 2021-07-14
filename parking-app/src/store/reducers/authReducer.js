@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from "../utility";
+import {updateObject} from "../utility";
 
 const initialState = {
     userId: localStorage.getItem("userId"),
@@ -34,6 +34,7 @@ const authFail = (state, action) => {
 const authLogout = (state, action) => {
     return updateObject(state, {
         userId: null,
+        role: null,
     });
 };
 

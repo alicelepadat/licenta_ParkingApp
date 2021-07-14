@@ -7,6 +7,8 @@ namespace ParkingApp.Main.Services.Contracts
 {
     public interface IReservationService
     {
+        Task<IEnumerable<ReservationDto>> GetReservationsAsync();
+
         Task<IEnumerable<ReservationDto>> GetReservationsFromAreaAsync(int parkingAreaId);
 
         Task<IEnumerable<ReservationDto>> GetDriverReservationsAsync(int driverId);

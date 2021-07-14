@@ -28,7 +28,8 @@ export const fetchParkingArea = (name) => {
             .then(response => {
                 dispatch(fetchAreaSuccess(response.data));
             }).catch(error => {
-            dispatch(fetchAreaFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchAreaFail(response));
         });
     };
 };

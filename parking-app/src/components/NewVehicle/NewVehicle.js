@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Card from "../UI/Card/Card";
 import classes from "./NewVehicle.module.css";
-import InfoHeader from "../UI/InfoHeader/InfoHeader";
+import Header from "../UI/Header/Header";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
 import * as validate from '../../utility/validateHandler';
@@ -31,7 +31,7 @@ const NewVehicle = props => {
 
     return (
         <Card className={classes["new-vehicle"]}>
-            <InfoHeader title="Masina noua" onCloseClick={props.onCloseClick}/>
+            <Header title="Masina noua" onCloseClick={props.onCloseClick}/>
             <form>
                 <Input
                     id="licensePlate"

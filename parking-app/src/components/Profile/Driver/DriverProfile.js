@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import classes from './Driver.module.css';
+import classes from './DriverProfile.module.css';
 import { Col, Row } from "react-bootstrap";
 import { ArrowRight, Edit } from "react-feather";
 import { Link, useHistory } from "react-router-dom";
-import DrivingLicense from "../DrivingLicense/DrivingLicense";
+import DrivingLicense from "./DrivingLicense/DrivingLicense";
 import Button from "../../UI/Button/Button";
 import { connect } from 'react-redux';
 import * as actionCreators from "../../../store/actions";
@@ -14,7 +14,9 @@ const DriverProfile = props => {
 
     useEffect(() => {
         if (props.userId) {
-            props.onFetchReservations(props.userId)
+            if(props.role === 200) {
+                props.onFetchReservations(props.userId)
+            }
         }
     }, [])
 
@@ -38,6 +40,7 @@ const DriverProfile = props => {
 
     const handleLogout = () => {
         props.onDriverLogout();
+        props.onRemoveUserData();
         history.push('/login');
     }
 
@@ -59,10 +62,10 @@ const DriverProfile = props => {
                                 {props.user && props.user.user.name}
                             </h4>
                             <span className="mt-2">
-                                {props.user && props.user.user.email}
+                                Email: {props.user && props.user.user.email}
                             </span>
                             <span className="mt-2">
-                                {props.user && props.user.user.phone}
+                                Telefon: {props.user && props.user.user.phone}
                             </span>
                         </div>
                         <button onClick={props.onEdit} title="Editeaza profilul">
@@ -123,12 +126,15 @@ const DriverProfile = props => {
 const mapStateToProps = state => {
     return {
         userId: state.driverAuth.userId,
+        role: state.driverAuth.role,
         reservations: state.reservations.reservations,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        onDriverLogout: () => dispatch(actionCreators.authLogout()),
+        onRemoveUserData: () => dispatch(actionCreators.removeUserData()),
         onFetchReservations: (userId) => dispatch(actionCreators.fetchDriverReservations(userId)),
     };
 };

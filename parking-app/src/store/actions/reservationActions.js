@@ -35,9 +35,10 @@ export const deleteReservationsSuccess = (reservationId) => {
     };
 };
 
-export const addReservationSuccess = () => {
+export const addReservationSuccess = (reservationId) => {
     return {
         type: actionTypes.ADD_RESERVATION_SUCCESS,
+        reservationId: reservationId,
     };
 }
 
@@ -48,7 +49,8 @@ export const fetchDriverReservations = (userId) => {
             .then(response => {
                 dispatch(fetchReservationsSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchReservationsFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response));
             });
     };
 };
@@ -60,7 +62,8 @@ export const fetchAnonimDriverReservations = (vehicleId) => {
             .then(response => {
                 dispatch(fetchReservationsSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchReservationsFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response));
             });
     };
 };
@@ -72,7 +75,8 @@ export const fetchAreaReservations = (areaId) => {
             .then(response => {
                 dispatch(fetchReservationsSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchReservationsFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response));
             });
     };
 };
@@ -84,7 +88,8 @@ export const cancelReservation = (userId, reservationId) => {
             .then(response => {
                 dispatch(cancelReservationsSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchReservationsFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response));
             })
     };
 };
@@ -96,7 +101,8 @@ export const deleteReservation = (userId, reservationId) => {
             .then(() => {
                 dispatch(deleteReservationsSuccess(reservationId));
             }).catch(error => {
-                dispatch(fetchReservationsFail(error.response));
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response));
             });
     };
 };
@@ -107,9 +113,10 @@ export const addDriverReservation = (reservationData, userId, areaId) => {
         axios.post(`/reservations/${areaId}?driverId=${userId}`,
             reservationData)
             .then(response => {
-                dispatch(addReservationSuccess());
+                dispatch(addReservationSuccess(response.data));
             }).catch(error => {
-                dispatch(fetchReservationsFail(error.response))
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response))
             });
     };
 };
@@ -123,7 +130,21 @@ export const addAnonimReservation = (reservationData, areaId) => {
                 localStorage.setItem(`identifier`, response.data)
                 dispatch(addReservationSuccess());
             }).catch(error => {
-                dispatch(fetchReservationsFail(error.response))
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response))
             });
+    };
+};
+
+export const fetchAllReservations = () => {
+    return dispatch => {
+        dispatch(fetchReservationsStart());
+        axios.get(`/reservations`)
+            .then(response => {
+                dispatch(fetchReservationsSuccess(response.data));
+            }).catch(error => {
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response));
+        });
     };
 };

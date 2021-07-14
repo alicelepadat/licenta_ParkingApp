@@ -4,33 +4,36 @@ import Button from "../../components/UI/Button/Button";
 
 import classes from './Vehicles.module.css';
 import {BiCar} from "react-icons/bi";
-import {Plus} from "react-feather";
+import {Plus, X} from "react-feather";
 import FloatingButton from "../../components/UI/FloatingButton/FloatingButton";
 import NewVehicle from "../../components/NewVehicle/NewVehicle";
 import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
 import LoadingSpinner from "../../components/UI/Loading/Loading";
+import InfoMessage from "../../components/UI/InfoMessage/InfoMessage";
 
 const Vehicles = (props) => {
 
+    const vehicleId = localStorage.getItem(`identifier`);
     const [showAddVehicle, setShowAddVehicle] = useState(false);
     const [enteredLicensePlate, setEnteredLicensePlate] = useState('');
+    const [showAnonimMessage, setShowAnonimMessage] = useState(props.userId === null);
+
+    useEffect(() => {
+        if (props.userId) {
+            if (props.role && props.role === 200) {
+                props.onDriverVehiclesFetch(props.userId);
+            }
+        } else {
+            if (vehicleId) {
+                props.onFetchVechicle(vehicleId)
+            }
+        }
+    }, [props.userId, props.role]);
 
     const handleInputChange = (event) => {
         setEnteredLicensePlate(event.target.value);
     };
-
-    useEffect(() => {
-        if (props.userId) {
-            props.onDriverVehiclesFetch(props.userId);
-        }
-        else {
-            const vehicleId = localStorage.getItem(`identifier`);
-            if(vehicleId) {
-                props.onFetchVechicle(vehicleId)
-            }
-        }
-    }, []);
 
     const handleAddVehicleClick = () => {
         setShowAddVehicle(true);
@@ -47,6 +50,10 @@ const Vehicles = (props) => {
 
         setShowAddVehicle(false);
         setEnteredLicensePlate('');
+    };
+
+    const handleAnonimMessageClose = () => {
+        setShowAnonimMessage(false);
     };
 
     const vehicleList = (
@@ -83,19 +90,32 @@ const Vehicles = (props) => {
         </Card>
     );
 
+    const anonimMessage = vehicleId !== null && (
+        <InfoMessage
+            className={classes["anonim-message"]}
+            onClick={handleAnonimMessageClose}
+            message="Puteti vedea doar ultimul vehicul adaugat deoarece folositi aplicatia in mod anonim."
+        />
+    );
+
     return (
         <div className={classes["vehicles-container"]}>
+            {
+                (!props.loading && showAnonimMessage) && anonimMessage
+            }
             {
                 props.loading ? <LoadingSpinner/>
                     :
                     props.vehicles.length > 0 ? vehicleList : noVehicleFoundInfo
             }
-
-            <div className={classes["vehicles-actions"]}>
-                <FloatingButton onClick={handleAddVehicleClick}>
-                    <Plus color='var(--DarkBlue)'/>
-                </FloatingButton>
-            </div>
+            {
+                props.role === 200 &&
+                <div className={classes["vehicles-actions"]}>
+                    <FloatingButton onClick={handleAddVehicleClick}>
+                        <Plus color='var(--DarkBlue)'/>
+                    </FloatingButton>
+                </div>
+            }
 
             {
                 showAddVehicle &&
@@ -112,6 +132,7 @@ const Vehicles = (props) => {
 const mapStateToProps = state => {
     return {
         userId: state.driverAuth.userId,
+        role: state.driverAuth.role,
         loading: state.driverVehicles.loading,
         error: state.driverVehicles.error,
         vehicles: state.driverVehicles.vehicles,

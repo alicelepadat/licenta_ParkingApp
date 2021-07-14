@@ -19,7 +19,7 @@ namespace ParkingApp.Main.API.Controllers
         }
         
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetDriverById(int userId, bool includeVehicles = false)
+        public async Task<IActionResult> GetDriverByUserId(int userId, bool includeVehicles = false)
         {
             try
             {

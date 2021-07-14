@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import Card from "../../components/UI/Card/Card";
-import classes from "./Profile.module.css";
-import DriverProfile from "../../components/Profile/Driver/Driver";
-import EditProfile from "../../components/Profile/EditProfile/EditProfile";
-import * as actionCreators from "../../store/actions";
+import Card from "../../../components/UI/Card/Card";
+import DriverProfile from "../../../components/Profile/Driver/DriverProfile";
+import EditProfile from "../../../components/Profile/Driver/EditProfile/EditProfile";
+import * as actionCreators from "../../../store/actions";
 import { connect } from "react-redux";
-import LoadingSpinner from "../../components/UI/Loading/Loading";
+import LoadingSpinner from "../../../components/UI/Loading/Loading";
+import classes from "../Profile.module.css";
 
-const Profile = props => {
+const Driver = props => {
+
+    useEffect(() => {
+        if (props.userId) {
+            switch (props.role) {
+                case 210:
+                    props.onFetchAdminData(props.userId);
+                    break;
+                case 200:
+                    props.onFetchDriverData(props.userId);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }, [props.userId, props.role]);
 
     const [showEditFields, setShowEditFields] = useState(false);
 
     const [userLicenseInput, setUserLicenseInput] = useState({
-        enteredLicenseNumber: props.driver ? props.driver.license && props.driver.license.number : '',
-        enteredExpirationDate: props.driver ? props.driver.license && props.driver.license.expirationDate : '',
+        enteredLicenseNumber: props.user ? props.user.license && props.user.license.number : '',
+        enteredExpirationDate: props.user ? props.user.license && props.user.license.expirationDate : '',
     });
-
-    useEffect(() => {
-        if (props.userId) {
-            props.onFetchDriverData(props.userId);
-        }
-    }, []);
 
     const handleInputChange = (event) => {
         setUserLicenseInput((prevState) => {
@@ -31,7 +40,7 @@ const Profile = props => {
         });
     };
 
-    const hasDrivingLicense = props.driver ? (!!props.driver.license) : false;
+    const hasDrivingLicense = props.user ? (!!props.user.license) : false;
 
     const handleEditClick = () => {
         setShowEditFields(true);
@@ -53,7 +62,7 @@ const Profile = props => {
 
     const profile = (
         <DriverProfile
-            user={props.driver}
+            user={props.user}
             hasDrivingLicense={hasDrivingLicense}
             licenseField={userLicenseInput}
             onEdit={handleEditClick}
@@ -65,7 +74,7 @@ const Profile = props => {
 
     const editProfile = (
         <EditProfile
-            user={props.driver}
+            user={props.user}
             hasDrivingLicense={hasDrivingLicense}
             onClose={handleEditClose}
             showEdit={showEditFields}
@@ -82,7 +91,7 @@ const Profile = props => {
                     :
                     <Card className={classes["user-card"]}>
                         {
-                            showEditFields ? editProfile : profile
+                            props.userId && (showEditFields ? editProfile : profile)
                         }
                     </Card>
             }
@@ -94,8 +103,9 @@ const mapStateToProps = state => {
     return {
         loading: state.driverData.loading,
         error: state.driverData.error,
-        driver: state.driverData.driver,
+        user: state.driverData.user,
         userId: state.driverAuth.userId,
+        role: state.driverAuth.role,
     };
 };
 
@@ -103,7 +113,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onDriverLogout: () => dispatch(actionCreators.authLogout()),
         onFetchDriverData: (userId) => dispatch(actionCreators.fetchDriverData(userId)),
+        onFetchAdminData: (userId) => dispatch(actionCreators.fetchAdminData(userId)),
+        getUserRole: (userId) => dispatch(actionCreators.getUserRole(userId)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Driver);

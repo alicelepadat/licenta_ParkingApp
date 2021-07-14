@@ -50,7 +50,10 @@ namespace ParkingApp.Main.Services
 
             entity.User.Email = driver.User.Email;
             entity.User.Phone = driver.User.Phone;
-            entity.User.Password = BC.HashPassword(driver.User.Password);
+            if (driver.User.Password.Length > 0)
+            {
+                entity.User.Password = BC.HashPassword(driver.User.Password);
+            }
             entity.License.Number = driver.License.Number;
             entity.License.ExpirationDate = driver.License.ExpirationDate;
 

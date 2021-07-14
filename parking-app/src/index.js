@@ -9,14 +9,14 @@ import {Provider} from "react-redux";
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
 import driverAuthReducer from "./store/reducers/authReducer";
-import driverDataReducer from "./store/reducers/driverDataReducer";
+import userDataReducer from "./store/reducers/userDataReducer";
 import driverVehiclesReducer from "./store/reducers/driverVehiclesReducer";
 import reservationReducer from "./store/reducers/reservationReducer";
 import parkingAreaReducer from "./store/reducers/parkingAreaReducer";
 
 const rootReducer = combineReducers({
     driverAuth: driverAuthReducer,
-    driverData: driverDataReducer,
+    driverData: userDataReducer,
     driverVehicles: driverVehiclesReducer,
     reservations: reservationReducer,
     parkingArea: parkingAreaReducer,

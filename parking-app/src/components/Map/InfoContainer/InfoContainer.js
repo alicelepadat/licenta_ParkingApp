@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import classes from './InfoContainer.module.css';
 import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
-import InfoHeader from "../../UI/InfoHeader/InfoHeader";
+import Header from "../../UI/Header/Header";
 import { Col, Row } from "react-bootstrap";
 import { FaDirections } from "react-icons/all";
 import LoadingSpinner from "../../UI/Loading/Loading";
@@ -20,7 +20,7 @@ const InfoContainer = props => {
 
     const areaInfo = (
         <div>
-            <InfoHeader title={props.area.emplacement} onCloseClick={props.onCloseClick} />
+            <Header title={props.area.emplacement} onCloseClick={props.onCloseClick} />
             <ul>
                 <li>
                     <label>Locuri disponibile: </label>
@@ -36,7 +36,7 @@ const InfoContainer = props => {
                 </li>
             </ul>
             {
-                props.userId && props.role === 200 &&
+                (props.role !== 210 || props.role !==220) &&
                 <Row>
                     <Col>
                         <Button className={classes["area-info__directions"]} title="Vezi ruta">

@@ -30,6 +30,8 @@ const CARD_OPTIONS = {
 
 const ReservationPayment = (props) => {
 
+    //TODO - RESERVATION PAYMENT
+
     return (
         <React.Fragment>
             {

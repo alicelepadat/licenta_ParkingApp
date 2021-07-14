@@ -1,14 +1,15 @@
 .user-card {
     width: 80%;
-    padding: 1rem;
+    padding: 2rem;
     z-index: 1;
     background-color: var(--DarkBlue);
-    margin-bottom: 2rem;
+    margin: auto;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1300px) {
     .user-card {
         width: 100%;
+        padding: 1rem;
     }
 }
 
