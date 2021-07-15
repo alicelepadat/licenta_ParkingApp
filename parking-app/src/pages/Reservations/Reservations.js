@@ -76,7 +76,7 @@ const Reservations = (props) => {
 
     const filteredReservations = props.reservations && filteredStatus !== 'toate' ? props.reservations.filter(reservation => {
         if (props.role === 220) {
-            return reservation.parkingArea.id.toString() === filteredStatus
+            return reservation.parkingArea.emplacement === filteredStatus
         } else {
             return getReservationState(reservation.state) === filteredStatus;
         }
@@ -132,7 +132,8 @@ const Reservations = (props) => {
             }
             {
                 !props.loading && (props.reservations.length > 0 ?
-                    (props.role !== 220 ? reservationsData : (showReports ? <ReservationsReports reservations={props.reservations}/> : reservationsData))
+                    (props.role !== 220 ? reservationsData :
+                        (showReports ? <ReservationsReports reservations={filteredReservations} area={filteredStatus}/> : reservationsData))
                     :
                     noReservationFoundInfo)
             }

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Card from "../../UI/Card/Card";
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 
 import classes from './Login.module.css';
-import { Link, useHistory } from 'react-router-dom';
-import { connect } from "react-redux";
+import {Link, useHistory} from 'react-router-dom';
+import {connect} from "react-redux";
 import * as actionCreators from '../../../store/actions/index';
 import Loading from "../../UI/Loading/Loading";
-import { Col, Row } from "react-bootstrap";
-import { Eye, EyeOff } from "react-feather";
+import {Col, Row} from "react-bootstrap";
+import {Eye, EyeOff} from "react-feather";
 import ErrorModal from "../../UI/ErrorModal/ErrorModal";
 
 const Login = props => {
@@ -18,7 +18,7 @@ const Login = props => {
 
     useEffect(() => {
         if (props.userId) {
-            if(props.role) {
+            if (props.role) {
                 switch (props.role) {
                     case 210:
                         history.push("/admin-dashboard");
@@ -77,17 +77,18 @@ const Login = props => {
     const handleLoginSubmit = (event) => {
         event.preventDefault();
 
-        if(!emailIsValid || !passwordIsValid) {
+        if (!emailIsValid || !passwordIsValid) {
             setError({
                 data: "Emailul sau parola nu sunt valide."
             });
-        };
+        }
+        ;
 
         if (formIsValid) {
             props.onAuth(enteredEmail, enteredPassword);
         }
 
-        if(props.error){
+        if (props.error) {
             setError(props.error)
         }
     };
@@ -101,7 +102,7 @@ const Login = props => {
         setError(null);
     };
 
-    const authForm =  (
+    const authForm = (
         <form onSubmit={handleLoginSubmit}>
             <Input
                 id="email"
@@ -113,27 +114,25 @@ const Login = props => {
                 onChange={handleEmailChange}
                 onBlur={handleValidateEmail}
             />
-            <Row>
-                <Col md={10} sm={10} xs={9}>
-                    <Input
-                        id="password"
-                        label="Password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Introduceti parola"
-                        value={enteredPassword}
-                        isValid={passwordIsValid}
-                        onChange={handlePasswordChange}
-                        onBlur={handleValidatePassword}
-                    />
-                </Col>
-                <Col className={classes["show-password"]}>
+            <div className={classes["user-password"]}>
+                <Input
+                    id="password"
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Introduceti parola"
+                    value={enteredPassword}
+                    isValid={passwordIsValid}
+                    onChange={handlePasswordChange}
+                    onBlur={handleValidatePassword}
+                >
                     <button onClick={handleShowPassword} title="Arata parola">
                         {
-                            showPassword ? <EyeOff /> : <Eye />
+                            showPassword ? <EyeOff/> : <Eye/>
                         }
                     </button>
-                </Col>
-            </Row>
+                </Input>
+
+            </div>
 
             <div className={`${classes["login-footer"]} text-center`}>
                 <p>Utilizator nou? <Link to="/register">Inregistrati-va aici.</Link></p>
@@ -149,7 +148,7 @@ const Login = props => {
     return (
         <Card className={classes.login}>
             {
-                props.loading ? <Loading />
+                props.loading ? <Loading/>
                     : <div className={classes["login-header"]}>
                         <div>
                             <img

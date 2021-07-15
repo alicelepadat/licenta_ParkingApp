@@ -20,6 +20,9 @@ const Input = props => {
                 disabled={props.disabled ? props.disabled : false}
                 min={props.min}
             />
+            {
+                props.children
+            }
         </div>
     );
 };

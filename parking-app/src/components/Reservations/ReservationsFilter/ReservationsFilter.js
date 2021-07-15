@@ -3,8 +3,6 @@ import React, {useEffect} from 'react';
 import classes from './ReservationsFilter.module.css';
 import {connect} from "react-redux";
 import * as actionCreators from "../../../store/actions";
-import Button from "../../UI/Button/Button";
-import {BarChart2} from "react-feather";
 
 const ReservationsFilter = props => {
 
@@ -29,7 +27,7 @@ const ReservationsFilter = props => {
                     {
                         props.role === 220 && props.parkingAreas.length > 0 ?
                             props.parkingAreas.map(area => (
-                                <option key={area.id} value={area.id}>{area.emplacement}</option>
+                                <option key={area.id} value={area.emplacement}>{area.emplacement}</option>
                             )) :
                             status.map((state, index) => (<option key={index}>{state}</option>))
                     }

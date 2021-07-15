@@ -29,7 +29,8 @@ export const getMonth = month => {
             return 'Oct';
         case 10:
             return 'Noi';
-        case 11:
+        default:
             return 'Dec';
     }
 }
+
