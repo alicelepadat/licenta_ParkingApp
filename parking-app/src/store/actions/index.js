@@ -10,6 +10,7 @@ export {
 export {
     fetchDriverData,
     fetchAdminData,
+    fetchAdministratorData,
     addDriverLicense,
     updateDriver,
     removeUserData,
@@ -36,4 +37,6 @@ export {
 export {
     fetchParkingArea,
     closeAreaSelection,
+    fetchParkingAreas,
+    fetchAreaSuccess,
 } from './parkingAreaActions';

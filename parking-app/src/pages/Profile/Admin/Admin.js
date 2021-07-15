@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from "../../../components/UI/Card/Card";
-import classes from "../Profile.module.css";
+import classes from "../WrapperCard.module.css";
 import AdminProfile from "../../../components/Profile/Admin/AdminProfile";
 
 const Admin = () => {

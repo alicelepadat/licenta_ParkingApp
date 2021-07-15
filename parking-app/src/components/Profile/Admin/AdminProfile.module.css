@@ -1,9 +1,3 @@
-.admin {
-    color: white;
-    display: flex;
-    flex-direction: column;
-}
-
 .admin-area h3 {
     color: var(--DarkBlue);
 }
@@ -62,10 +56,4 @@
 .admin-area-info div span {
     color: var(--DarkBlue);
     padding: 0;
-}
-
-@media only screen and (max-width: 768px) {
-    .admin {
-        margin-top: 2rem;
-    }
 }

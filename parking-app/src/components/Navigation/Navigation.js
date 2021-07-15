@@ -6,6 +6,7 @@ import FloatingButton from "../UI/FloatingButton/FloatingButton";
 import {connect} from "react-redux";
 import {User, Calendar, Home} from 'react-feather';
 import {BiCar} from 'react-icons/bi';
+import {RiParkingBoxLine} from "react-icons/all";
 
 
 const Navigation = (props) => {
@@ -49,7 +50,15 @@ const Navigation = (props) => {
                                 </NavLink>
                             </li>
                         }
-
+                        {
+                            props.role === 220  &&
+                            <li className={classes["nav-text"]} onClick={handleNavClick}>
+                                <NavLink to="/parking-areas">
+                                    <RiParkingBoxLine size={26}/>
+                                    <span>Zone de parcare</span>
+                                </NavLink>
+                            </li>
+                        }
                         <li className={classes["nav-text"]} onClick={handleNavClick}>
                             <NavLink
                                 to={props.userId !== null && props.role === 200 ? "/profile" : props.role === 210 ? "/admin-dashboard" : "/login"}>

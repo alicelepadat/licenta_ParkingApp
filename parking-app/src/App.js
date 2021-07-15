@@ -14,6 +14,7 @@ import * as actionCreators from "./store/actions";
 import Admin from "./pages/Profile/Admin/Admin";
 import Administrator from "./pages/Profile/Administrator/Administrator";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
+import ParkingAreas from "./pages/ParkingAreas/ParkingAreas";
 
 function App(props) {
 
@@ -44,6 +45,9 @@ function App(props) {
                 }
                 {
                     props.role === 220 && <Route exact path="/administrator-dashboard"><Administrator/></Route>
+                }
+                {
+                    props.role === 220 && <Route exact path="/parking-areas"><ParkingAreas/></Route>
                 }
                 <Route exact path="/reservations"><Reservations/></Route>
                 <Route exact path="/vehicles"><Vehicles/></Route>

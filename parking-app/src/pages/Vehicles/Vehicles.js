@@ -4,7 +4,7 @@ import Button from "../../components/UI/Button/Button";
 
 import classes from './Vehicles.module.css';
 import {BiCar} from "react-icons/bi";
-import {Plus, X} from "react-feather";
+import {Plus} from "react-feather";
 import FloatingButton from "../../components/UI/FloatingButton/FloatingButton";
 import NewVehicle from "../../components/NewVehicle/NewVehicle";
 import {connect} from "react-redux";
@@ -29,7 +29,7 @@ const Vehicles = (props) => {
                 props.onFetchVechicle(vehicleId)
             }
         }
-    }, [props.userId, props.role]);
+    }, [props.userId, props.role,vehicleId]);
 
     const handleInputChange = (event) => {
         setEnteredLicensePlate(event.target.value);
@@ -116,7 +116,6 @@ const Vehicles = (props) => {
                     </FloatingButton>
                 </div>
             }
-
             {
                 showAddVehicle &&
                 <NewVehicle

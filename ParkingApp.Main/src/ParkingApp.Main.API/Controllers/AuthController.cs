@@ -28,7 +28,7 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if(!await _authService.GetUserByIdAsync(userId))
+                if(await _authService.GetUserByIdAsync(userId) == null)
                 {
                     return NotFound("Utilizatorul nu exista");
                 }

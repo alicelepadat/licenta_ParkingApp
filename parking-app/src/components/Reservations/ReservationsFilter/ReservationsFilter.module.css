@@ -5,9 +5,8 @@
 .reservations-filter__control {
     display: flex;
     width: 100%;
-    align-items: center;
-    justify-content: space-between;
     margin: 1rem 0;
+    justify-content: space-between;
 }
 
 .reservations-filter label {
@@ -21,4 +20,15 @@
     font-weight: bold;
     border-radius: 6px;
     background-color: white;
+}
+
+@media only screen and (max-width: 768px) {
+    .reservations-filter__control {
+        text-align: start;
+        flex-direction: column;
+    }
+
+    .reservations-filter label {
+        margin-bottom: 1rem;
+    }
 }

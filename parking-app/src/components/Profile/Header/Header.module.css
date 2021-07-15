@@ -1,0 +1,11 @@
+.profile-header {
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 768px) {
+    .profile-header {
+        margin-top: 2rem;
+    }
+}

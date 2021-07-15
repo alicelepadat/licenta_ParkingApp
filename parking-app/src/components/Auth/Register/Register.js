@@ -19,10 +19,10 @@ const Register = (props) => {
 
     const [userInput, setUserInput] = useState({
         enteredName: "",
-        enteredEmail: "",
+        enteredEmail: props.role === 220 && props.selectedArea ? `admin_area${props.selectedArea.id}@easypark.com` : "",
         enteredPhone: "",
-        enteredPassword: "",
-        enteredVerifyPassword: "",
+        enteredPassword: props.role === 220 && props.selectedArea ? `admin_area${props.selectedArea.id}` : "",
+        enteredVerifyPassword: props.role === 220 && props.selectedArea ? `admin_area${props.selectedArea.id}` : "",
     });
 
     const validateRules = {
@@ -66,9 +66,15 @@ const Register = (props) => {
 
     useEffect(() => {
         const identifier = setTimeout(() => {
-            setFormIsValid(
-                inputIsValid.enteredName && inputIsValid.enteredEmail && inputIsValid.enteredPhone && inputIsValid.enteredPassword && passwordIsVerified
-            );
+            if (props.role === 220) {
+                setFormIsValid(
+                    inputIsValid.enteredName && inputIsValid.enteredPhone
+                )
+            } else {
+                setFormIsValid(
+                    inputIsValid.enteredName && inputIsValid.enteredEmail && inputIsValid.enteredPhone && inputIsValid.enteredPassword && passwordIsVerified
+                );
+            }
         }, 500);
 
         return () => {
@@ -118,17 +124,30 @@ const Register = (props) => {
     const handleRegisterSubmit = (event) => {
         event.preventDefault();
 
-        const data = {
-            user: {
-                name: userInput.enteredName,
-                email: userInput.enteredEmail,
-                phone: userInput.enteredPhone,
-                password: userInput.enteredPassword,
-            }
+        const user = {
+            name: userInput.enteredName,
+            email: userInput.enteredEmail,
+            phone: userInput.enteredPhone,
+            password: userInput.enteredPassword,
         };
 
+        const driverData = {
+            user: user,
+        }
+
+        const adminData = {
+            user: user,
+            parkingAreaId: props.selectedArea.id,
+        }
+
         if (formIsValid && !props.error) {
-            props.onDriverRegister(data);
+            if (props.role === 220) {
+                props.onAdminRegister(adminData)
+                history.push('/parking-areas');
+            } else {
+                props.onDriverRegister(driverData);
+                history.push('/login');
+            }
 
             setUserInput((prevState) => {
                 return {
@@ -141,16 +160,26 @@ const Register = (props) => {
                 };
             });
 
-            history.push('/login');
         }
 
-        if(props.error){
+        if (props.error) {
             setError(props.error)
         }
     };
 
     const registerData = (
         <form>
+            {
+                props.role === 220 && props.selectedArea !== null &&
+                <Input
+                    id="parkingArea"
+                    label="Zona de parcare"
+                    type={"text"}
+                    placeholder="Zona de parcare"
+                    value={props.selectedArea.emplacement}
+                    disabled={true}
+                />
+            }
             <Input
                 id="name"
                 label="Nume"
@@ -172,6 +201,7 @@ const Register = (props) => {
                 isValid={inputIsValid.enteredEmail}
                 onChange={handleInputChange}
                 onBlur={handleValidateUserInput}
+                disabled={props.role === 220}
             />
             <Input
                 id="phone"
@@ -196,6 +226,7 @@ const Register = (props) => {
                         isValid={inputIsValid.enteredPassword}
                         onChange={handleInputChange}
                         onBlur={handleValidateUserInput}
+                        disabled={props.role === 220}
                     />
                 </Col>
                 <Col className={classes["register__actions"]}>
@@ -218,6 +249,7 @@ const Register = (props) => {
                         isValid={passwordIsVerified}
                         onChange={handleInputChange}
                         onBlur={handleVerifyPassword}
+                        disabled={props.role === 220}
                     />
                 </Col>
                 <Col className={classes["register__actions"]}>
@@ -230,7 +262,7 @@ const Register = (props) => {
             </Row>
             <div className="text-center">
                 <Button className="mt-3" type="submit" onClick={handleRegisterSubmit}>
-                    Inregistrare
+                    {props.role === 220 ? 'Adauga admin' : 'Inregistrare'}
                 </Button>
             </div>
         </form>
@@ -238,8 +270,9 @@ const Register = (props) => {
 
     return (
         <Card className={classes.register}>
-            <Link to="/login">
-                <button title="Mergi la autentificare" className={classes["go-back"]}>
+            <Link to={props.role === 220 ? "/parking-areas" : "/login"}>
+                <button title={props.role === 220 ? "Inapoi la zonele de parcare" : "Mergi la autentificare"}
+                        className={classes["go-back"]}>
                     <ArrowLeft/>
                 </button>
             </Link>
@@ -251,7 +284,7 @@ const Register = (props) => {
                          width="100"
                          height="100"/>
                 </div>
-                <h2> Inregistrare </h2>
+                <h2> {props.role === 220 ? 'Adauga admin' : 'Inregistrare'} </h2>
             </div>
             {registerData}
             {error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>}
@@ -263,12 +296,15 @@ const mapStateToProps = state => {
     return {
         loading: state.driverAuth.loading,
         error: state.driverAuth.error,
+        role: state.driverAuth.role,
+        selectedArea: state.parkingArea.selectedArea,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onDriverRegister: (data) => dispatch(actionCreators.driverRegister(data)),
+        onAdminRegister: (data) => dispatch(actionCreators.adminRegister(data)),
     }
 }
 

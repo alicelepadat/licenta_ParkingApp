@@ -13,7 +13,7 @@ namespace ParkingApp.Main.DataAcces.Repository
         }
         public async Task<IEnumerable<ParkingArea>> GetAllAreasAsync()
         {
-            return await _parkingMainContext.ParkingAreas.ToListAsync();
+            return await _parkingMainContext.ParkingAreas.Include(a=>a.Admin).ThenInclude(a=>a.User).ToListAsync();
         }
 
         public async Task<ParkingArea> GetByIdAsync(int id)

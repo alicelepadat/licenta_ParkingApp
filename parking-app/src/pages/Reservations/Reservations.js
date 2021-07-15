@@ -7,16 +7,18 @@ import ReservationsList from "../../components/Reservations/ReservationsList/Res
 import classes from './Reservations.module.css';
 import {connect} from "react-redux";
 import * as actionCreators from "../../store/actions";
-import LoadingSpinner from "../../components/UI/Loading/Loading";
 import {Link} from "react-router-dom";
-import {X} from "react-feather";
+import {BarChart2, X} from "react-feather";
 import InfoMessage from "../../components/UI/InfoMessage/InfoMessage";
+import FloatingButton from "../../components/UI/FloatingButton/FloatingButton";
+import ReservationsReports from "../../components/Reservations/ReservationsReports/ReservationsReports";
 
 const Reservations = (props) => {
 
     const identifier = localStorage.getItem('identifier');
-    const [filteredStatus, setFilteredStatus] = useState(props.role === 220 ? 'toate' : 'progres');
+    const [filteredStatus, setFilteredStatus] = useState('toate');
     const [showAnonimMessage, setShowAnonimMessage] = useState(props.userId === null);
+    const [showReports, setShowReports] = useState(false);
 
     useEffect(() => {
         if (props.role === 210 && props.user !== null) {
@@ -28,11 +30,9 @@ const Reservations = (props) => {
         if (props.userId && props.role) {
             switch (props.role) {
                 case 210:
-                    console.log(props.role)
                     props.onFetchAdminData(props.userId);
                     break;
                 case 200:
-                    console.log(props.role);
                     props.onfetchDriverReservations(props.userId);
                     break;
                 case 220:
@@ -42,7 +42,7 @@ const Reservations = (props) => {
                     break
             }
         }
-    }, [props.role]);
+    }, [props.userId, props.role]);
 
 
     useEffect(() => {
@@ -75,9 +75,16 @@ const Reservations = (props) => {
     };
 
     const filteredReservations = props.reservations && filteredStatus !== 'toate' ? props.reservations.filter(reservation => {
-        return getReservationState(reservation.state) === filteredStatus;
+        if (props.role === 220) {
+            return reservation.parkingArea.id.toString() === filteredStatus
+        } else {
+            return getReservationState(reservation.state) === filteredStatus;
+        }
     }) : props.reservations;
 
+    const handleShowReportsClick = () => {
+        setShowReports(!showReports);
+    }
 
     const reservationsData = (
         <div>
@@ -96,7 +103,7 @@ const Reservations = (props) => {
     const noReservationFoundInfo = (
         <Card className={classes["noReservation-card"]}>
             <h3>
-                Nu ati efectuat nicio rezervare.
+                Nu exista rezervari.
             </h3>
             {
                 props.userId === null &&
@@ -124,7 +131,19 @@ const Reservations = (props) => {
                 (!props.loading && showAnonimMessage) && anonimMessage
             }
             {
-                !props.loading && props.reservations.length > 0 ? reservationsData : noReservationFoundInfo
+                !props.loading && (props.reservations.length > 0 ?
+                    (props.role !== 220 ? reservationsData : (showReports ? <ReservationsReports reservations={props.reservations}/> : reservationsData))
+                    :
+                    noReservationFoundInfo)
+            }
+            {
+                props.role === 220 &&
+                <div className={classes["reservations-reports"]}>
+                    <FloatingButton onClick={handleShowReportsClick}>
+                        {showReports ? <X color='var(--DarkBlue)'/> : <BarChart2 color='var(--DarkBlue)'/>}
+
+                    </FloatingButton>
+                </div>
             }
         </div>
     );
@@ -138,7 +157,7 @@ const mapStateToProps = state => {
         role: state.driverAuth.role,
         user: state.driverData.user,
         reservations: state.reservations.reservations,
-        vehicles: state.driverVehicles.vehicles
+        vehicles: state.driverVehicles.vehicles,
     };
 };
 

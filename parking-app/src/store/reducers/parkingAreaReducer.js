@@ -2,6 +2,7 @@ import {updateObject} from "../utility";
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
+    parkingAreas: [],
     selectedArea: {},
     error: null,
     loading: false,
@@ -17,6 +18,14 @@ const fetchAreaStart = (state, action) => {
 const fetchAreaSuccess = (state, action) => {
     return updateObject(state, {
         selectedArea: action.area,
+        error: null,
+        loading: false,
+    });
+};
+
+const fetchAllAreasSuccess = (state, action) => {
+    return updateObject(state, {
+        parkingAreas: action.parkingAreas,
         error: null,
         loading: false,
     });
@@ -41,6 +50,8 @@ const parkingAreaReducer = (state = initialState, action) => {
             return fetchAreaStart(state, action);
         case actionTypes.FETCH_AREA_SUCCESS:
             return fetchAreaSuccess(state, action);
+        case actionTypes.FETCH_AREAS_SUCCESS:
+            return fetchAllAreasSuccess(state, action);
         case actionTypes.FETCH_AREA_FAIL:
             return fetchAreaFail(state, action);
         case actionTypes.CLOSE_AREA_SELECTION:

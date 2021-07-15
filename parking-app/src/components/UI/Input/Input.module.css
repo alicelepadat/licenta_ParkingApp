@@ -32,6 +32,10 @@
     background-color: #EEFBFB
 }
 
+.control input:disabled {
+    background-color: lightgray;
+}
+
 .invalid input{
     border: 1px solid var(--LightRed);
     background-color: var(--ErrorRed);

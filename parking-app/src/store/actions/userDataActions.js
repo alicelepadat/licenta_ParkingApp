@@ -73,6 +73,19 @@ export const fetchAdminData = (userId) => {
     };
 };
 
+export const fetchAdministratorData = (userId) => {
+    return dispatch => {
+        dispatch(fetchUserDataStart());
+        axios.get(`/administrator/${userId}`)
+            .then(response => {
+                dispatch(fetchUserDataSuccess(response.data));
+            }).catch(error => {
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchUserDataFail(response));
+        });
+    };
+};
+
 export const addDriverLicense = (driverId, licenseData) => {
     return dispatch => {
         dispatch(fetchUserDataStart());

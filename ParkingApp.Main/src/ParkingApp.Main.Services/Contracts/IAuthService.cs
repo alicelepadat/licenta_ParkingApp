@@ -10,7 +10,7 @@ namespace ParkingApp.Main.Services.Contracts
         
         Task<bool> UserExistsAsync(string email);
         
-        Task<bool> GetUserByIdAsync(int userId);
+        Task<UserDto> GetUserByIdAsync(int userId);
         
         Task<UserRoleEnum> GetUserRoleAsync(int userId);
         

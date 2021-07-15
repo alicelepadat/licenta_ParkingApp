@@ -5,7 +5,7 @@ import EditProfile from "../../../components/Profile/Driver/EditProfile/EditProf
 import * as actionCreators from "../../../store/actions";
 import { connect } from "react-redux";
 import LoadingSpinner from "../../../components/UI/Loading/Loading";
-import classes from "../Profile.module.css";
+import classes from "../WrapperCard.module.css";
 
 const Driver = props => {
 

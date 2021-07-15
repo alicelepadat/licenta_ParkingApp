@@ -1,16 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import * as actionCreators from "../../../store/actions";
 import {Card, Col, Row} from "react-bootstrap";
 import classes from './AdminProfile.module.css';
 import LoadingSpinner from "../../UI/Loading/Loading";
-import Button from "../../UI/Button/Button";
-import {ArrowRight} from "react-feather";
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import * as dataUtility from '../../../utility/dataUtility';
+import Header from "../Header/Header";
 
 const AdminProfile = props => {
-    const history = useHistory();
+    console.log(props.userId)
+    console.log(props.role)
+    console.log(props.user)
+
+    useEffect(() => {
+        if (props.userId) {
+            if (props.role && props.role === 210) {
+                props.onFetchAdminData(props.userId);
+            }
+        }
+    }, [props.userId, props.role]);
 
     useEffect(() => {
         if (props.userId) {
@@ -25,48 +34,11 @@ const AdminProfile = props => {
     const canceledReservations = props.reservations && dataUtility.getNumberOfReservatiosn(props.reservations, 120);
     const finishedReservations = props.reservations && dataUtility.getNumberOfReservatiosn(props.reservations, 130);
 
-    useEffect(() => {
-        if (props.userId) {
-            if (props.role && props.role === 210) {
-                props.onFetchAdminData(props.userId);
-            }
-        }
-    }, [props.userId, props.role]);
-
-    const handleLogout = () => {
-        props.onAdminLogout();
-        props.onRemoveUserData();
-        history.push('/login');
-    }
 
     const dashboard = (
         <div>
-            <Row className="d-flex text-center align-items-center">
-                <Col md={3}>
-                    <img className="rounded"
-                         src="/profile.png"
-                         width="155"
-                         height="155"
-                         alt="poza de profil"
-                    />
-                </Col>
-                <Col>
-                    <div className={classes.admin}>
-                        <h2>Panou admin</h2>
-                        <span className="mt-4">
-                            Email: {props.user && props.user.user.email}
-                        </span>
-                        <span className="mt-2">
-                            Telefon: {props.user && props.user.user.phone}
-                        </span>
-                        <div className="mt-4">
-                            <Button onClick={handleLogout}>
-                                Iesi din cont <ArrowRight/>
-                            </Button>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
+            <Header profilePicture="/profile.png" user={props.user && props.user.user} header="Panou admin"/>
+
             <div className={classes["admin-area__note"]}>
                 <p>Zona de parcare aflata in administrare:</p>
             </div>
@@ -141,8 +113,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAdminLogout: () => dispatch(actionCreators.authLogout()),
-        onRemoveUserData: () => dispatch(actionCreators.removeUserData()),
         onFetchAdminData: (userId) => dispatch(actionCreators.fetchAdminData(userId)),
         onFetchAreaReservations: (areaId) => dispatch(actionCreators.fetchAreaReservations(areaId)),
     };

@@ -40,11 +40,11 @@ namespace ParkingApp.Main.Services
             return userFound != null;
         }
 
-        public async Task<bool> GetUserByIdAsync(int userId)
+        public async Task<UserDto> GetUserByIdAsync(int userId)
         {
             var userFound = await _unitOfWork.UserRepository.SingleOrDefaultAsync(u => u.Id == userId);
 
-            return userFound != null;
+            return _mapper.Map<User, UserDto>(userFound);
         }
 
         public async Task<UserRoleEnum> GetUserRoleAsync(int userId)
@@ -57,6 +57,8 @@ namespace ParkingApp.Main.Services
         public async Task<AdminDto> CreateAdminAsync(NewAdminDto admin)
         {
             var model = _mapper.Map<NewAdminDto, Admin>(admin);
+
+            model.User.Role = UserRoleEnum.ADMIN;
 
             model.User.Password = BC.HashPassword(admin.User.Password);
             

@@ -34,3 +34,11 @@
 .noReservation-card h3 {
     padding: 2rem 0;
 }
+
+.reservations-reports {
+    position: fixed;
+    bottom: 3rem;
+    right: 1rem;
+    z-index: 999;
+    cursor: pointer;
+}
