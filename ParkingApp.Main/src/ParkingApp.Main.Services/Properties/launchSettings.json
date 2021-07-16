@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "ParkingApp.Main.Services": {
+      "commandName": "Project"
+    }
+  }
+}
