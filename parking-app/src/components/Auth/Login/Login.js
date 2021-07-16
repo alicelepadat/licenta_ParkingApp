@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import * as actionCreators from '../../../store/actions/index';
 import Loading from "../../UI/Loading/Loading";
 import {Eye, EyeOff} from "react-feather";
-import ErrorModal from "../../UI/ErrorModal/ErrorModal";
+import Modal from "../../UI/Modal/Modal";
 
 const Login = props => {
     const history = useHistory();
@@ -43,7 +43,6 @@ const Login = props => {
     const [passwordIsValid, setPasswordIsValid] = useState();
 
     const [formIsValid, setFormIsValid] = useState(false);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const identifier = setTimeout(() => {
@@ -76,29 +75,14 @@ const Login = props => {
     const handleLoginSubmit = (event) => {
         event.preventDefault();
 
-        if (!emailIsValid || !passwordIsValid) {
-            setError({
-                data: "Emailul sau parola nu sunt valide."
-            });
-        }
-        ;
-
         if (formIsValid) {
             props.onAuth(enteredEmail, enteredPassword);
-        }
-
-        if (props.error) {
-            setError(props.error)
         }
     };
 
     const handleShowPassword = (event) => {
         event.preventDefault();
         setShowPassword(!showPassword);
-    };
-
-    const handleError = () => {
-        setError(null);
     };
 
     const authForm = (
@@ -108,6 +92,7 @@ const Login = props => {
                 label="E-mail"
                 type="email"
                 placeholder="johndoe@example.com"
+                autocomplete="current-email"
                 value={enteredEmail}
                 isValid={emailIsValid}
                 onChange={handleEmailChange}
@@ -119,6 +104,7 @@ const Login = props => {
                     label="Password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Introduceti parola"
+                    autocomplete="current-password"
                     value={enteredPassword}
                     isValid={passwordIsValid}
                     onChange={handlePasswordChange}
@@ -160,7 +146,7 @@ const Login = props => {
                     </div>
             }
             {authForm}
-            {error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>}
+            {props.error && <Modal title="A aparut o eroare" message={props.error.data} onConfirm={props.onErrorClose}/>}
         </Card>
     );
 };
@@ -178,6 +164,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onAuth: (email, password) => dispatch(actionCreators.userAuth(email, password)),
         getUserRole: (userId) => dispatch(actionCreators.getUserRole(userId)),
+        onErrorClose: () => dispatch(actionCreators.updateError()),
     };
 };
 

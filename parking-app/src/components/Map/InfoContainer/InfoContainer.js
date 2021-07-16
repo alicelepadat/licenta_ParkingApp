@@ -34,7 +34,7 @@ const InfoContainer = props => {
                 </li>
             </ul>
             {
-                (props.role !== 210 || props.role !== 220) &&
+                (props.role ===200 || props.role === null) &&
                 <div className="text-end">
                     <Button onClick={props.onReserve} disabled={props.area.availableSpots === 0}>Rezerva</Button>
                 </div>

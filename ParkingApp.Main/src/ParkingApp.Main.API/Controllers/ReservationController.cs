@@ -183,6 +183,8 @@ namespace ParkingApp.Main.API.Controllers
 
                 foreach (var r in reservations)
                 {
+                    await _reservationService.UpdateReservationStateAsync(r);
+
                     if (r.ReservationDate.Date == date && (r.State == ReservationStateEnum.ACTIVE || r.State == ReservationStateEnum.IN_PROGRESS))
                     {
                         return BadRequest("Aveti deja o rezervare activa astazi.");
@@ -246,7 +248,7 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
-        [HttpPatch("{reservationId}/driver/{driverId}")]
+        [HttpPut("{reservationId}/driver/{driverId}")]
         public async Task<IActionResult> CancelReservation(int driverId, int reservationId)
         {
             try
@@ -279,6 +281,33 @@ namespace ParkingApp.Main.API.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+            }
+        }
+
+        [HttpPut("{reservationId}/payment")]
+        public async Task<IActionResult> UpdateDriver(int reservationId)
+        {
+            try
+            {
+                var reservationExist = await _reservationService.GetByIdAsync(reservationId);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (reservationExist == null)
+                {
+                    return NotFound("Rezervarea nu exista");
+                }
+
+                await _reservationService.UpdateReservationPaymentAsync(reservationId);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 

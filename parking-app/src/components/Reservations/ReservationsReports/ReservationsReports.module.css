@@ -6,7 +6,7 @@
     margin: auto;
 }
 
-.reports h2, .reports h4 {
+.reports h2 {
     margin: 1rem 0 2rem;
     text-align: center;
     color: white;
@@ -16,10 +16,28 @@
     margin-bottom: 3rem;
 }
 
+.print {
+    color: black;
+}
+
+.print h2, .print p {
+    color: black;
+}
+
 @media only screen and (max-width: 1300px) {
     .reports {
         width: 100%;
         padding: 1rem;
+    }
+}
+
+@media print {
+    .print {
+        color: black;
+    }
+
+    .print h2, .print p {
+        color: black;
     }
 }
 

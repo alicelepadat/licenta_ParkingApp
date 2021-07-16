@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ParkingApp.Main.DataAcces;
 using ParkingApp.Main.Services;
+using Stripe;
 
 namespace ParkingApp.Main.API
 {
@@ -15,6 +16,10 @@ namespace ParkingApp.Main.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            DotNetEnv.Env.Load();
+
+            StripeConfiguration.ApiKey = System.Environment.GetEnvironmentVariable("SK_STRIPE_KEY");
         }
 
         public IConfiguration Configuration { get; }

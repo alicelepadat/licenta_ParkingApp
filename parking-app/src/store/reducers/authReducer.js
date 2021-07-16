@@ -54,6 +54,12 @@ const userRoleSuccess = (state, action) => {
     });
 };
 
+const updateError = (state, action) => {
+    return updateObject(state, {
+        error: null,
+    });
+}
+
 const driverAuthReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.AUTH_START:
@@ -68,6 +74,8 @@ const driverAuthReducer = (state = initialState, action) => {
             return authLogout(state, action);
         case actionTypes.USER_ROLE_SUCCESS:
             return userRoleSuccess(state, action);
+        case actionTypes.UPDATE_ERROR_SUCCESS:
+            return updateError(state, action);
         default:
             return state;
     }

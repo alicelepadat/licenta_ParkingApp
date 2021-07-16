@@ -13,6 +13,7 @@ import userDataReducer from "./store/reducers/userDataReducer";
 import driverVehiclesReducer from "./store/reducers/driverVehiclesReducer";
 import reservationReducer from "./store/reducers/reservationReducer";
 import parkingAreaReducer from "./store/reducers/parkingAreaReducer";
+import * as serviceWorker from './registerServiceWorker';
 
 const rootReducer = combineReducers({
     driverAuth: driverAuthReducer,
@@ -34,3 +35,5 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
+
+serviceWorker.register();

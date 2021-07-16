@@ -9,6 +9,7 @@ import * as validate from "../../../../utility/validateHandler";
 import * as actionCreators from "../../../../store/actions";
 import {connect} from "react-redux";
 import {useHistory} from 'react-router-dom';
+import Modal from "../../../UI/Modal/Modal";
 
 const EditProfile = props => {
     const history=useHistory();
@@ -165,14 +166,17 @@ const EditProfile = props => {
                     <Check/>
                 </button>
             </div>
+            {
+                props.error && <Modal title="Date incorecte" message={props.error.data} onConfirm={props.onErrorClose}/>
+            }
         </React.Fragment>
     );
 };
 
 const mapStateToProps = state => {
     return {
-        loading: state.driverAuth.loading,
-        error: state.driverAuth.error,
+        loading: state.driverData.loading,
+        error: state.driverData.error,
         userId: state.driverAuth.userId,
         driver: state.driverData.user,
     }
@@ -183,6 +187,7 @@ const mapDispatchToProps = dispatch => {
         onDriverUpdate: (driverId, driverUpdateData) => dispatch(actionCreators.updateDriver(driverId, driverUpdateData)),
         onFetchDriverData: (driverId) => dispatch(actionCreators.fetchDriverData(driverId)),
         onDriverLogout: () => dispatch(actionCreators.authLogout()),
+        onErrorClose: () => dispatch(actionCreators.updateError()),
     }
 }
 

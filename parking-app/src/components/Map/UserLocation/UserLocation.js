@@ -16,7 +16,8 @@ const UserLocation = () => {
             style={geolocateControlStyle}
             positionOptions={{enableHighAccuracy: true}}
             trackUserLocation={true}
-            auto
+            showAccuracyCircle={false}
+
         />
     );
 };

@@ -11,7 +11,8 @@ import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
 import * as validate from '../../../utility/validateHandler';
 import {Link, useHistory} from "react-router-dom";
-import ErrorModal from "../../UI/ErrorModal/ErrorModal";
+import Modal from "../../UI/Modal/Modal";
+import Loading from "../../UI/Loading/Loading";
 
 const Register = (props) => {
     const history = useHistory();
@@ -57,11 +58,6 @@ const Register = (props) => {
     const [formIsValid, setFormIsValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showVerifyPassword, setShowVerifyPassword] = useState(false);
-    const [error, setError] = useState(null);
-
-    const handleError = () => {
-        setError(null);
-    };
 
     useEffect(() => {
         const identifier = setTimeout(() => {
@@ -160,10 +156,6 @@ const Register = (props) => {
             });
 
         }
-
-        if (props.error) {
-            setError(props.error)
-        }
     };
 
     const registerData = (
@@ -246,7 +238,7 @@ const Register = (props) => {
                     onBlur={handleVerifyPassword}
                     disabled={props.role === 220}
                 >
-                    <button onClick={handleShowPassword} title="Arata parola">
+                    <button onClick={handleShowVerifyPassword} title="Arata parola">
                         {
                             showPassword ? <EyeOff/> : <Eye/>
                         }
@@ -271,17 +263,23 @@ const Register = (props) => {
             </Link>
 
             <div className={`${classes["register-header"]} d-flex flex-column text-center`}>
-                <div>
-                    <img
-                        src="/logo.png"
-                        alt="parking-logo"
-                        width="100"
-                        height="100"/>
-                </div>
-                <h2> {props.role === 220 ? 'Adauga admin' : 'Inregistrare'} </h2>
+                {
+                    props.loading ? <Loading/>
+                        : <div className={classes["login-header"]}>
+                            <div>
+                                <img
+                                    src="/logo.png"
+                                    alt="parking-logo"
+                                    width="100"
+                                    height="100"
+                                />
+                            </div>
+                            <h2> {props.role === 220 ? 'Adauga admin' : 'Inregistrare'} </h2>
+                        </div>
+                }
             </div>
             {registerData}
-            {error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>}
+            {props.error && <Modal title="A aparut o eroare" message={props.error.data} onConfirm={props.onErrorClose}/>}
         </Card>
     );
 };
@@ -299,6 +297,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onDriverRegister: (data) => dispatch(actionCreators.driverRegister(data)),
         onAdminRegister: (data) => dispatch(actionCreators.adminRegister(data)),
+        onErrorClose: () => dispatch(actionCreators.updateError()),
     }
 }
 

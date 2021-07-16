@@ -13,7 +13,7 @@ import * as data from "../../../utility/dataUtility";
 import {Link} from "react-router-dom";
 import LoadingSpinner from "../../UI/Loading/Loading";
 import {connect} from "react-redux";
-import ErrorModal from "../../UI/ErrorModal/ErrorModal";
+import Modal from "../../UI/Modal/Modal";
 import {loadStripe} from "@stripe/stripe-js";
 import {Elements} from "@stripe/react-stripe-js";
 
@@ -24,6 +24,10 @@ const ReservationForm = (props) => {
     const today = format(new Date(), "yyyy-MM-dd");
     const startTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 30)).toString();
     const endTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 90)).toString();
+
+    const [showLicensePlateInput, setShowLicensePlateInput] = useState(false);
+    const [goToPayment, setGoToPayment] = useState(false);
+    const [error, setError] = useState(null);
 
     const [details, setDetails] = useState(0);
 
@@ -82,11 +86,6 @@ const ReservationForm = (props) => {
         }));
     };
 
-    const [showLicensePlateInput, setShowLicensePlateInput] = useState(false);
-
-    const [goToPayment, setGoToPayment] = useState(false);
-    const [error, setError] = useState(null);
-
     const handleError = () => {
         setError(null);
     };
@@ -97,17 +96,9 @@ const ReservationForm = (props) => {
         }
     }, [props.reservationId]);
 
-    const handleGoToPayment = (event) => {
+    const handleReserve = (event) => {
         event.preventDefault();
 
-        if (formIsValid) {
-            setDetails(data.getPrice(userInput.enteredStartTime, userInput.enteredEndTime, props.selectedArea.pricePerHour))
-            setGoToPayment(true)
-        }
-
-    }
-
-    const handleReserve = () => {
         const reservationData = {
             reservationDate: userInput.enteredDate,
             startTime: userInput.enteredStartTime,
@@ -117,11 +108,20 @@ const ReservationForm = (props) => {
             },
         };
 
-        if (props.userId) {
-            props.onDriverAdd(reservationData, props.userId, props.area.id);
-        } else {
-            props.onAnonimAdd(reservationData, props.area.id);
+        if (formIsValid) {
+            if (props.userId) {
+                props.onDriverAdd(reservationData, props.userId, props.area.id);
+            } else {
+                props.onAnonimAdd(reservationData, props.area.id);
+            }
         }
+
+        setDetails(data.getPrice(userInput.enteredStartTime, userInput.enteredEndTime, props.selectedArea.pricePerHour));
+        setGoToPayment(true);
+    }
+
+    const handlePay = () => {
+        props.onPay();
 
         setUserInput({
             enteredDate: today,
@@ -141,9 +141,6 @@ const ReservationForm = (props) => {
             };
         });
     };
-
-    console.log(goToPayment)
-    console.log(userInput)
 
     const handleAddLicensePlate = () => {
         setShowLicensePlateInput(true);
@@ -239,24 +236,23 @@ const ReservationForm = (props) => {
                     <p>Rezervati in mod anonim. Aveti un cont? Autentificati-va <Link to="/profile"> aici</Link>.</p>
                 </div>
             }
-            {props.loading && <LoadingSpinner/>}
             {
                 !props.loading && goToPayment &&
                 <Elements stripe={stripePromise}>
-                    <ReservationPayment details={details} area={props.area} loading={props.loading} onPay={handleReserve}/>
+                    <ReservationPayment details={details} area={props.area} loading={props.loading} onPay={handlePay}/>
                 </Elements>
             }
             {!goToPayment && reservationForm}
             <div className={classes["new-reservation__actions"]}>
                 {
                     !goToPayment &&
-                    <Button type="submit" onClick={handleGoToPayment}>
+                    <Button type="submit" onClick={handleReserve}>
                         Rezerva <Check/>
                     </Button>
                 }
             </div>
             {
-                error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>
+                error && <Modal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>
             }
         </Fragment>
     );
@@ -264,8 +260,6 @@ const ReservationForm = (props) => {
 
 const mapStateToProps = state => {
         return {
-            error: state.reservations.error,
-            loading: state.reservations.loading,
             reservationId: state.reservations.reservationId,
             selectedArea: state.parkingArea.selectedArea,
         };

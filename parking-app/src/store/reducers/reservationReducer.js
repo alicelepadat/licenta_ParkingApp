@@ -63,6 +63,19 @@ const addReservationSuccese = (state, action) => {
     });
 }
 
+const updateError = (state, action) => {
+    return updateObject(state, {
+        error: null,
+    });
+}
+
+const updateReservationPayment = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: null,
+    });
+}
+
 const reservationsReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_RESERVATIONS_START:
@@ -77,6 +90,10 @@ const reservationsReducer = (state = initialState, action) => {
             return deleteReservationSuccess(state, action);
         case actionTypes.ADD_RESERVATION_SUCCESS:
             return addReservationSuccese(state, action);
+        case actionTypes.UPDATE_ERROR_SUCCESS:
+            return updateError(state, action);
+        case actionTypes.UPDATE_RESERVATION_PAYMENT_SUCCESS:
+            return updateReservationPayment(state, action);
         default:
             return state;
     }

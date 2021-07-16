@@ -12,19 +12,21 @@ import {BarChart2, X} from "react-feather";
 import InfoMessage from "../../components/UI/InfoMessage/InfoMessage";
 import FloatingButton from "../../components/UI/FloatingButton/FloatingButton";
 import ReservationsReports from "../../components/Reservations/ReservationsReports/ReservationsReports";
+import VehicleFilter from "../../components/Reservations/ReservationsFilter/VehicleFilter/VehicleFilter";
 
 const Reservations = (props) => {
 
     const identifier = localStorage.getItem('identifier');
-    const [filteredStatus, setFilteredStatus] = useState('activa');
+    const [filteredStatus, setFilteredStatus] = useState(props.role === 220 ? 'toate' : (props.role === 210 ? 'progres' : 'activa'));
     const [showAnonimMessage, setShowAnonimMessage] = useState(props.userId === null);
     const [showReports, setShowReports] = useState(false);
+    const [filteredInput, setFilteredInput] = useState('');
 
     useEffect(() => {
-        if (props.role === 210 && props.user !== null) {
+        if (props.userId && props.role === 210) {
             props.onFetchAreaReservations(props.user.parkingArea.id);
         }
-    }, [props.user, props.role])
+    }, [props.userId, props.role])
 
     useEffect(() => {
         if (props.userId && props.role) {
@@ -51,7 +53,7 @@ const Reservations = (props) => {
                 props.onFetchAnonimReservations(identifier);
             }
         }
-    }, [props.userId]);
+    }, [props.userId, identifier]);
 
     const getReservationState = (state) => {
         switch (state) {
@@ -71,16 +73,26 @@ const Reservations = (props) => {
     };
 
     const filterChangeHandler = selectedStatus => {
+        setFilteredInput('');
         setFilteredStatus(selectedStatus);
     };
 
-    const filteredReservations = props.reservations && filteredStatus !== 'toate' ? props.reservations.filter(reservation => {
-        if (props.role === 220) {
-            return reservation.parkingArea.emplacement === filteredStatus
-        } else {
-            return getReservationState(reservation.state) === filteredStatus;
-        }
-    }) : props.reservations;
+    const filterInputChangeHandler = (event) => {
+        setFilteredInput(event.target.value)
+    }
+
+    const filteredReservations = props.reservations && (filteredStatus !== 'toate' || filteredInput !== '') ?
+        props.reservations.filter(reservation => {
+            if (props.role === 220) {
+                return reservation.parkingArea.emplacement === filteredStatus
+            } else {
+                if (filteredInput.length > 0) {
+                    return reservation.vehicle.licensePlate.includes(filteredInput.toUpperCase());
+                } else {
+                    return getReservationState(reservation.state) === filteredStatus;
+                }
+            }
+        }) : props.reservations;
 
     const handleShowReportsClick = () => {
         setShowReports(!showReports);
@@ -88,6 +100,12 @@ const Reservations = (props) => {
 
     const reservationsData = (
         <div>
+            {
+                props.role === 210 &&
+                <Card className={classes["reservations__filter"]}>
+                    <VehicleFilter value={filteredInput} onChange={filterInputChangeHandler}/>
+                </Card>
+            }
             <Card className={classes["reservations__filter"]}>
                 <ReservationsFilter selectedStatus={filteredStatus}
                                     onChangeFilter={filterChangeHandler}/>
@@ -131,11 +149,12 @@ const Reservations = (props) => {
                 (!props.loading && showAnonimMessage) && anonimMessage
             }
             {
-                !props.loading && (props.reservations.length > 0 ?
+                props.userId && props.reservations.length > 0 ?
                     (props.role !== 220 ? reservationsData :
-                        (showReports ? <ReservationsReports reservations={filteredReservations} area={filteredStatus}/> : reservationsData))
+                        (showReports ? <ReservationsReports reservations={filteredReservations}
+                                                            area={filteredStatus}/> : reservationsData))
                     :
-                    noReservationFoundInfo)
+                    noReservationFoundInfo
             }
             {
                 props.role === 220 &&

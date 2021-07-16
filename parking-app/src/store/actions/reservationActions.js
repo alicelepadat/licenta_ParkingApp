@@ -42,6 +42,12 @@ export const addReservationSuccess = (reservationId) => {
     };
 }
 
+export const updateReservationSuccess = () => {
+    return {
+        type: actionTypes.UPDATE_RESERVATION_PAYMENT_SUCCESS
+    };
+}
+
 export const fetchDriverReservations = (userId) => {
     return dispatch => {
         dispatch(fetchReservationsStart());
@@ -84,13 +90,26 @@ export const fetchAreaReservations = (areaId) => {
 export const cancelReservation = (userId, reservationId) => {
     return dispatch => {
         dispatch(fetchReservationsStart());
-        axios.patch(`/reservations/${reservationId}/driver/${userId}`)
+        axios.put(`/reservations/${reservationId}/driver/${userId}`)
             .then(response => {
                 dispatch(cancelReservationsSuccess(response.data));
             }).catch(error => {
             const response = error.response ? error.response : {data:'Network error'};
             dispatch(fetchReservationsFail(response));
             })
+    };
+};
+
+export const updateReservationPayment = (reservationId) => {
+    return dispatch => {
+        dispatch(fetchReservationsStart());
+        axios.put(`/reservations/${reservationId}/payment`)
+            .then(response => {
+                dispatch(updateReservationSuccess());
+            }).catch(error => {
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchReservationsFail(response));
+        })
     };
 };
 

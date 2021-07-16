@@ -9,9 +9,7 @@ import * as dataUtility from '../../../utility/dataUtility';
 import Header from "../Header/Header";
 
 const AdminProfile = props => {
-    console.log(props.userId)
-    console.log(props.role)
-    console.log(props.user)
+    console.log(props.reservations)
 
     useEffect(() => {
         if (props.userId) {
@@ -94,7 +92,7 @@ const AdminProfile = props => {
     return (
         <React.Fragment>
             {
-                props.loading === true ? <LoadingSpinner/> : dashboard
+                (props.loading === true && props.loadingReservations === true) ? <LoadingSpinner/> : dashboard
             }
         </React.Fragment>
     );
@@ -108,6 +106,7 @@ const mapStateToProps = state => {
         userId: state.driverAuth.userId,
         role: state.driverAuth.role,
         reservations: state.reservations.reservations,
+        loadingReservations: state.reservations.loading
     };
 };
 

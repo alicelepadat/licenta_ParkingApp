@@ -48,7 +48,7 @@ namespace ParkingApp.Main.Services
                 .SingleOrDefaultAsync(r => 
                     r.ParkingAreaId == parkingAreaId && r.ReservationDate.Date == date.Date && 
                     (startTime >= r.StartTime || startTime <= r.EndTime) && (endTime >= r.StartTime || endTime <= r.EndTime)
-                    && (r.State == ReservationStateEnum.ACTIVE || r.State == ReservationStateEnum.IN_PROGRESS));
+                    && (r.State == ReservationStateEnum.IN_PROGRESS));
 
             return reservationFound != null;
         }
@@ -86,7 +86,7 @@ namespace ParkingApp.Main.Services
                     State = model.State,
                     ParkingAreaId = model.ParkingAreaId,
                     Vehicle = vehicleExists,
-                    Price = model.Price
+                    Price = model.Price,
                 };
                 await _unitOfWork.ReservationRepository.AddAsync(model);
             }
@@ -174,6 +174,15 @@ namespace ParkingApp.Main.Services
             var model = await _unitOfWork.ReservationRepository.GetReservationsAsync();
 
             return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
+        }
+
+        public async Task UpdateReservationPaymentAsync(int reservationId)
+        {
+            var entity = await _unitOfWork.ReservationRepository.GetByIdAsync(reservationId);
+
+            entity.IsPaid = true;
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }

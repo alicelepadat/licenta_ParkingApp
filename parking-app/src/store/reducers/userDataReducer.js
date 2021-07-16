@@ -54,6 +54,12 @@ const removeUserDataSucces = (state, action) => {
     );
 };
 
+const updateError = (state, action) => {
+    return updateObject(state, {
+        error: null,
+    });
+}
+
 const userDataReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_USER_DATA_START:
@@ -68,6 +74,8 @@ const userDataReducer = (state = initialState, action) => {
             return driverUpdateSuccess(state, action);
         case actionTypes.REMOVE_USER_DATA_SUCCESS:
             return removeUserDataSucces(state, action);
+        case actionTypes.UPDATE_ERROR_SUCCESS:
+            return updateError(state, action);
         default:
             return state;
     }

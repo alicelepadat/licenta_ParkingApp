@@ -9,14 +9,14 @@ import Search from "../../components/Map/Search/Search";
 import data from '../../data/parcari.json';
 import * as actionCreators from "../../store/actions";
 import { connect } from "react-redux";
-import ErrorModal from "../../components/UI/ErrorModal/ErrorModal";
+import Modal from "../../components/UI/Modal/Modal";
 
 function Home(props) {
 
     const [viewport, setViewport] = useState({
         latitude: 44.439663,
         longitude: 26.096306,
-        zoom: 11,
+        zoom: 12,
     });
 
     const [showPopup, setShowPopup] = useState(false);
@@ -77,16 +77,27 @@ function Home(props) {
         setShowReserveForm(false);
         props.onCloseAreaSelection();
         setShowSearchContainer(false);
-        props.selectedArea && setViewport({
+        setViewport({
             ...viewport,
             zoom: 12,
             transitionDuration: 2000
         });
     }
 
-    const handleReservationSuccess = event => {
-        handleCloseClick();
-        setReservationSuccess(true);
+    const handleReservationSuccess = () => {
+        if(!props.error) {
+            setShowReserveForm(false);
+            setReservationSuccess(true);
+        }
+    }
+
+    const handleCloseReservationSucces = () =>{
+        setReservationSuccess(false);
+        setViewport({
+            ...viewport,
+            zoom: 12,
+            transitionDuration: 2000
+        });
     }
 
     return (
@@ -119,7 +130,7 @@ function Home(props) {
             }
 
             {showReserveForm && <NewReservation area={props.selectedArea} onCloseClick={handleCloseClick} onSuccess={handleReservationSuccess} />}
-            {reservationSuccess && <ErrorModal title="Rezervare" message="Rezervarea s-a realizat cu success!" onConfirm={()=>setReservationSuccess(false)}/>}
+            {reservationSuccess && <Modal title="Rezervare" message="Rezervarea s-a realizat cu success!" onConfirm={handleCloseReservationSucces}/>}
 
         </React.Fragment>
 
@@ -129,7 +140,7 @@ function Home(props) {
 const mapStateToProps = state => {
     return {
         loading: state.parkingArea.loading,
-        error: state.parkingArea.error,
+        error: state.reservations.error,
         selectedArea: state.parkingArea.selectedArea,
         driverId: state.driverAuth.userId,
     };

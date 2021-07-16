@@ -27,6 +27,8 @@ namespace ParkingApp.Main.Services.Contracts
 
         Task CancelReservationAsync(ReservationDto reservation);
 
+        Task UpdateReservationPaymentAsync(int reservationId);
+
         Task DeleteAsync(int reservationId);
     }
 }

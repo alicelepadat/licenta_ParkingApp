@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Bar} from 'react-chartjs-2';
 
 import * as reports from '../../../utility/reports';
@@ -6,6 +6,8 @@ import ReportsFilter from "../ReservationsFilter/ReportsFilter/ReportsFilter";
 
 import classes from './ReservationsReports.module.css';
 import Card from "../../UI/Card/Card";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const months = [];
 for (let i = 0; i < 12; i++) {
@@ -23,16 +25,14 @@ let data = {
             label: 'rezervari',
             data: datasets,
             backgroundColor: [
-                'rgba(48, 95, 114, 0.3)',
-                'rgba(77, 168, 218, 0.2)',
-                'rgba(32, 54, 71, 0.3)',
+                'rgba(255, 255, 255, 0.5)',
+                'rgba(255, 255, 255, 0.6)',
+                'rgba(255, 255, 255, 0.7)',
             ],
             borderColor: [
-                '#203647',
-                '#305f72',
                 '#12232e',
             ],
-            borderWidth: 1,
+            borderWidth: 0.5,
         },
     ],
 };
@@ -51,6 +51,8 @@ const options = {
 
 const ReservationsReports = props => {
 
+    const docRef = useRef();
+
     const [chartRef, setChartRef] = useState();
 
     const [filteredStatus, setFilteredStatus] = useState('2021');
@@ -68,14 +70,39 @@ const ReservationsReports = props => {
             datasets[i] = reports.getReservationsPerMonth(filteredReservations, months[i]);
         }
         if (chartRef) {
-            console.log(chartRef.data.datasets[0].data)
             chartRef.data.datasets[0].data = datasets;
             chartRef.update()
         }
     }, [filteredReservations, chartRef]);
 
 
-    console.log(datasets)
+    const printDocument = () => {
+
+        const document = docRef.current;
+
+        html2canvas(document)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF({
+                    orientation: 'p',
+                    unit: 'px',
+                    format: 'a4',
+                });
+                //TODO - print btn
+                // pdf.autoPrint({variant: "non-conform"})
+
+                const width = pdf.internal.pageSize.getWidth();
+                const height = pdf.internal.pageSize.getHeight();
+
+                pdf.setTextColor(0, 0, 0);
+                pdf.text('Raport rezervari lunare', 20, 20);
+                pdf.text(`${filteredStatus}`, 20, 35);
+                pdf.text(`Zona de parcare: ${props.area}`, 20, 50);
+
+                pdf.addImage(imgData, 'JPEG', 20, 70, width, height / 2);
+                pdf.save(`raport_${props.area}.pdf`);
+            });
+    };
 
     return (
         <Card className={classes['reports']}>
@@ -89,13 +116,20 @@ const ReservationsReports = props => {
                         selectedStatus={filteredStatus}
                         download={filteredReservations.length > 0}
                         onChangeFilter={filterChangeHandler}
+                        onDownload={printDocument}
                     />
                 </div>
                 {
                     filteredReservations.length > 0 ?
-                        <Bar ref={(ref) => {
-                            setChartRef(ref)
-                        }} data={data} options={options}/>
+                        <div ref={docRef}>
+                            <Bar
+                                ref={(ref) => {
+                                    setChartRef(ref)
+                                }}
+                                data={data}
+                                options={options}
+                            />
+                        </div>
                         : <h4>Nu s-au realizat rezervari</h4>
                 }
 

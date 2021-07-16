@@ -5,7 +5,7 @@ import {DollarSign} from "react-feather";
 import Button from "../../UI/Button/Button";
 import LoadingSpinner from "../../UI/Loading/Loading";
 import axios from '../../../store/axios';
-import ErrorModal from "../../UI/ErrorModal/ErrorModal";
+import Modal from "../../UI/Modal/Modal";
 
 const CARD_OPTIONS = {
     style: {
@@ -98,8 +98,8 @@ const ReservationPayment = (props) => {
                     </div>
             }
             {
-                checkoutError && <ErrorModal title="Eroare la procesarea platii" message={checkoutError}
-                                             onConfirm={() => setCheckoutError(null)}/>
+                checkoutError && <Modal title="Eroare la procesarea platii" message={checkoutError}
+                                        onConfirm={() => setCheckoutError(null)}/>
             }
         </React.Fragment>
     );

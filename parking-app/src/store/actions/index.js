@@ -32,6 +32,7 @@ export {
     addDriverReservation,
     addAnonimReservation,
     fetchAllReservations,
+    updateReservationPayment,
 } from './reservationActions';
 
 export {
@@ -40,3 +41,7 @@ export {
     fetchParkingAreas,
     fetchAreaSuccess,
 } from './parkingAreaActions';
+
+export {
+    updateError,
+} from './commonActions';
