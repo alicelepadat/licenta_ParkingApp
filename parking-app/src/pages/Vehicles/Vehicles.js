@@ -29,7 +29,7 @@ const Vehicles = (props) => {
                 props.onFetchVechicle(vehicleId)
             }
         }
-    }, [props.userId, props.role,vehicleId]);
+    }, [props.userId, props.role, vehicleId]);
 
     const handleInputChange = (event) => {
         setEnteredLicensePlate(event.target.value);
@@ -109,7 +109,7 @@ const Vehicles = (props) => {
                     props.vehicles.length > 0 ? vehicleList : noVehicleFoundInfo
             }
             {
-                props.role === 200 &&
+                props.role === 200 && props.vehicles.length <= 4 &&
                 <div className={classes["vehicles-actions"]}>
                     <FloatingButton onClick={handleAddVehicleClick}>
                         <Plus color='var(--DarkBlue)'/>

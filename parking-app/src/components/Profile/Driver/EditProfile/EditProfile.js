@@ -3,7 +3,6 @@ import Input from "../../../UI/Input/Input";
 import {Check, Edit, Eye, EyeOff} from "react-feather";
 
 import classes from './EditProfile.module.css';
-import {Col, Row} from "react-bootstrap";
 import Header from "../../../UI/Header/Header";
 import DrivingLicense from "../DrivingLicense/DrivingLicense";
 import * as validate from "../../../../utility/validateHandler";
@@ -125,21 +124,18 @@ const EditProfile = props => {
                     onChange={handleInputChange}
                     onBlur={handleValidateUserInput}
                 />
-                <Row className={classes["modify-profile__controls"]}>
-                    <Col md={10} sm={8} xs={8}>
-                        <Input
-                            id="enteredPassword"
-                            label="Parola"
-                            type={showPassword ? "text" : "password"}
-                            name="newPassword"
-                            placeholder="Introduceti noua parola"
-                            disabled={!enableModifyPassword}
-                            isValid={inputIsValid.newPassword}
-                            value={userInput.newPassword}
-                            onChange={handleInputChange}
-                        />
-                    </Col>
-                    <Col className={classes["modify-profile__actions"]}>
+                <div className={classes["user-password"]}>
+                    <Input
+                        id="enteredPassword"
+                        label="Parola"
+                        type={showPassword ? "text" : "password"}
+                        name="newPassword"
+                        placeholder="Introduceti noua parola"
+                        disabled={!enableModifyPassword}
+                        isValid={inputIsValid.newPassword}
+                        value={userInput.newPassword}
+                        onChange={handleInputChange}
+                    >
                         <button onClick={handleShowPassword} title="Arata parola">
                             {
                                 showPassword ? <EyeOff/> : <Eye/>
@@ -150,8 +146,8 @@ const EditProfile = props => {
                                 enableModifyPassword ? <Check/> : <Edit/>
                             }
                         </button>
-                    </Col>
-                </Row>
+                    </Input>
+                </div>
                 {
                     props.hasDrivingLicense &&
                     <div className={classes["user-license"]}>

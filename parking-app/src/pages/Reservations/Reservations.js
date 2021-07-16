@@ -16,7 +16,7 @@ import ReservationsReports from "../../components/Reservations/ReservationsRepor
 const Reservations = (props) => {
 
     const identifier = localStorage.getItem('identifier');
-    const [filteredStatus, setFilteredStatus] = useState('toate');
+    const [filteredStatus, setFilteredStatus] = useState('activa');
     const [showAnonimMessage, setShowAnonimMessage] = useState(props.userId === null);
     const [showReports, setShowReports] = useState(false);
 

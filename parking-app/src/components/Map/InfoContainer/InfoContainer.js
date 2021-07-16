@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
 import classes from './InfoContainer.module.css';
 import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
 import Header from "../../UI/Header/Header";
-import { Col, Row } from "react-bootstrap";
-import { FaDirections } from "react-icons/all";
 import LoadingSpinner from "../../UI/Loading/Loading";
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as actionCreators from '../../../store/actions/index';
 
 const InfoContainer = props => {
@@ -20,7 +18,7 @@ const InfoContainer = props => {
 
     const areaInfo = (
         <div>
-            <Header title={props.area.emplacement} onCloseClick={props.onCloseClick} />
+            <Header title={props.area.emplacement} onCloseClick={props.onCloseClick}/>
             <ul>
                 <li>
                     <label>Locuri disponibile: </label>
@@ -36,25 +34,18 @@ const InfoContainer = props => {
                 </li>
             </ul>
             {
-                (props.role !== 210 || props.role !==220) &&
-                <Row>
-                    <Col>
-                        <Button className={classes["area-info__directions"]} title="Vezi ruta">
-                            <FaDirections />
-                        </Button>
-                    </Col>
-                    <Col className="text-end">
-                        <Button onClick={props.onReserve} disabled={props.area.availableSpots === 0}>Rezerva</Button>
-                    </Col>
-                </Row>
+                (props.role !== 210 || props.role !== 220) &&
+                <div className="text-end">
+                    <Button onClick={props.onReserve} disabled={props.area.availableSpots === 0}>Rezerva</Button>
+                </div>
             }
-        </div >
+        </div>
     );
 
     return (
         <Card className={classes["area_info"]}>
             {
-                props.loading ? <LoadingSpinner /> : props.area && areaInfo
+                props.loading ? <LoadingSpinner/> : props.area && areaInfo
             }
         </Card>
     );

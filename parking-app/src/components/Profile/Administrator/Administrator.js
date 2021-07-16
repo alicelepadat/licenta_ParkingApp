@@ -6,7 +6,6 @@ import Header from "../Header/Header";
 
 import classes from './Administrator.module.css';
 import {Col, Row} from "react-bootstrap";
-import {ArrowUpRight} from "react-feather";
 import {Link} from "react-router-dom";
 
 const AdministratorProfile = (props) => {

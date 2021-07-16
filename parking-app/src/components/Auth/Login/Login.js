@@ -9,7 +9,6 @@ import {Link, useHistory} from 'react-router-dom';
 import {connect} from "react-redux";
 import * as actionCreators from '../../../store/actions/index';
 import Loading from "../../UI/Loading/Loading";
-import {Col, Row} from "react-bootstrap";
 import {Eye, EyeOff} from "react-feather";
 import ErrorModal from "../../UI/ErrorModal/ErrorModal";
 
@@ -131,7 +130,6 @@ const Login = props => {
                         }
                     </button>
                 </Input>
-
             </div>
 
             <div className={`${classes["login-footer"]} text-center`}>
@@ -152,7 +150,7 @@ const Login = props => {
                     : <div className={classes["login-header"]}>
                         <div>
                             <img
-                                src="https://www.iconpacks.net/icons/2/free-parking-sign-icon-1641-thumb.png"
+                                src="/logo.png"
                                 alt="parking-logo"
                                 width="100"
                                 height="100"

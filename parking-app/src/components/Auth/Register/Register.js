@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import Card from '../../UI/Card/Card';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
-import {Row, Col} from 'react-bootstrap';
 
 import {ArrowLeft, Eye, EyeOff} from "react-feather";
 
@@ -214,52 +213,46 @@ const Register = (props) => {
                 onChange={handleInputChange}
                 onBlur={handleValidateUserInput}
             />
-            <Row>
-                <Col md={10} sm={10} xs={8}>
-                    <Input
-                        id="password"
-                        label="Parola"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Introduceti parola"
-                        name="enteredPassword"
-                        value={userInput.enteredPassword}
-                        isValid={inputIsValid.enteredPassword}
-                        onChange={handleInputChange}
-                        onBlur={handleValidateUserInput}
-                        disabled={props.role === 220}
-                    />
-                </Col>
-                <Col className={classes["register__actions"]}>
+            <div className={classes["user-password"]}>
+                <Input
+                    id="password"
+                    label="Parola"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Introduceti parola"
+                    name="enteredPassword"
+                    value={userInput.enteredPassword}
+                    isValid={inputIsValid.enteredPassword}
+                    onChange={handleInputChange}
+                    onBlur={handleValidateUserInput}
+                    disabled={props.role === 220}
+                >
                     <button onClick={handleShowPassword} title="Arata parola">
                         {
                             showPassword ? <EyeOff/> : <Eye/>
                         }
                     </button>
-                </Col>
-            </Row>
-            <Row>
-                <Col md={10} sm={10} xs={8}>
-                    <Input
-                        id="verifyPassword"
-                        label="Verificare parola"
-                        type={showVerifyPassword ? "text" : "password"}
-                        placeholder="Reintroduceti parola"
-                        name="enteredVerifyPassword"
-                        value={userInput.enteredVerifyPassword}
-                        isValid={passwordIsVerified}
-                        onChange={handleInputChange}
-                        onBlur={handleVerifyPassword}
-                        disabled={props.role === 220}
-                    />
-                </Col>
-                <Col className={classes["register__actions"]}>
-                    <button onClick={handleShowVerifyPassword} title="Arata parola">
+                </Input>
+            </div>
+            <div className={classes["user-password"]}>
+                <Input
+                    id="verifyPassword"
+                    label="Verificare parola"
+                    type={showVerifyPassword ? "text" : "password"}
+                    placeholder="Reintroduceti parola"
+                    name="enteredVerifyPassword"
+                    value={userInput.enteredVerifyPassword}
+                    isValid={passwordIsVerified}
+                    onChange={handleInputChange}
+                    onBlur={handleVerifyPassword}
+                    disabled={props.role === 220}
+                >
+                    <button onClick={handleShowPassword} title="Arata parola">
                         {
-                            showVerifyPassword ? <EyeOff/> : <Eye/>
+                            showPassword ? <EyeOff/> : <Eye/>
                         }
                     </button>
-                </Col>
-            </Row>
+                </Input>
+            </div>
             <div className="text-center">
                 <Button className="mt-3" type="submit" onClick={handleRegisterSubmit}>
                     {props.role === 220 ? 'Adauga admin' : 'Inregistrare'}
@@ -279,10 +272,11 @@ const Register = (props) => {
 
             <div className={`${classes["register-header"]} d-flex flex-column text-center`}>
                 <div>
-                    <img src="https://www.iconpacks.net/icons/2/free-parking-sign-icon-1641-thumb.png"
-                         alt="parking-logo"
-                         width="100"
-                         height="100"/>
+                    <img
+                        src="/logo.png"
+                        alt="parking-logo"
+                        width="100"
+                        height="100"/>
                 </div>
                 <h2> {props.role === 220 ? 'Adauga admin' : 'Inregistrare'} </h2>
             </div>

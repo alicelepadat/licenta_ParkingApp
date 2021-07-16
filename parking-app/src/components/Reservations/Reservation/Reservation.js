@@ -59,7 +59,7 @@ const Reservation = props => {
                                     onClick={() => {
                                         props.onCancelReservation(props.userId, props.id)
                                     }}
-                                    disabled={props.status === 'terminata' || (((props.role === 200 || props.role === null) && props.status === 'progres') || (props.role === 210 && props.status !== 'progres'))}
+                                    disabled={props.status === 'terminata' || props.status === 'anulata' || (((props.role === 200 || props.role === null) && props.status === 'progres') || (props.role === 210 && props.status !== 'progres'))}
                                 >
                                     <X/>
                                 </button>
@@ -70,7 +70,7 @@ const Reservation = props => {
                                         onClick={() => {
                                             props.onDeleteReservation(props.userId, props.id)
                                         }}
-                                        disabled={props.status !== 'anulata'}
+                                        disabled={props.status === 'activa' || props.status === 'progres'}
                                     >
                                         <Trash2/>
                                     </button>

@@ -36,21 +36,7 @@
     color: var(--LighterBlue);
 }
 
-/*.show-password {*/
-/*    text-align: end;*/
-/*    margin-top: auto;*/
-/*    margin-bottom: 1.2rem;*/
-/*    margin-right: 0.1rem;*/
-/*}*/
-
-/*.show-password button {*/
-/*    background: none;*/
-/*    border: none;*/
-/*    cursor: pointer;*/
-/*    color: white;*/
-/*}*/
-
-.show-password button:hover {
+.user-password button:hover {
     color: var(--LighterBlue);
 }
 

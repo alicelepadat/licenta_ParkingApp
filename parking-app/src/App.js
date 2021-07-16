@@ -61,7 +61,6 @@ const mapStateToProps = state => {
     return {
         userId: state.driverAuth.userId,
         role: state.driverAuth.role,
-        user: state.driverData.user,
     };
 };
 
@@ -69,8 +68,6 @@ const mapDispatchToProps = dispatch => {
     return {
         onTryDriverAutoSignin: () => dispatch(actionsCreators.authCheckState()),
         getUserRole: (userId) => dispatch(actionCreators.getUserRole(userId)),
-        onFetchDriverData: (userId) => dispatch(actionCreators.fetchDriverData(userId)),
-        onFetchAdminData: (userId) => dispatch(actionCreators.fetchAdminData(userId)),
     }
 }
 

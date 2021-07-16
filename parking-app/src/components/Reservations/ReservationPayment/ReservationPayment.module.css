@@ -1,16 +1,45 @@
 .payment {
-    background-color: white;
     margin: 2rem 0;
-    color: var(--DarkBlue);
-    border-radius: 5px;
+}
+
+.payment p {
+    font-weight: bold;
+}
+
+.payment label {
+    color: white;
+    margin: 2.5rem 0 1rem;
+    font-weight: bold;
 }
 
 .payment-details {
     padding: 1rem;
+    background-color: white;
+    border-radius: 5px;
+    color: var(--DarkBlue);
+
 }
 
 .payment-actions {
     position: fixed;
     bottom: 2rem;
     right: 1rem;
+}
+
+.payment-actions svg {
+   padding-bottom: 0.2rem;;
+}
+
+.reservation-details {
+    background-color: white;
+    margin: 0.5rem auto 0.2rem auto;
+    padding: 0.5rem 0.5rem 0.2rem 0.5rem;
+    width: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.reservation-details p {
+    color: var(--DarkBlue);
+    font-weight: bold;
 }

@@ -9,6 +9,7 @@ import Search from "../../components/Map/Search/Search";
 import data from '../../data/parcari.json';
 import * as actionCreators from "../../store/actions";
 import { connect } from "react-redux";
+import ErrorModal from "../../components/UI/ErrorModal/ErrorModal";
 
 function Home(props) {
 
@@ -21,6 +22,7 @@ function Home(props) {
     const [showPopup, setShowPopup] = useState(false);
     const [showReserveForm, setShowReserveForm] = useState(false);
     const [showSearchContainer, setShowSearchContainer] = useState(false);
+    const [reservationSuccess, setReservationSuccess] = useState(false);
 
     const handleViewportChange = (event) => {
         setViewport(event);
@@ -82,6 +84,11 @@ function Home(props) {
         });
     }
 
+    const handleReservationSuccess = event => {
+        handleCloseClick();
+        setReservationSuccess(true);
+    }
+
     return (
         <React.Fragment>
             <Search
@@ -111,7 +118,8 @@ function Home(props) {
                 />
             }
 
-            {showReserveForm && <NewReservation area={props.selectedArea} onCloseClick={handleCloseClick} />}
+            {showReserveForm && <NewReservation area={props.selectedArea} onCloseClick={handleCloseClick} onSuccess={handleReservationSuccess} />}
+            {reservationSuccess && <ErrorModal title="Rezervare" message="Rezervarea s-a realizat cu success!" onConfirm={()=>setReservationSuccess(false)}/>}
 
         </React.Fragment>
 

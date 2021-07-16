@@ -4,23 +4,28 @@ import classes from './ReservationForm.module.css';
 import Input from "../../UI/Input/Input";
 import Button from "../../UI/Button/Button";
 import {Col, Row} from "react-bootstrap";
-import {ArrowRight, Plus} from 'react-feather';
+import {Check, Plus} from 'react-feather';
 import ReservationPayment from "../ReservationPayment/ReservationPayment";
 import {format} from 'date-fns';
 import * as formatData from '../../../utility/dateFormat';
 import * as validate from "../../../utility/validateHandler";
+import * as data from "../../../utility/dataUtility";
 import {Link} from "react-router-dom";
 import LoadingSpinner from "../../UI/Loading/Loading";
-import * as actionCreators from "../../../store/actions";
 import {connect} from "react-redux";
 import ErrorModal from "../../UI/ErrorModal/ErrorModal";
-import Card from "../../UI/Card/Card";
+import {loadStripe} from "@stripe/stripe-js";
+import {Elements} from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_TOKEN)
 
 const ReservationForm = (props) => {
 
     const today = format(new Date(), "yyyy-MM-dd");
     const startTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 30)).toString();
     const endTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 90)).toString();
+
+    const [details, setDetails] = useState(0);
 
     const [userInput, setUserInput] = useState({
         enteredDate: today,
@@ -96,26 +101,36 @@ const ReservationForm = (props) => {
         event.preventDefault();
 
         if (formIsValid) {
-
-            const reservationData = {
-                reservationDate: userInput.enteredDate,
-                startTime: userInput.enteredStartTime,
-                endTime: userInput.enteredEndTime,
-                vehicle: {
-                    licensePlate: userInput.enteredLicensePlate,
-                },
-            };
-
-            if (props.userId) {
-                props.onDriverAdd(reservationData, props.userId, props.area.id);
-            } else {
-                props.onAnonimAdd(reservationData, props.area.id);
-            }
+            setDetails(data.getPrice(userInput.enteredStartTime, userInput.enteredEndTime, props.selectedArea.pricePerHour))
+            setGoToPayment(true)
         }
 
-        if(props.error){
-            setError(props.error)
+    }
+
+    const handleReserve = () => {
+        const reservationData = {
+            reservationDate: userInput.enteredDate,
+            startTime: userInput.enteredStartTime,
+            endTime: userInput.enteredEndTime,
+            vehicle: {
+                licensePlate: userInput.enteredLicensePlate,
+            },
+        };
+
+        if (props.userId) {
+            props.onDriverAdd(reservationData, props.userId, props.area.id);
+        } else {
+            props.onAnonimAdd(reservationData, props.area.id);
         }
+
+        setUserInput({
+            enteredDate: today,
+            enteredStartTime: startTime,
+            enteredEndTime: endTime,
+            enteredLicensePlate: '',
+        })
+        setGoToPayment(false);
+        props.onSuccess();
     };
 
     const handleInputChange = (event) => {
@@ -127,87 +142,93 @@ const ReservationForm = (props) => {
         });
     };
 
+    console.log(goToPayment)
+    console.log(userInput)
+
     const handleAddLicensePlate = () => {
         setShowLicensePlateInput(true);
     };
 
     const reservationForm = (
-        <div className={classes["new-reservation__controls"]}>
-            <Input
-                id="date"
-                label="Data rezervarii"
-                type="date"
-                name="enteredDate"
-                value={userInput.enteredDate}
-                isValid={isUserInputValid.enteredDate}
-                onChange={handleInputChange}
-                onBlur={validateUserInput}
-            />
-            <Row>
-                <Col>
-                    <Input
-                        id="startTime"
-                        label="De la"
-                        type="time"
-                        name="enteredStartTime"
-                        min={startTime}
-                        isValid={isUserInputValid.enteredStartTime}
-                        value={userInput.enteredStartTime}
-                        onChange={handleInputChange}/>
-                </Col>
-                <Col>
-                    <Input
-                        id="endTime"
-                        label="Pana la"
-                        type="time"
-                        name="enteredEndTime"
-                        value={userInput.enteredEndTime}
-                        isValid={isUserInputValid.enteredEndTime}
-                        onChange={handleInputChange}
-                        onBlur={validateUserInput}
-                    />
-                </Col>
-            </Row>
-            <div
-                className={`${classes.control} ${isUserInputValid.enteredLicensePlate === false ? classes.invalid : ''}`}>
-                <label htmlFor="enteredLicensePlate">Numar inmatriculare</label>
-                {
-                    props.vehicles.length > 0 && !showLicensePlateInput ?
-                        <div>
-                            <select
-                                name="enteredLicensePlate"
-                                value={userInput.enteredLicensePlate.length > 0 ? userInput.enteredLicensePlate : "Selecteaza"}
-                                aria-invalid={!isUserInputValid.enteredLicensePlate}
-                                onChange={handleInputChange}
-                                onBlur={validateUserInput}
-                            >
-                                <option value="Selecteaza" disabled={true}>Selecteaza</option>
-                                {
-                                    props.vehicles.map((vehicle, index) => (
-                                        <option key={index}
-                                        >
-                                            {vehicle.licensePlate}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                            <Button onClick={handleAddLicensePlate}>
-                                <Plus/>
-                            </Button>
-                        </div> :
-                        <input
-                            placeholder="B99BBB"
-                            required={true}
-                            type="text"
-                            id="enteredLicensePlate"
-                            name="enteredLicensePlate"
-                            value={userInput.enteredLicensePlate}
-                            aria-invalid={!isUserInputValid.enteredLicensePlate}
+        <div>
+            <h3>{props.area.emplacement}</h3>
+            <form className={classes["new-reservation__controls"]}>
+                <Input
+                    id="date"
+                    label="Data rezervarii"
+                    type="date"
+                    name="enteredDate"
+                    value={userInput.enteredDate}
+                    isValid={isUserInputValid.enteredDate}
+                    onChange={handleInputChange}
+                    onBlur={validateUserInput}
+                />
+                <Row>
+                    <Col>
+                        <Input
+                            id="startTime"
+                            label="De la"
+                            type="time"
+                            name="enteredStartTime"
+                            min={startTime}
+                            isValid={isUserInputValid.enteredStartTime}
+                            value={userInput.enteredStartTime}
+                            onChange={handleInputChange}/>
+                    </Col>
+                    <Col>
+                        <Input
+                            id="endTime"
+                            label="Pana la"
+                            type="time"
+                            name="enteredEndTime"
+                            value={userInput.enteredEndTime}
+                            isValid={isUserInputValid.enteredEndTime}
                             onChange={handleInputChange}
                             onBlur={validateUserInput}
                         />
-                }
-            </div>
+                    </Col>
+                </Row>
+                <div
+                    className={`${classes.control} ${isUserInputValid.enteredLicensePlate === false ? classes.invalid : ''}`}>
+                    <label htmlFor="enteredLicensePlate">Numar inmatriculare</label>
+                    {
+                        props.vehicles.length > 0 && !showLicensePlateInput ?
+                            <div>
+                                <select
+                                    name="enteredLicensePlate"
+                                    value={userInput.enteredLicensePlate.length > 0 ? userInput.enteredLicensePlate : "Selecteaza"}
+                                    aria-invalid={!isUserInputValid.enteredLicensePlate}
+                                    onChange={handleInputChange}
+                                    onBlur={validateUserInput}
+                                >
+                                    <option value="Selecteaza" disabled={true}>Selecteaza</option>
+                                    {
+                                        props.vehicles.map((vehicle, index) => (
+                                            <option key={index}
+                                            >
+                                                {vehicle.licensePlate}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                                <Button onClick={handleAddLicensePlate}>
+                                    <Plus/>
+                                </Button>
+                            </div> :
+                            <input
+                                placeholder="B99BBB"
+                                required={true}
+                                type="text"
+                                id="enteredLicensePlate"
+                                name="enteredLicensePlate"
+                                value={userInput.enteredLicensePlate}
+                                aria-invalid={!isUserInputValid.enteredLicensePlate}
+                                onChange={handleInputChange}
+                                onBlur={validateUserInput}
+                            />
+                    }
+                </div>
+            </form>
         </div>
     );
 
@@ -219,29 +240,24 @@ const ReservationForm = (props) => {
                 </div>
             }
             {props.loading && <LoadingSpinner/>}
-            {!props.loading &&
-            <form>
-                {
-                    goToPayment ?
-                        <div>
-                            <h5>Efectueaza plata pentru rezervarea la {props.area.emplacement}</h5>
-                            <ReservationPayment loading={props.loading}/>
-                        </div>
-                        :
-                        <h3>{props.area.emplacement}</h3>
-                }
-                {!goToPayment && reservationForm}
-                <div className={classes["new-reservation__actions"]}>
-                    {
-                        !goToPayment &&
-                        <Button type="submit" onClick={handleGoToPayment}>
-                            Spre plata <ArrowRight/>
-                        </Button>
-                    }
-                </div>
-            </form>
+            {
+                !props.loading && goToPayment &&
+                <Elements stripe={stripePromise}>
+                    <ReservationPayment details={details} area={props.area} loading={props.loading} onPay={handleReserve}/>
+                </Elements>
             }
-            {error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>}
+            {!goToPayment && reservationForm}
+            <div className={classes["new-reservation__actions"]}>
+                {
+                    !goToPayment &&
+                    <Button type="submit" onClick={handleGoToPayment}>
+                        Rezerva <Check/>
+                    </Button>
+                }
+            </div>
+            {
+                error && <ErrorModal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>
+            }
         </Fragment>
     );
 }
@@ -251,6 +267,7 @@ const mapStateToProps = state => {
             error: state.reservations.error,
             loading: state.reservations.loading,
             reservationId: state.reservations.reservationId,
+            selectedArea: state.parkingArea.selectedArea,
         };
     }
 ;
