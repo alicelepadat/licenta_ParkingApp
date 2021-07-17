@@ -10,8 +10,8 @@
     padding: 2rem;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1020px) {
     .new-reservation {
-        width: 35%;
+        width: 40%;
     }
 }

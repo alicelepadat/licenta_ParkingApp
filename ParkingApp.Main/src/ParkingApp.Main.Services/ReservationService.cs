@@ -104,7 +104,8 @@ namespace ParkingApp.Main.Services
         {
             var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservationId);
 
-            _unitOfWork.ReservationRepository.Remove(model);
+            model.VehicleId = null;
+            model.Vehicle = null;
 
             await _unitOfWork.CommitAsync();
         }
@@ -120,7 +121,7 @@ namespace ParkingApp.Main.Services
         {
             var model = await _unitOfWork.ReservationRepository.SingleOrDefaultAsync(r => r.Id == reservation.Id);
 
-            if (model.State == ReservationStateEnum.IN_PROGRESS && model.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
+            if (model.ReservationDate.Date == DateTime.Now.Date && (model.State == ReservationStateEnum.IN_PROGRESS || model.State == ReservationStateEnum.ACTIVE) && model.EndTime.TimeOfDay <= DateTime.Now.TimeOfDay)
             {
                 model.State = ReservationStateEnum.FINISHED;
             }

@@ -70,7 +70,7 @@ const Vehicles = (props) => {
                             </Card.Text>
                             <Button
                                 onClick={() => {
-                                    props.onDriverVehicleDelete(props.userId, vehicle.id)
+                                    props.onDriverVehicleDelete(vehicle.id)
                                 }}
                             >
                                 Sterge
@@ -141,7 +141,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onDriverVehiclesFetch: (userId) => dispatch(actionCreators.fetchDriverVehicles(userId)),
-        onDriverVehicleDelete: (userId, vehicleId) => dispatch(actionCreators.deleteDriverVehicle(userId, vehicleId)),
+        onDriverVehicleDelete: (vehicleId) => dispatch(actionCreators.deleteDriverVehicle(vehicleId)),
         onDriverVehicleAdd: (userId, vehicle) => dispatch(actionCreators.addDriverVehicle(userId, vehicle)),
         onFetchVechicle: (vehicleId) => dispatch(actionCreators.fetchVehicle(vehicleId)),
     };

@@ -5,5 +5,5 @@ export const dateFormat = (date) => {
 };
 
 export const timeFormat = (date) => {
-    return new Date(date).toLocaleTimeString().slice(0,-3);
+    return new Date(date).toTimeString().substr(0,5)
 }

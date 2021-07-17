@@ -25,12 +25,10 @@ let data = {
             label: 'rezervari',
             data: datasets,
             backgroundColor: [
-                'rgba(255, 255, 255, 0.5)',
-                'rgba(255, 255, 255, 0.6)',
-                'rgba(255, 255, 255, 0.7)',
+                '#4da8da',
             ],
             borderColor: [
-                '#12232e',
+                '#000',
             ],
             borderWidth: 0.5,
         },
@@ -43,7 +41,9 @@ const options = {
             {
                 ticks: {
                     beginAtZero: true,
+                    color: '#000',
                 },
+
             },
         ],
     },
@@ -76,31 +76,31 @@ const ReservationsReports = props => {
     }, [filteredReservations, chartRef]);
 
 
-    const printDocument = () => {
-
+    const saveDocument = (print) => {
         const document = docRef.current;
 
         html2canvas(document)
             .then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF({
-                    orientation: 'p',
-                    unit: 'px',
-                    format: 'a4',
-                });
-                //TODO - print btn
-                // pdf.autoPrint({variant: "non-conform"})
+                const pdf = new jsPDF('p','px','a4');
 
+                const ratio = canvas.height/canvas.width;
                 const width = pdf.internal.pageSize.getWidth();
-                const height = pdf.internal.pageSize.getHeight();
+                const height = width * ratio;
 
                 pdf.setTextColor(0, 0, 0);
                 pdf.text('Raport rezervari lunare', 20, 20);
                 pdf.text(`${filteredStatus}`, 20, 35);
                 pdf.text(`Zona de parcare: ${props.area}`, 20, 50);
 
-                pdf.addImage(imgData, 'JPEG', 20, 70, width, height / 2);
-                pdf.save(`raport_${props.area}.pdf`);
+                pdf.addImage(imgData, 'JPEG', 20, 70, width - 40, height + 70);
+
+                if (print === true) {
+                    pdf.autoPrint();
+                    window.open(pdf.output('bloburl'), '_blank');
+                } else {
+                    pdf.save(`raport_zona_${props.area}.pdf`);
+                }
             });
     };
 
@@ -114,9 +114,10 @@ const ReservationsReports = props => {
                 <div>
                     <ReportsFilter
                         selectedStatus={filteredStatus}
-                        download={filteredReservations.length > 0}
+                        save={filteredReservations.length > 0}
                         onChangeFilter={filterChangeHandler}
-                        onDownload={printDocument}
+                        onDownload={() => saveDocument(false)}
+                        onPrint={() => saveDocument(true)}
                     />
                 </div>
                 {
@@ -128,6 +129,7 @@ const ReservationsReports = props => {
                                 }}
                                 data={data}
                                 options={options}
+                                title="Raport rezervari lunare"
                             />
                         </div>
                         : <h4>Nu s-au realizat rezervari</h4>

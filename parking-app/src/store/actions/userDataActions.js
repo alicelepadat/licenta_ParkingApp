@@ -35,6 +35,12 @@ export const updateDriverSuccess = (driver) => {
     };
 };
 
+export const updateUserPasswordSuccess = () => {
+    return {
+        type: actionTypes.UPDATE_USER_PASSWORD_SUCCESS,
+    };
+};
+
 export const removeUserDataSuccess = () => {
     return {
         type: actionTypes.REMOVE_USER_DATA_SUCCESS,
@@ -106,6 +112,19 @@ export const updateDriver = (driverId, driverUpdateData) => {
         axios.put(`/drivers/${driverId}`, driverUpdateData)
             .then(response => {
                 dispatch(updateDriverSuccess(response.data));
+            }).catch(error => {
+            const response = error.response ? error.response : {data:'Network error'};
+            dispatch(fetchUserDataFail(response));
+        });
+    };
+};
+
+export const updateUserPassword = (userId, data) => {
+    return dispatch => {
+        dispatch(fetchUserDataStart());
+        axios.put(`/user/${userId}`, data)
+            .then(response => {
+                dispatch(updateUserPasswordSuccess());
             }).catch(error => {
             const response = error.response ? error.response : {data:'Network error'};
             dispatch(fetchUserDataFail(response));

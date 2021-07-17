@@ -11,23 +11,28 @@ import * as formatData from '../../../utility/dateFormat';
 import * as validate from "../../../utility/validateHandler";
 import * as data from "../../../utility/dataUtility";
 import {Link} from "react-router-dom";
-import LoadingSpinner from "../../UI/Loading/Loading";
 import {connect} from "react-redux";
 import Modal from "../../UI/Modal/Modal";
 import {loadStripe} from "@stripe/stripe-js";
 import {Elements} from "@stripe/react-stripe-js";
+import Card from "../../UI/Card/Card";
+import LoadingSpinner from "../../UI/Loading/Loading";
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_TOKEN)
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_TOKEN);
+
+const today = format(new Date(), "yyyy-MM-dd");
+const tomorrowDate = new Date(today)
+tomorrowDate.setDate(new Date().getDate() + 1);
+tomorrowDate.toLocaleDateString();
+const tomorrow = formatData.dateFormat(tomorrowDate);
+
+const startTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 30)).toString();
+const endTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 90)).toString();
 
 const ReservationForm = (props) => {
 
-    const today = format(new Date(), "yyyy-MM-dd");
-    const startTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 30)).toString();
-    const endTime = formatData.timeFormat(new Date().setMinutes(new Date().getMinutes() + 90)).toString();
-
     const [showLicensePlateInput, setShowLicensePlateInput] = useState(false);
     const [goToPayment, setGoToPayment] = useState(false);
-    const [error, setError] = useState(null);
 
     const [details, setDetails] = useState(0);
 
@@ -86,16 +91,6 @@ const ReservationForm = (props) => {
         }));
     };
 
-    const handleError = () => {
-        setError(null);
-    };
-
-    useEffect(() => {
-        if (props.reservationId !== null) {
-            setGoToPayment(true);
-        }
-    }, [props.reservationId]);
-
     const handleReserve = (event) => {
         event.preventDefault();
 
@@ -116,12 +111,10 @@ const ReservationForm = (props) => {
             }
         }
 
-        setDetails(data.getPrice(userInput.enteredStartTime, userInput.enteredEndTime, props.selectedArea.pricePerHour));
-        setGoToPayment(true);
     }
 
     const handlePay = () => {
-        props.onPay();
+        props.onPay(props.reservation.id);
 
         setUserInput({
             enteredDate: today,
@@ -132,6 +125,13 @@ const ReservationForm = (props) => {
         setGoToPayment(false);
         props.onSuccess();
     };
+
+    useEffect(()=>{
+        if(props.reservation && props.reservation.id) {
+            setDetails(data.getPrice(userInput.enteredStartTime, userInput.enteredEndTime, props.selectedArea.pricePerHour));
+            setGoToPayment(true);
+        }
+    }, [props.reservation])
 
     const handleInputChange = (event) => {
         setUserInput((prevState) => {
@@ -147,14 +147,17 @@ const ReservationForm = (props) => {
     };
 
     const reservationForm = (
-        <div>
+        <div className={classes["reservation-form"]}>
             <h3>{props.area.emplacement}</h3>
+            <label>*puteti rezerva cu minim 30 de minute inainte pentru o perioada de cel putin o ora</label>
             <form className={classes["new-reservation__controls"]}>
                 <Input
                     id="date"
                     label="Data rezervarii"
                     type="date"
                     name="enteredDate"
+                    min={today}
+                    max={tomorrow}
                     value={userInput.enteredDate}
                     isValid={isUserInputValid.enteredDate}
                     onChange={handleInputChange}
@@ -225,6 +228,11 @@ const ReservationForm = (props) => {
                             />
                     }
                 </div>
+                <div className={classes["new-reservation__actions"]}>
+                    <Button type="submit" onClick={handleReserve}>
+                        Rezerva <Check/>
+                    </Button>
+                </div>
             </form>
         </div>
     );
@@ -239,28 +247,18 @@ const ReservationForm = (props) => {
             {
                 !props.loading && goToPayment &&
                 <Elements stripe={stripePromise}>
-                    <ReservationPayment details={details} area={props.area} loading={props.loading} onPay={handlePay}/>
+                    <ReservationPayment details={details} area={props.area} loading={props.loading}
+                                        onPay={handlePay}/>
                 </Elements>
             }
             {!goToPayment && reservationForm}
-            <div className={classes["new-reservation__actions"]}>
-                {
-                    !goToPayment &&
-                    <Button type="submit" onClick={handleReserve}>
-                        Rezerva <Check/>
-                    </Button>
-                }
-            </div>
-            {
-                error && <Modal title="A aparut o eroare" message={error.data} onConfirm={handleError}/>
-            }
         </Fragment>
     );
 }
 
 const mapStateToProps = state => {
         return {
-            reservationId: state.reservations.reservationId,
+            reservation: state.reservations.reservation,
             selectedArea: state.parkingArea.selectedArea,
         };
     }

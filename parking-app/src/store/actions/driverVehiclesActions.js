@@ -68,10 +68,10 @@ export const fetchVehicle = (vehicleId) => {
     };
 };
 
-export const deleteDriverVehicle = (userId, vehicleId) => {
+export const deleteDriverVehicle = (vehicleId) => {
     return dispatch => {
         dispatch(fetchDriverVehiclesStart());
-        axios.delete('/drivers/' + userId + '/vehicles?vehicleId=' + vehicleId)
+        axios.delete(`/vehicle/${vehicleId}/delete`)
             .then(() => {
                 dispatch(deleteDriverVehicleSuccess(vehicleId));
             }).catch(error => {

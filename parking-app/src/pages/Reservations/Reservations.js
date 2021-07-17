@@ -17,7 +17,7 @@ import VehicleFilter from "../../components/Reservations/ReservationsFilter/Vehi
 const Reservations = (props) => {
 
     const identifier = localStorage.getItem('identifier');
-    const [filteredStatus, setFilteredStatus] = useState(props.role === 220 ? 'toate' : (props.role === 210 ? 'progres' : 'activa'));
+    const [filteredStatus, setFilteredStatus] = useState('toate');
     const [showAnonimMessage, setShowAnonimMessage] = useState(props.userId === null);
     const [showReports, setShowReports] = useState(false);
     const [filteredInput, setFilteredInput] = useState('');
@@ -53,7 +53,7 @@ const Reservations = (props) => {
                 props.onFetchAnonimReservations(identifier);
             }
         }
-    }, [props.userId, identifier]);
+    }, [props.userId]);
 
     const getReservationState = (state) => {
         switch (state) {
@@ -81,7 +81,7 @@ const Reservations = (props) => {
         setFilteredInput(event.target.value)
     }
 
-    const filteredReservations = props.reservations && (filteredStatus !== 'toate' || filteredInput !== '') ?
+    const filteredReservations = (filteredStatus !== 'toate' || filteredInput !== '') ?
         props.reservations.filter(reservation => {
             if (props.role === 220) {
                 return reservation.parkingArea.emplacement === filteredStatus
@@ -124,7 +124,7 @@ const Reservations = (props) => {
                 Nu exista rezervari.
             </h3>
             {
-                props.userId === null &&
+                props.userId === null && props.reservations.length === 0 &&
                 <div className={classes["noReservation-actions"]}>
                     <p><Link to="/login">Autentificati-va</Link> sau <Link to="/">realizati o rezervare anonima</Link>.
                     </p>
@@ -149,7 +149,7 @@ const Reservations = (props) => {
                 (!props.loading && showAnonimMessage) && anonimMessage
             }
             {
-                props.userId && props.reservations.length > 0 ?
+                (props.userId || identifier) && props.reservations.length > 0 ?
                     (props.role !== 220 ? reservationsData :
                         (showReports ? <ReservationsReports reservations={filteredReservations}
                                                             area={filteredStatus}/> : reservationsData))

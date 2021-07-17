@@ -30,6 +30,7 @@ const MapContainer = (props) => {
 
             props.onClusterExpansion(zoom, feature.geometry.coordinates);
         });
+
     };
 
     return (
@@ -41,7 +42,8 @@ const MapContainer = (props) => {
                 mapStyle="mapbox://styles/mapbox/dark-v10"
                 onViewportChange={props.onViewportChange}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id]}
+                data={process.env.REACT_APP_MAPBOX_DATA}
+                interactiveLayerIds={[clusterLayer.id, unclusteredPointLayer.id, unclusteredPointLayer.id]}
                 onClick={handleClusterClick}
                 ref={mapRef}
             >

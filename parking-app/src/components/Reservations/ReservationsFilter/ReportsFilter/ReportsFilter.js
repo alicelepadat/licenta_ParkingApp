@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classes from './ReportsFilter.module.css';
-import {Download} from "react-feather";
+import {Download, Printer} from "react-feather";
 
 const ReportsFilter = props => {
 
@@ -17,14 +17,15 @@ const ReportsFilter = props => {
                     <option value='2020'>2020</option>
                     <option value='2021'>2021</option>
                 </select>
-            </div>
-            {
-                props.download &&
-                <div className={classes["reports-action"]}>
-                    <button title="Descarca" onClick={props.onDownload}><Download/></button>
-                </div>
+                {
+                    props.save &&
+                    <div className={classes["reportsFilter__actions"]}>
+                        <button aria-label="Descarca" title="Descarca" onClick={props.onDownload}><Download/></button>
+                        <button aria-label="Printeaza" title="Printeaza" onClick={props.onPrint}><Printer/></button>
+                    </div>
 
-            }
+                }
+            </div>
         </div>
     );
 };

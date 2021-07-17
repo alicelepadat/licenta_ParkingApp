@@ -60,6 +60,13 @@ const updateError = (state, action) => {
     });
 }
 
+const updateUserPasswordSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: null,
+    });
+}
+
 const userDataReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_USER_DATA_START:
@@ -76,6 +83,8 @@ const userDataReducer = (state = initialState, action) => {
             return removeUserDataSucces(state, action);
         case actionTypes.UPDATE_ERROR_SUCCESS:
             return updateError(state, action);
+        case actionTypes.UPDATE_USER_PASSWORD_SUCCESS:
+            return updateUserPasswordSuccess(state, action);
         default:
             return state;
     }

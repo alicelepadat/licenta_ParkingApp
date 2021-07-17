@@ -5,7 +5,8 @@
 
 .reports-filter__control {
     display: flex;
-    width: 50%;
+    flex-direction: row;
+    width: 100%;
     margin: 1rem 0;
     justify-content: space-between;
 }
@@ -23,18 +24,15 @@
     background-color: white;
 }
 
-.reports-action {
-    margin: auto 1rem auto auto;
-}
-
-.reports-action button {
+.reportsFilter__actions button {
     background: none;
     border: none;
     cursor: pointer;
     color: white;
+    margin: auto 1rem auto auto;
 }
 
-.reports-action button:hover {
+.reportsFilter__actions button:hover {
     color: var(--LighterBlue);
 }
 
@@ -47,5 +45,10 @@
 
     .reports-filter label {
         margin-bottom: 1rem;
+    }
+
+    .reportsFilter__actions {
+        text-align: center;
+        margin: 1rem;
     }
 }

@@ -23,3 +23,9 @@
 .administrator-areas__no p:hover {
     color: var(--LighterBlue);
 }
+
+@media only screen and (max-width: 768px) {
+    .administrator-areas__no {
+        margin-top: 2rem;
+    }
+}

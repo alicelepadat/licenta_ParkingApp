@@ -19,6 +19,7 @@ const Input = props => {
                 onBlur={props.onBlur}
                 disabled={props.disabled ? props.disabled : false}
                 min={props.min}
+                max={props.max}
                 autoComplete={props.autocomplete}
             />
             {

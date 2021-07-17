@@ -1,46 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="reservation payment">
-      <change afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/VehicleFilter/VehicleFilter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/registerServiceWorker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/actions/commonActions.js" afterDir="false" />
+    <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="reservation reports download + error handling">
       <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/ReservationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Controllers/ReservationController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/ParkingApp.Main.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/ParkingApp.Main.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.API/Startup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IReservationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/Contracts/IReservationService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/ReservationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/ReservationService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Register/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Register/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/InfoContainer/InfoContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/UserLocation/UserLocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/UserLocation/UserLocation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/manifest.webmanifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/MapContainer/MapContainer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Profile/Admin/AdminProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Admin/AdminProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/Driver/EditProfile/EditProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Driver/EditProfile/EditProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Administrator/Administrator.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Administrator/Administrator.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Header/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Header/Header.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Header/Header.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/NewReservation/NewReservation.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/Reservation/Reservation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationPayment/ReservationPayment.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationPayment/ReservationPayment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReportsFilter/ReportsFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReportsFilter/ReportsFilter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReportsFilter/ReportsFilter.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsFilter/ReportsFilter/ReportsFilter.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsReports/ReservationsReports.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsReports/ReservationsReports.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationsReports/ReservationsReports.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationsReports/ReservationsReports.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/ErrorModal/ErrorModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Modal/Modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UI/ErrorModal/ErrorModal.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Modal/Modal.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/UI/Input/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Input/Input.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Home/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Home/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UI/Modal/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Modal/Modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/UI/Modal/Modal.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UI/Modal/Modal.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Reservations/Reservations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reservations/Reservations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Vehicles/Vehicles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/actions/actionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/actionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/driverVehiclesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/driverVehiclesActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/actions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/actions/reservationActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/reservationActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/reducers/authReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/authReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/userDataActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/userDataActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/reducers/reservationReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/reservationReducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/reducers/userDataReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/userDataReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utility/dataUtility.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/dataUtility.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/dateFormat.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/dateFormat.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +122,8 @@
       <workItem from="1626331774127" duration="27185000" />
       <workItem from="1626363269767" duration="11076000" />
       <workItem from="1626415874093" duration="20463000" />
-      <workItem from="1626439366209" duration="21404000" />
+      <workItem from="1626439366209" duration="21574000" />
+      <workItem from="1626504223139" duration="26341000" />
     </task>
     <task id="LOCAL-00001" summary="vehicles page">
       <created>1625320747601</created>
@@ -258,7 +251,21 @@
       <option name="project" value="LOCAL" />
       <updated>1626436589875</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="reservation reports download + error handling">
+      <created>1626466089331</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1626466089332</updated>
+    </task>
+    <task id="LOCAL-00020" summary="reservation reports download + error handling">
+      <created>1626466127252</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1626466127253</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,6 +299,7 @@
     <MESSAGE value="administrators dashboard" />
     <MESSAGE value="reservations reports" />
     <MESSAGE value="reservation payment" />
-    <option name="LAST_COMMIT_MESSAGE" value="reservation payment" />
+    <MESSAGE value="reservation reports download + error handling" />
+    <option name="LAST_COMMIT_MESSAGE" value="reservation reports download + error handling" />
   </component>
 </project>

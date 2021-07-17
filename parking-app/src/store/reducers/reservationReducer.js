@@ -1,9 +1,9 @@
-import { updateObject } from "../utility";
+import {updateObject} from "../utility";
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
     reservations: [],
-    reservationId: null,
+    reservation: null,
     error: null,
     loading: false,
 };
@@ -33,7 +33,7 @@ const fetchReservationsFail = (state, action) => {
 const cancelReservationSuccess = (state, action) => {
     const updatedList = state.reservations.map(item => {
         if (item.id === action.reservation.id) {
-            return Object.assign({}, item, { state: action.reservation.state })
+            return Object.assign({}, item, {state: action.reservation.state})
         }
         return item;
     });
@@ -55,9 +55,9 @@ const deleteReservationSuccess = (state, action) => {
     });
 };
 
-const addReservationSuccese = (state, action) => {
+const addDriverReservationSuccese = (state, action) => {
     return updateObject(state, {
-        reservationId: action.reservationId,
+        reservation: action.reservation,
         loading: false,
         error: null,
     });
@@ -73,6 +73,7 @@ const updateReservationPayment = (state, action) => {
     return updateObject(state, {
         loading: false,
         error: null,
+        reservation: null,
     });
 }
 
@@ -88,8 +89,8 @@ const reservationsReducer = (state = initialState, action) => {
             return cancelReservationSuccess(state, action);
         case actionTypes.DELETE_RESERVATION_SUCCESS:
             return deleteReservationSuccess(state, action);
-        case actionTypes.ADD_RESERVATION_SUCCESS:
-            return addReservationSuccese(state, action);
+        case actionTypes.ADD_DRIVER_RESERVATION_SUCCESS:
+            return addDriverReservationSuccese(state, action);
         case actionTypes.UPDATE_ERROR_SUCCESS:
             return updateError(state, action);
         case actionTypes.UPDATE_RESERVATION_PAYMENT_SUCCESS:

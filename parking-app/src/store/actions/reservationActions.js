@@ -35,10 +35,10 @@ export const deleteReservationsSuccess = (reservationId) => {
     };
 };
 
-export const addReservationSuccess = (reservationId) => {
+export const addDriverReservationSuccess = (reservation) => {
     return {
-        type: actionTypes.ADD_RESERVATION_SUCCESS,
-        reservationId: reservationId,
+        type: actionTypes.ADD_DRIVER_RESERVATION_SUCCESS,
+        reservation: reservation,
     };
 }
 
@@ -87,10 +87,10 @@ export const fetchAreaReservations = (areaId) => {
     };
 };
 
-export const cancelReservation = (userId, reservationId) => {
+export const cancelReservation = (reservationId) => {
     return dispatch => {
         dispatch(fetchReservationsStart());
-        axios.put(`/reservations/${reservationId}/driver/${userId}`)
+        axios.put(`/reservations/${reservationId}/cancel`)
             .then(response => {
                 dispatch(cancelReservationsSuccess(response.data));
             }).catch(error => {
@@ -113,10 +113,10 @@ export const updateReservationPayment = (reservationId) => {
     };
 };
 
-export const deleteReservation = (userId, reservationId) => {
+export const deleteReservation = (reservationId) => {
     return dispatch => {
         dispatch(fetchReservationsStart());
-        axios.delete(`/reservations/${reservationId}/driver/${userId}`)
+        axios.delete(`/reservations/${reservationId}/delete`)
             .then(() => {
                 dispatch(deleteReservationsSuccess(reservationId));
             }).catch(error => {
@@ -132,7 +132,8 @@ export const addDriverReservation = (reservationData, userId, areaId) => {
         axios.post(`/reservations/${areaId}?driverId=${userId}`,
             reservationData)
             .then(response => {
-                dispatch(addReservationSuccess(response.data));
+                console.log(response.data)
+                dispatch(addDriverReservationSuccess(response.data));
             }).catch(error => {
             const response = error.response ? error.response : {data:'Network error'};
             dispatch(fetchReservationsFail(response))
@@ -146,8 +147,9 @@ export const addAnonimReservation = (reservationData, areaId) => {
         axios.post(`/reservations/${areaId}`,
             reservationData)
             .then(response => {
-                localStorage.setItem(`identifier`, response.data)
-                dispatch(addReservationSuccess());
+                console.log(response.data)
+                localStorage.setItem('identifier', response.data.vehicle.id);
+                dispatch(addDriverReservationSuccess(response.data));
             }).catch(error => {
             const response = error.response ? error.response : {data:'Network error'};
             dispatch(fetchReservationsFail(response))

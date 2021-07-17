@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -175,7 +176,16 @@ namespace ParkingApp.Main.API.Controllers
                     return BadRequest("Nu exista locuri disponibile.");
                 }
 
-                var reservations = await _reservationService.GetVehiclesReservationsAsync(reservation.Vehicle.LicensePlate);
+                IEnumerable<ReservationDto> reservations = null;
+
+                if (driverId != null)
+                {
+                    reservations = await _reservationService.GetDriverReservationsAsync((int)driverId);
+                }
+                else
+                {
+                    reservations = await _reservationService.GetVehiclesReservationsAsync(reservation.Vehicle.LicensePlate);
+                }
 
                 var date = DateTime.Parse(reservation.ReservationDate, System.Globalization.CultureInfo.CurrentCulture);
                 var startTime = DateTime.Parse(reservation.StartTime, System.Globalization.CultureInfo.CurrentCulture);
@@ -240,7 +250,7 @@ namespace ParkingApp.Main.API.Controllers
                     return Problem();
                 }
 
-                return Ok(inserted.Vehicle.Id);
+                return Ok(inserted);
             }
             catch (Exception)
             {
@@ -248,18 +258,11 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
-        [HttpPut("{reservationId}/driver/{driverId}")]
+        [HttpPut("{reservationId}/cancel")]
         public async Task<IActionResult> CancelReservation(int driverId, int reservationId)
         {
             try
             {
-                var driver = await _driverService.GetByUSerIdAsync(driverId, true);
-
-                if (driver == null)
-                {
-                    return NotFound("Autentificati-va sau creati un cont pentru a rezerva.");
-                }
-
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -285,7 +288,7 @@ namespace ParkingApp.Main.API.Controllers
         }
 
         [HttpPut("{reservationId}/payment")]
-        public async Task<IActionResult> UpdateDriver(int reservationId)
+        public async Task<IActionResult> UpdateReservationPayment(int reservationId)
         {
             try
             {
@@ -312,18 +315,11 @@ namespace ParkingApp.Main.API.Controllers
         }
 
         [HttpDelete]
-        [Route("{reservationId}/driver/{driverId}")]
-        public async Task<IActionResult> DeleteReservation(int driverId, int reservationId)
+        [Route("{reservationId}/delete")]
+        public async Task<IActionResult> DeleteReservation(int reservationId)
         {
             try
             {
-                var driver = await _driverService.GetByUSerIdAsync(driverId);
-
-                if (driver == null)
-                {
-                    return NotFound("Cont nevalid.");
-                }
-
                 if(await _reservationService.GetByIdAsync(reservationId) == null)
                 {
                     return NotFound("Nu exista rezervarea selectata.");

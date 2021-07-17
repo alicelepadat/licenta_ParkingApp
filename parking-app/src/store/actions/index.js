@@ -14,6 +14,7 @@ export {
     addDriverLicense,
     updateDriver,
     removeUserData,
+    updateUserPassword,
 } from './userDataActions';
 
 export {

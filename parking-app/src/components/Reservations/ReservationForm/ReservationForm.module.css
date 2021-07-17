@@ -1,9 +1,24 @@
-.new-reservation__controls  {
+.reservation-form {
+    color: white;
+    font-size: 12px;
+}
+
+.reservation-form h3 {
+    margin: 2rem 0 1rem;
+}
+
+.reservation-form label {
+    margin-bottom: 0.5rem;
+    font-style: italic;
+}
+
+.new-reservation__controls {
     margin: 1rem 0;
     text-align: left;
 }
 
 .new-reservation__actions {
+    margin-top: 2rem;
     text-align: end;
 }
 

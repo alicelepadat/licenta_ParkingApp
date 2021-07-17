@@ -15,6 +15,14 @@ const Reservation = props => {
 
     const showActions = props.role !== 220;
 
+    const handleCancelReservation = () => {
+        props.onCancelReservation(props.id);
+    }
+
+    const handleDeleteReservation = () => {
+        props.onDeleteReservation(props.id);
+    }
+
     return (
         <li>
             <Accordion>
@@ -56,9 +64,7 @@ const Reservation = props => {
                             <div className={classes["reservation__actions"]}>
                                 <button
                                     title="Anuleaza"
-                                    onClick={() => {
-                                        props.onCancelReservation(props.userId, props.id)
-                                    }}
+                                    onClick={handleCancelReservation}
                                     disabled={props.status === 'terminata' || props.status === 'anulata' || (((props.role === 200 || props.role === null) && props.status === 'progres') || (props.role === 210 && props.status !== 'progres'))}
                                 >
                                     <X/>
@@ -67,9 +73,7 @@ const Reservation = props => {
                                     (props.role === null || props.role === 200) &&
                                     <button
                                         title="Sterge"
-                                        onClick={() => {
-                                            props.onDeleteReservation(props.userId, props.id)
-                                        }}
+                                        onClick={handleDeleteReservation}
                                         disabled={props.status === 'activa' || props.status === 'progres'}
                                     >
                                         <Trash2/>
@@ -93,8 +97,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onCancelReservation: (userId, reservationId) => dispatch(actionCreators.cancelReservation(userId, reservationId)),
-        onDeleteReservation: (userId, reservationId) => dispatch(actionCreators.deleteReservation(userId, reservationId)),
+        onCancelReservation: (reservationId) => dispatch(actionCreators.cancelReservation(reservationId)),
+        onDeleteReservation: (reservationId) => dispatch(actionCreators.deleteReservation(reservationId)),
     };
 };
 

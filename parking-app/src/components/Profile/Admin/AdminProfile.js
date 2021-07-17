@@ -9,7 +9,6 @@ import * as dataUtility from '../../../utility/dataUtility';
 import Header from "../Header/Header";
 
 const AdminProfile = props => {
-    console.log(props.reservations)
 
     useEffect(() => {
         if (props.userId) {

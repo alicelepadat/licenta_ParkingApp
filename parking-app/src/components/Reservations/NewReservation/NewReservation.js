@@ -44,7 +44,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onDriverReservationAdd: (data, userId, areaId) => dispatch(actionCreators.addDriverReservation(data, userId, areaId)),
         onAnonimReservationAdd: (data, areaId) => dispatch(actionCreators.addAnonimReservation(data, areaId)),
-        onPay: () => dispatch(actionCreators.updateReservationPayment()),
+        onPay: (reservationId) => dispatch(actionCreators.updateReservationPayment(reservationId)),
         onErrorClose: () => dispatch(actionCreators.updateError()),
     };
 };
