@@ -86,7 +86,10 @@ namespace ParkingApp.Main.Services
         {
             var entity = await _unitOfWork.UserRepository.SingleOrDefaultAsync(u => u.Id == user.Id);
 
-            entity.Password = BC.HashPassword(user.Password);
+            if (user.Password.Length > 0)
+            {
+                entity.Password = BC.HashPassword(user.Password);
+            }
 
             await _unitOfWork.CommitAsync();
         }

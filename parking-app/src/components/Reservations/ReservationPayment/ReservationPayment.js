@@ -47,7 +47,7 @@ const ReservationPayment = (props) => {
 
         try {
             const {data: clientSecret} = await axios.post('/charges', {
-                amount: props.details[1] * 100,
+                amount: props.price * 100,
             });
 
             const paymentMethodRequest = await stripe.createPaymentMethod({
@@ -79,8 +79,8 @@ const ReservationPayment = (props) => {
                     <div className={classes.payment}>
                         <p>Efectueaza plata pentru rezervarea la {props.area.emplacement}</p>
                         <div className={classes["reservation-details"]}>
-                            <p>Durata: {props.details[0]}</p>
-                            <p>Total de plata: {props.details[1]} RON</p>
+                            <p>Durata: {props.duration}</p>
+                            <p>Total de plata: {props.price} RON</p>
                         </div>
                         <label>Introduceti informatiile cardului</label>
                         <div className={classes["payment-details"]}>
@@ -91,7 +91,7 @@ const ReservationPayment = (props) => {
                                     disabled={isPaymentProcessing || !stripe}>
                                 {
                                     isPaymentProcessing ? 'Procesare...' :
-                                        <div><DollarSign/> Plateste {props.details[1]} RON</div>
+                                        <div><DollarSign/> Plateste {props.price} RON</div>
                                 }
                             </Button>
                         </div>

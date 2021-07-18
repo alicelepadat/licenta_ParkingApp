@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="error handling" />
+    <list default="true" id="acacf6f0-4e66-4411-928f-32f4693b21cb" name="Default Changelist" comment="error handling">
+      <change beforePath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ParkingApp.Main/src/ParkingApp.Main.Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Header/Header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationForm/ReservationForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Reservations/ReservationPayment/ReservationPayment.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Reservations/ReservationPayment/ReservationPayment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Reservations/Reservations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Reservations/Reservations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utility/dataUtility.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utility/dataUtility.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,6 +100,7 @@
       <workItem from="1626415874093" duration="20463000" />
       <workItem from="1626439366209" duration="21574000" />
       <workItem from="1626504223139" duration="26387000" />
+      <workItem from="1626617912644" duration="6422000" />
     </task>
     <task id="LOCAL-00001" summary="vehicles page">
       <created>1625320747601</created>
@@ -240,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626553195032</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="progressive web app">
+      <created>1626617962591</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1626617962591</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,6 +292,7 @@
     <MESSAGE value="reservation payment" />
     <MESSAGE value="reservation reports download + error handling" />
     <MESSAGE value="error handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="error handling" />
+    <MESSAGE value="progressive web app" />
+    <option name="LAST_COMMIT_MESSAGE" value="progressive web app" />
   </component>
 </project>

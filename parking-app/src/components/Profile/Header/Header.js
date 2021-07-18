@@ -65,8 +65,13 @@ function ProfileHeader(props) {
             password: enteredPassword,
         }
 
-        props.onUpdatePassword(props.user.id, data);
-        handleLogout();
+        if (enteredPassword.length > 0) {
+
+            props.onUpdatePassword(props.user.id, data);
+            handleLogout();
+        } else {
+            handleChangePasswordClose();
+        }
     }
 
     console.log(props.user)

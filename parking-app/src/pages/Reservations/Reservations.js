@@ -23,10 +23,10 @@ const Reservations = (props) => {
     const [filteredInput, setFilteredInput] = useState('');
 
     useEffect(() => {
-        if (props.userId && props.role === 210) {
+        if (props.userId && props.role === 210 && props.user) {
             props.onFetchAreaReservations(props.user.parkingArea.id);
         }
-    }, [props.userId, props.role])
+    }, [props.userId, props.role, props.user])
 
     useEffect(() => {
         if (props.userId && props.role) {
@@ -87,7 +87,7 @@ const Reservations = (props) => {
                 return reservation.parkingArea.emplacement === filteredStatus
             } else {
                 if (filteredInput.length > 0) {
-                    return reservation.vehicle.licensePlate.includes(filteredInput.toUpperCase());
+                    return reservation.vehicle && reservation.vehicle.licensePlate.includes(filteredInput.toUpperCase());
                 } else {
                     return getReservationState(reservation.state) === filteredStatus;
                 }
@@ -101,14 +101,14 @@ const Reservations = (props) => {
     const reservationsData = (
         <div>
             {
-                props.role === 210 &&
+                props.reservations && props.role === 210 &&
                 <Card className={classes["reservations__filter"]}>
                     <VehicleFilter value={filteredInput} onChange={filterInputChangeHandler}/>
                 </Card>
             }
             <Card className={classes["reservations__filter"]}>
                 <ReservationsFilter selectedStatus={filteredStatus}
-                                    onChangeFilter={filterChangeHandler}/>
+                                    onChangeFilter={filterChangeHandler}/>}
             </Card>
             <ReservationsList
                 loading={props.loading}

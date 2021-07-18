@@ -21,7 +21,7 @@ export const getNumberOfReservatiosn = (reservations, state) => {
     return number;
 }
 
-export const getPrice = (startTime, endTime, pricePerHour) => {
+export const getDuration = (startTime, endTime) => {
     let start = startTime.split(':');
     if (start[0] === '00') {
         start[0] = '24';
@@ -36,9 +36,5 @@ export const getPrice = (startTime, endTime, pricePerHour) => {
     let hours = Math.floor(diff / 1000 / 60 / 60);
     diff -= hours * 1000 * 60 * 60;
     let minutes = Math.floor(diff / 1000 / 60);
-    const duration = `${hours} ${hours > 1 ? ' ore' : ' ora'} ${minutes > 0 ? ` si ${minutes} minute` : ''}`
-    if (minutes > 0) {
-        hours++;
-    }
-    return [duration, pricePerHour * hours];
+    return `${hours} ${hours > 1 ? ' ore' : ' ora'} ${minutes > 0 ? ` si ${minutes} minute` : ''}`
 }

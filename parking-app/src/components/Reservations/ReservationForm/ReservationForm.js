@@ -12,11 +12,8 @@ import * as validate from "../../../utility/validateHandler";
 import * as data from "../../../utility/dataUtility";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import Modal from "../../UI/Modal/Modal";
 import {loadStripe} from "@stripe/stripe-js";
 import {Elements} from "@stripe/react-stripe-js";
-import Card from "../../UI/Card/Card";
-import LoadingSpinner from "../../UI/Loading/Loading";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_TOKEN);
 
@@ -34,7 +31,8 @@ const ReservationForm = (props) => {
     const [showLicensePlateInput, setShowLicensePlateInput] = useState(false);
     const [goToPayment, setGoToPayment] = useState(false);
 
-    const [details, setDetails] = useState(0);
+    const [duration, setDuration] = useState('');
+    const [price, setPrice] = useState(0);
 
     const [userInput, setUserInput] = useState({
         enteredDate: today,
@@ -110,7 +108,6 @@ const ReservationForm = (props) => {
                 props.onAnonimAdd(reservationData, props.area.id);
             }
         }
-
     }
 
     const handlePay = () => {
@@ -128,8 +125,11 @@ const ReservationForm = (props) => {
 
     useEffect(()=>{
         if(props.reservation && props.reservation.id) {
-            setDetails(data.getPrice(userInput.enteredStartTime, userInput.enteredEndTime, props.selectedArea.pricePerHour));
+            setDuration(data.getDuration(
+                formatData.timeFormat(props.reservation.startTime),
+                formatData.timeFormat(props.reservation.endTime)));
             setGoToPayment(true);
+            setPrice(props.reservation.price);
         }
     }, [props.reservation])
 
@@ -141,6 +141,9 @@ const ReservationForm = (props) => {
             };
         });
     };
+
+    console.log(duration)
+
 
     const handleAddLicensePlate = () => {
         setShowLicensePlateInput(true);
@@ -247,7 +250,7 @@ const ReservationForm = (props) => {
             {
                 !props.loading && goToPayment &&
                 <Elements stripe={stripePromise}>
-                    <ReservationPayment details={details} area={props.area} loading={props.loading}
+                    <ReservationPayment duration={duration} price={price} area={props.area} loading={props.loading}
                                         onPay={handlePay}/>
                 </Elements>
             }
