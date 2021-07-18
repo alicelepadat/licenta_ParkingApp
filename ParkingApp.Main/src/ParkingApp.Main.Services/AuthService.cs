@@ -81,5 +81,14 @@ namespace ParkingApp.Main.Services
 
             return _mapper.Map<Driver, DriverDto>(model);
         }
+
+        public async Task UpdateUserAsync(UserDto user)
+        {
+            var entity = await _unitOfWork.UserRepository.SingleOrDefaultAsync(u => u.Id == user.Id);
+
+            entity.Password = BC.HashPassword(user.Password);
+
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

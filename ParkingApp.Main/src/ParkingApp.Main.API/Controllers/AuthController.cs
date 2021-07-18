@@ -129,5 +129,39 @@ namespace ParkingApp.Main.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUserPassword(int userId, [FromBody] UserDto user)
+        {
+            try
+            {
+                if (user.Id != userId)
+                {
+                    ModelState.AddModelError(
+                        "Identifier",
+                        "Request body not apropiate for ID");
+                }
+
+                var userExist = await _authService.GetUserByIdAsync(userId);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (userExist == null)
+                {
+                    return NotFound("Utilizatorul nu exista");
+                }
+
+                await _authService.UpdateUserAsync(user);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
     }
 }

@@ -17,5 +17,8 @@ namespace ParkingApp.Main.Services.Contracts
         Task<AdminDto> CreateAdminAsync(NewAdminDto admin);
         
         Task<DriverDto> CreateDriverAsync(NewDriverDto driver);
+
+        Task UpdateUserAsync(UserDto user);
+
     }
 }

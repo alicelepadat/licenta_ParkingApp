@@ -33,7 +33,18 @@ namespace ParkingApp.Main.Services
 
         public async Task DeleteAsync(int vehicleId)
         {
-            var model = await _unitOfWork.VehicleRepository.GetWithReservationsAsync(vehicleId, false);
+            var model = await _unitOfWork.VehicleRepository.SingleOrDefaultAsync(v => v.Id == vehicleId);
+            var reservations = await _unitOfWork.ReservationRepository.GetVehicleReservationsAsync(model.LicensePlate);
+
+            if (reservations != null)
+            {
+                foreach (var r in reservations)
+                {
+                    r.VehicleId = null;
+                    r.Vehicle = null;
+                }
+            }
+
             _unitOfWork.VehicleRepository.Remove(model);
 
             await _unitOfWork.CommitAsync();

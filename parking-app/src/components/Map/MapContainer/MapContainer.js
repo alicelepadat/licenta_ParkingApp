@@ -1,8 +1,10 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import MapGL from 'react-map-gl';
-
 import classes from './MapContainer.module.css';
-import {clusterLayer, unclusteredPointLayer} from '../Layers/layersStyle';
+import { clusterLayer, unclusteredPointLayer } from '../Layers/layersStyle';
+import mapboxgl from "mapbox-gl";
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 const MapContainer = (props) => {
 

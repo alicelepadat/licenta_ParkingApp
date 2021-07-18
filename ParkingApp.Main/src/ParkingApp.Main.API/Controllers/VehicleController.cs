@@ -94,18 +94,11 @@ namespace ParkingApp.Main.API.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteVehicle(int driverId, int vehicleId)
+        [HttpDelete("/api/vehicle/{vehicleId}/delete")]
+        public async Task<IActionResult> DeleteVehicle(int vehicleId)
         {
             try
             {
-                var driver = await _driverService.GetByUSerIdAsync(driverId);
-
-                if (driver == null)
-                {
-                    return NotFound("Cont nevalid.");
-                }
-
                 if(await _vehicleService.GetByIdAsync(vehicleId) == null)
                 {
                     return NotFound("Nu exista vehiculul specificat.");
