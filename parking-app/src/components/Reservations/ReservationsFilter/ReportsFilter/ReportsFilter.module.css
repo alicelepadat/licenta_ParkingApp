@@ -1,0 +1,54 @@
+.reports-filter {
+    color: white;
+    display: flex;
+}
+
+.reports-filter__control {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 1rem 0;
+    justify-content: space-between;
+}
+
+.reports-filter label {
+    font-weight: bold;
+    text-align: left;
+}
+
+.reports-filter select {
+    font: inherit;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    background-color: white;
+}
+
+.reportsFilter__actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    margin: auto 1rem auto auto;
+}
+
+.reportsFilter__actions button:hover {
+    color: var(--LighterBlue);
+}
+
+@media only screen and (max-width: 768px) {
+    .reports-filter__control {
+        text-align: start;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .reports-filter label {
+        margin-bottom: 1rem;
+    }
+
+    .reportsFilter__actions {
+        text-align: center;
+        margin: 1rem;
+    }
+}

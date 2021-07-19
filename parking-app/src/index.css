@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --DarkBlue: #12232e;
+    --ShadowDarkBlue: #203647;
+    --LighterBlue: #305f72;
+    --Blue: #4da8da;
+    --TransparentBlue: rgba(77, 168, 218, 0.7);
+    --DarkGray: #353535;
+    --LightRed: #ef476f;
+    --LighterRed: rgba(239, 71, 111, 0.8);
+    --ErrorRed: rgb(243, 206, 214);
+}
+
+html {
+    font-family: 'Arial', sans-serif;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background-color: var(--DarkGray);
+    height: 100%;
+}
+
+h1,
+h2,
+h3,
+h5,
+p {
+    color: white;
+}
+
+img {
+    aspect-ratio: attr(width) / attr(height);
+}
+
+@font-face {
+    font-display: swap;
+}

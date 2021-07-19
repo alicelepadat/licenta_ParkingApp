@@ -1,0 +1,46 @@
+.profile-header {
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-header button {
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 1rem 0 0;
+}
+
+.profile-header button:hover {
+    color: var(--LighterBlue);
+}
+
+.user-password button:hover {
+    color: var(--LighterBlue);
+}
+
+.user-password {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.user-password button {
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ShadowDarkBlue);
+    padding: 0.35rem 0.7rem 0.35rem 0.35rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .profile-header {
+        margin-top: 2rem;
+    }
+}

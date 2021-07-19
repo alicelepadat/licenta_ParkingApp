@@ -1,0 +1,21 @@
+.new-vehicle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 95%;
+    height: 300px;
+    margin: -150px 0 0 -47.5%;
+    padding: 2rem;
+}
+
+.new-vehicle__actions {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+@media only screen and (min-width: 768px) {
+    .new-vehicle {
+        width: 36%;
+        margin-left: -18%;
+    }
+}

@@ -1,0 +1,22 @@
+.info-header {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2.5rem;
+}
+
+.info-header h3 {
+    flex: 1;
+    color: var(--Blue);
+}
+
+.info-header button{
+    float: right;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--TransparentBlue);
+}
+
+.info-header button:hover {
+    color: var(--Blue);
+}

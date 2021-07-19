@@ -1,0 +1,25 @@
+.button {
+  font: inherit;
+  cursor: pointer;
+  padding: 1rem 2rem;
+  border: 1px solid var(--DarkBlue);
+  background-color: var(--DarkBlue);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);;
+  border-radius: 12px;
+  margin-right: 1rem;
+}
+
+.button:hover, .button:hover {
+  color: var(--LighterBlue);
+}
+
+.button.alternative {
+  color: white;
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.button:focus {
+  outline: none;
+}

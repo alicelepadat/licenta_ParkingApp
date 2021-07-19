@@ -1,0 +1,67 @@
+.modify-profile__controls button,
+.edit-profile__actions button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.modify-profile__controls button {
+    margin-top: 3rem;
+}
+
+.edit-profile__actions button {
+    padding: 1rem;
+}
+
+.modify-profile__actions {
+    text-align: right;
+}
+
+.user-license label {
+    color: var(--DarkBlue);
+}
+
+.edit-profile__actions {
+    text-align: center;
+}
+
+.modify-profile__controls button:hover,
+.edit-profile__actions button:hover {
+    color: var(--LighterBlue);
+}
+
+@media only screen and (min-width: 768px) {
+    .user-license {
+        margin: auto;
+        width: 60%;
+    }
+}
+
+.user-password button:hover {
+    color: var(--LighterBlue);
+}
+
+.user-password {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+}
+
+.user-password button {
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ShadowDarkBlue);
+    padding: 0.35rem 0.7rem 0.35rem 0.35rem;
+}
+
+.user-password button:nth-of-type(odd) {
+    margin-right: 3rem;
+}
+

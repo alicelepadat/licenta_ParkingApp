@@ -1,0 +1,102 @@
+.areas h2 {
+    margin-bottom: 2rem;
+}
+
+.control {
+    margin: 4rem 0 1rem 0;
+}
+
+.area-search {
+    border-radius: 0;
+    margin:  2rem 0;
+}
+
+.area-info button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);;
+    border-radius: 12px;
+    padding: 0.3rem 1rem;
+
+}
+
+.area-info button:hover {
+    color: var(--LighterBlue);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--DarkBlue);
+    color: white;
+}
+
+th {
+    background: var(--DarkBlue);
+    color: var(--Blue);
+    font-weight: bold;
+}
+
+td, th {
+    padding: 1rem;
+    text-align: left;
+}
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+    .area-info tr {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+        margin-bottom: 0.5rem;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    td, th {
+        padding: 0.5rem;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: start;
+    }
+
+    td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+
+
+    td:nth-of-type(1):before {
+        content: "Amplasament";
+    }
+
+    td:nth-of-type(1) {
+        font-weight: bold;
+    }
+
+    td:nth-of-type(2):before {
+        content: "Zona";
+    }
+
+    td:nth-of-type(3):before {
+        content: "Responsabil";
+    }
+}

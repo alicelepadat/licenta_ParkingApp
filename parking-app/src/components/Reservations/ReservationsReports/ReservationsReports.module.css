@@ -1,0 +1,44 @@
+.reports {
+    width: 90%;
+    padding: 2rem;
+    z-index: 1;
+    background-color: var(--DarkBlue);
+    margin: auto;
+}
+
+.reports h2, .reports h4 {
+    margin: 1rem 0 2rem;
+    text-align: center;
+    color: white;
+}
+
+.reports p {
+    margin-bottom: 3rem;
+}
+
+.print {
+    color: black;
+}
+
+.print h2, .print p {
+    color: black;
+}
+
+@media only screen and (max-width: 1300px) {
+    .reports {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media print {
+    .print {
+        color: black;
+    }
+
+    .print h2, .print p {
+        color: black;
+    }
+}
+
+

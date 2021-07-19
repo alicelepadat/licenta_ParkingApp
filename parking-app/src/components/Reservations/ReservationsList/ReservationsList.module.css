@@ -1,0 +1,12 @@
+.reservations-list {
+    list-style: none;
+    padding: 0;
+    font-weight: bold;
+
+}
+
+.reservations-list__fallback {
+    color: white;
+    text-align: center;
+    margin-top: 1rem;
+}

@@ -1,0 +1,84 @@
+.username {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 80px;
+    color: white;
+    margin-top: 3rem;
+}
+
+.username button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.username button:hover {
+    color: var(--LighterBlue);
+}
+
+.username input {
+    font: inherit;
+    padding: 0.2rem 0.2rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.user-password {
+    margin-left: 1rem;
+}
+
+.user-vehicles, .user-reservations {
+    margin-top: 2rem;
+}
+
+.user-vehicles span, .user-reservations span {
+    font-size: 15px;
+    color: var(--Blue);
+}
+
+.user-vehicles a, .user-reservations a {
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.user-vehicles a:hover, .user-reservations a:hover {
+    color: var(--LighterBlue);
+}
+
+.user-logout {
+    text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+    .username {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .user-vehicles, .user-reservations {
+        margin-top: 2rem;
+        text-align: center;
+    }
+}
+
+.user-license__action {
+    text-align: center;
+    margin: 4rem 0;
+}
+
+.user-license label {
+    color: var(--DarkBlue);
+}
+
+@media only screen and (min-width: 768px) {
+    .user-license {
+        margin: auto;
+        width: 60%;
+    }
+}

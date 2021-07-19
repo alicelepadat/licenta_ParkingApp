@@ -1,0 +1,59 @@
+.admin-area h3 {
+    color: var(--DarkBlue);
+}
+
+.admin-area {
+    background-color: var(--LighterBlue);
+}
+
+.admin-area {
+    margin: 0.5rem 0;
+}
+
+.admin-area__note {
+    margin: 1rem 0 1rem;
+    font-weight: bold;
+}
+
+
+.admin-area__note p {
+    padding: 0 2rem;
+}
+
+.area-reservations {
+    text-align: center;
+    font-weight: bold;
+    font-size: 17px;
+    color: var(--DarkBlue);
+}
+
+.area-reservations a {
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0 0 1rem 0;
+    color: var(--DarkBlue);
+}
+
+.area-reservations a:hover {
+    color: var(--Blue);
+}
+
+.admin-area-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-area-info div {
+    margin: 0.5rem 0;
+}
+
+.admin-area-info div strong {
+    color: var(--DarkBlue);
+    padding: 0;
+}
+
+.admin-area-info div span {
+    color: var(--DarkBlue);
+    padding: 0;
+}

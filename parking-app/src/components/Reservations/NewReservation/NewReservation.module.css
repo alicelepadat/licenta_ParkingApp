@@ -1,0 +1,17 @@
+.new-reservation {
+    background-color: rgba(32, 54, 71, 0.9);
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transition: 850ms;
+    z-index: 999;
+    padding: 2rem;
+}
+
+@media only screen and (min-width: 1020px) {
+    .new-reservation {
+        width: 40%;
+    }
+}
