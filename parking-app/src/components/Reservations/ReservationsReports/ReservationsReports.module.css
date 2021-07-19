@@ -6,7 +6,7 @@
     margin: auto;
 }
 
-.reports h2 {
+.reports h2, .reports h4 {
     margin: 1rem 0 2rem;
     text-align: center;
     color: white;
