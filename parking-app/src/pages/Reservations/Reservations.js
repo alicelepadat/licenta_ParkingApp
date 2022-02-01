@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Card from "../../components/UI/Card/Card";
 import ReservationsFilter from "../../components/Reservations/ReservationsFilter/ReservationsFilter";
 import ReservationsList from "../../components/Reservations/ReservationsList/ReservationsList";
 
 import classes from './Reservations.module.css';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
-import {Link} from "react-router-dom";
-import {BarChart2, X} from "react-feather";
+import { Link } from "react-router-dom";
+import { BarChart2, X } from "react-feather";
 import InfoMessage from "../../components/UI/InfoMessage/InfoMessage";
 import FloatingButton from "../../components/UI/FloatingButton/FloatingButton";
 import ReservationsReports from "../../components/Reservations/ReservationsReports/ReservationsReports";
@@ -103,12 +103,12 @@ const Reservations = (props) => {
             {
                 props.reservations && props.role === 210 &&
                 <Card className={classes["reservations__filter"]}>
-                    <VehicleFilter value={filteredInput} onChange={filterInputChangeHandler}/>
+                    <VehicleFilter value={filteredInput} onChange={filterInputChangeHandler} />
                 </Card>
             }
             <Card className={classes["reservations__filter"]}>
                 <ReservationsFilter selectedStatus={filteredStatus}
-                                    onChangeFilter={filterChangeHandler}/>}
+                    onChangeFilter={filterChangeHandler} />
             </Card>
             <ReservationsList
                 loading={props.loading}
@@ -135,8 +135,8 @@ const Reservations = (props) => {
 
     const anonimMessage = identifier !== null && (
         <InfoMessage className={classes["anonim-message"]}
-                     onClick={handleAnonimMessageClose}
-                     message="Puteti vedea rezervarile pentru ultimul vehicul adaugat deoarece folositi aplicatia in mod anonim."
+            onClick={handleAnonimMessageClose}
+            message="Puteti vedea rezervarile pentru ultimul vehicul adaugat deoarece folositi aplicatia in mod anonim."
         >
             <p><Link to="/login">Autentificati-va</Link> sau <Link to="/register">inregistrati-va</Link> pentru a vedea
                 toate rezervarile.</p>
@@ -152,7 +152,7 @@ const Reservations = (props) => {
                 (props.userId || identifier) && props.reservations.length > 0 ?
                     (props.role !== 220 ? reservationsData :
                         (showReports ? <ReservationsReports reservations={filteredReservations}
-                                                            area={filteredStatus}/> : reservationsData))
+                            area={filteredStatus} /> : reservationsData))
                     :
                     noReservationFoundInfo
             }
@@ -160,7 +160,7 @@ const Reservations = (props) => {
                 props.role === 220 &&
                 <div className={classes["reservations-reports"]}>
                     <FloatingButton onClick={handleShowReportsClick}>
-                        {showReports ? <X color='var(--DarkBlue)'/> : <BarChart2 color='var(--DarkBlue)'/>}
+                        {showReports ? <X color='var(--DarkBlue)' /> : <BarChart2 color='var(--DarkBlue)' />}
 
                     </FloatingButton>
                 </div>
