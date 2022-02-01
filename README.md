@@ -1,4 +1,4 @@
-# easypark - aplicație **demo** de parcare București 
+# easypark - aplicație DEMO de parcare București 
 
 ## Link
 https://licenta-parking-app.vercel.app/
