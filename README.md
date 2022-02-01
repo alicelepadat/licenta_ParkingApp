@@ -37,7 +37,7 @@ Modulul client este construit cu biblioteca JavaScript, React, alături de Redux
 
 Ambele module comunică cu API-ul Stripe în vederea integrării facilității de plată în aplicație. Modulul client comunică cu API-ul Mapbox care asigură afișarea unei hărți interactive.
 
-Datele persistă într-o bază de date relațională SQL Serverm stocată în cloud (AWS).
+Datele persistă într-o bază de date relațională SQL Server stocată în cloud (AWS).
 
 Aplicația server este hostată în Azure App Service, iar aplicația client în Vercel.
 
