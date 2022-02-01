@@ -1,4 +1,11 @@
-# easypark - aplicație de parcare București 
+# easypark - aplicație **demo** de parcare București 
+
+## Link
+https://licenta-parking-app.vercel.app/
+
+Va puteti autentifica prin înregistrarea unui cont nou (parolele sunt criptate).
+
+# Descriere
 
 Aplicația dezvoltată este o aplicație web progresivă și are ca principal obiectiv facilitarea parcării autoturismelor în zonele de utilitate publică generală din București, precum și gestionarea acestora de către administrația publică.
 
@@ -30,7 +37,9 @@ Modulul client este construit cu biblioteca JavaScript, React, alături de Redux
 
 Ambele module comunică cu API-ul Stripe în vederea integrării facilității de plată în aplicație. Modulul client comunică cu API-ul Mapbox care asigură afișarea unei hărți interactive.
 
-Datele persistă într-o bază de date relațională SQL.
+Datele persistă într-o bază de date relațională SQL Serverm stocată în cloud (AWS).
+
+Aplicația server este hostată în Azure App Service, iar aplicația client în Vercel.
 
 ## Interfața aplicației
 
