@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState, useEffect } from 'react';
 
 import classes from './DriverProfile.module.css';
@@ -14,7 +16,7 @@ const DriverProfile = props => {
 
     useEffect(() => {
         if (props.userId) {
-            if(props.role === 200) {
+            if (props.role === 200) {
                 props.onFetchReservations(props.userId)
             }
         }

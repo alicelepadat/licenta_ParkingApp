@@ -1,7 +1,9 @@
-import React, {useEffect} from 'react';
+/* eslint-disable */
+
+import React, { useEffect } from 'react';
 
 import classes from './ReservationsFilter.module.css';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actionCreators from "../../../store/actions";
 
 const ReservationsFilter = props => {

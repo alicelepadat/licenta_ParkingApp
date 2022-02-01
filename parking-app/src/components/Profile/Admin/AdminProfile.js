@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
-import {connect} from 'react-redux';
+/* eslint-disable */
+
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import * as actionCreators from "../../../store/actions";
-import {Card, Col, Row} from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import classes from './AdminProfile.module.css';
 import LoadingSpinner from "../../UI/Loading/Loading";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as dataUtility from '../../../utility/dataUtility';
 import Header from "../Header/Header";
 
@@ -34,7 +36,7 @@ const AdminProfile = props => {
 
     const dashboard = (
         <div>
-            <Header profilePicture="/profile.png" user={props.user && props.user.user} header="Panou admin"/>
+            <Header profilePicture="/profile.png" user={props.user && props.user.user} header="Panou admin" />
 
             <div className={classes["admin-area__note"]}>
                 <p>Zona de parcare aflata in administrare:</p>
@@ -91,7 +93,7 @@ const AdminProfile = props => {
     return (
         <React.Fragment>
             {
-                (props.loading === true && props.loadingReservations === true) ? <LoadingSpinner/> : dashboard
+                (props.loading === true && props.loadingReservations === true) ? <LoadingSpinner /> : dashboard
             }
         </React.Fragment>
     );

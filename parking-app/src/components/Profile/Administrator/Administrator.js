@@ -1,12 +1,14 @@
-import React, {useEffect} from 'react';
-import {connect} from "react-redux";
+/* eslint-disable */
+
+import React, { useEffect } from 'react';
+import { connect } from "react-redux";
 import * as actionCreators from "../../../store/actions";
 import LoadingSpinner from "../../UI/Loading/Loading";
 import Header from "../Header/Header";
 
 import classes from './Administrator.module.css';
-import {Col, Row} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const AdministratorProfile = (props) => {
     useEffect(() => {
@@ -29,7 +31,7 @@ const AdministratorProfile = (props) => {
         <div>
             <Row>
                 <Col>
-                    <Header profilePicture="/administrator.png" user={props.user} header="Panou administrator"/>
+                    <Header profilePicture="/administrator.png" user={props.user} header="Panou administrator" />
                 </Col>
                 <Col md={3} className="m-auto">
 
@@ -48,7 +50,7 @@ const AdministratorProfile = (props) => {
     return (
         <React.Fragment>
             {
-                props.loading === true ? <LoadingSpinner/> : dashboard
+                props.loading === true ? <LoadingSpinner /> : dashboard
             }
         </React.Fragment>
     );

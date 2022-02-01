@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {Card, CardDeck} from "react-bootstrap";
+/* eslint-disable */
+import React, { useEffect, useState } from 'react';
+import { Card, CardDeck } from "react-bootstrap";
 import Button from "../../components/UI/Button/Button";
 
 import classes from './Vehicles.module.css';
-import {BiCar} from "react-icons/bi";
-import {Plus} from "react-feather";
+import { BiCar } from "react-icons/bi";
+import { Plus } from "react-feather";
 import FloatingButton from "../../components/UI/FloatingButton/FloatingButton";
 import NewVehicle from "../../components/NewVehicle/NewVehicle";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actionCreators from "../../store/actions";
 import LoadingSpinner from "../../components/UI/Loading/Loading";
 import InfoMessage from "../../components/UI/InfoMessage/InfoMessage";
@@ -63,7 +64,7 @@ const Vehicles = (props) => {
                     <Card key={index} className={classes["vehicle-card"]}>
                         <Card.Body className="text-center">
                             <Card.Title>
-                                <BiCar size={25} color='white'/>
+                                <BiCar size={25} color='white' />
                             </Card.Title>
                             <Card.Text className={classes["vehicle-card__text"]}>
                                 {vehicle.licensePlate}
@@ -104,7 +105,7 @@ const Vehicles = (props) => {
                 (!props.loading && showAnonimMessage) && anonimMessage
             }
             {
-                props.loading ? <LoadingSpinner/>
+                props.loading ? <LoadingSpinner />
                     :
                     props.vehicles.length > 0 ? vehicleList : noVehicleFoundInfo
             }
@@ -112,7 +113,7 @@ const Vehicles = (props) => {
                 props.role === 200 && props.vehicles.length <= 4 &&
                 <div className={classes["vehicles-actions"]}>
                     <FloatingButton onClick={handleAddVehicleClick}>
-                        <Plus color='var(--DarkBlue)'/>
+                        <Plus color='var(--DarkBlue)' />
                     </FloatingButton>
                 </div>
             }
@@ -122,7 +123,7 @@ const Vehicles = (props) => {
                     data={enteredLicensePlate}
                     onChange={handleInputChange}
                     onCloseClick={handleCloseClick}
-                    onAdd={handleVehicleAdd}/>
+                    onAdd={handleVehicleAdd} />
             }
         </div>
     );
