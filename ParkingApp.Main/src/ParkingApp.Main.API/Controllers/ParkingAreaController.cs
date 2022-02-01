@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ParkingApp.Main.Services.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParkingApp.Main.API.Controllers
@@ -29,9 +27,9 @@ namespace ParkingApp.Main.API.Controllers
 
                 return Ok(areas);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation!");
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 

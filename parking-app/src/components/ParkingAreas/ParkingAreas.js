@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import * as actionCreators from "../../store/actions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import LoadingSpinner from "../UI/Loading/Loading";
 import * as utility from '../../utility/dataUtility';
 
 import classes from './ParkingAreas.module.css'
-import {Plus} from "react-feather";
+import { Plus } from "react-feather";
 import Input from "../UI/Input/Input";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const ParkingAreasContainer = (props) => {
     const history = useHistory();
@@ -49,33 +49,33 @@ const ParkingAreasContainer = (props) => {
     const parkingAreasData = (
         <table>
             <thead>
-            <tr>
-                <th>Amplasament</th>
-                <th>Zona</th>
-                <th>Responsabil</th>
-            </tr>
+                <tr>
+                    <th>Amplasament</th>
+                    <th>Zona</th>
+                    <th>Responsabil</th>
+                </tr>
             </thead>
             <tbody className={classes["area-info"]}>
-            {
-                filteredAreas.length > 0 && filteredAreas.map(area => (
-                    <tr key={area.id}>
-                        <td>{area.emplacement}</td>
-                        <td>{utility.getAreaZone(area.pricePerHour)}</td>
-                        <td>
-                            {
-                                area.admin !== null ? area.admin.user.name :
-                                    <button title="Adauga admin"
+                {
+                    filteredAreas.length > 0 && filteredAreas.map(area => (
+                        <tr key={area.id}>
+                            <td>{area.emplacement}</td>
+                            <td>{utility.getAreaZone(area.pricePerHour)}</td>
+                            <td>
+                                {
+                                    area.admin !== null ? area.admin.user.name :
+                                        <button title="Adauga admin"
                                             onClick={() => {
                                                 handleAddAdminClick(area)
                                             }}
-                                    >
-                                        Adauga <Plus/>
-                                    </button>
-                            }
-                        </td>
-                    </tr>
-                ))
-            }
+                                        >
+                                            Adauga <Plus />
+                                        </button>
+                                }
+                            </td>
+                        </tr>
+                    ))
+                }
             </tbody>
         </table>
     );
@@ -83,7 +83,7 @@ const ParkingAreasContainer = (props) => {
     return (
         <React.Fragment>
             {
-                props.loading ? <LoadingSpinner/> :
+                props.loading ? <LoadingSpinner /> :
                     <div className={classes.areas}>
                         <h2 className="text-center">Zone de parcare de utilitate publica (cu plata) - Bucuresti</h2>
                         {searchArea}

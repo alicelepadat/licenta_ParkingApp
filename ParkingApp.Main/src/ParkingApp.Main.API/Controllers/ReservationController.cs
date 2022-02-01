@@ -193,8 +193,6 @@ namespace ParkingApp.Main.API.Controllers
 
                 foreach (var r in reservations)
                 {
-                    await _reservationService.UpdateReservationStateAsync(r);
-
                     if (r.ReservationDate.Date == date && (r.State == ReservationStateEnum.ACTIVE || r.State == ReservationStateEnum.IN_PROGRESS))
                     {
                         return BadRequest("Aveti deja o rezervare activa astazi.");
@@ -328,6 +326,27 @@ namespace ParkingApp.Main.API.Controllers
                 await _reservationService.DeleteAsync(reservationId);
 
                 return Ok("Deleted");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Failed to succeed the operation.");
+            }
+        }
+
+        [HttpPut]
+        [Route("updateState")]
+        public async Task<IActionResult> UpdateReservtionsState()
+        {
+            try
+            {
+                var reservations = await this._reservationService.GetReservationsAsync();
+                
+                foreach(var reservation in reservations)
+                {
+                    await this._reservationService.UpdateReservationStateAsync(reservation);
+                }
+
+                return NoContent();
             }
             catch (Exception)
             {

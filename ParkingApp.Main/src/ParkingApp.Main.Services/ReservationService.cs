@@ -21,13 +21,6 @@ namespace ParkingApp.Main.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<IEnumerable<ReservationDto>> GetReservationsFromAreaAsync(int parkingAreaId)
-        {
-            var model = await _unitOfWork.ReservationRepository.GetReservationsFromAreaAsync(parkingAreaId);
-            
-            return _mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationDto>>(model);
-        }
-
         public async Task<IEnumerable<ReservationDto>> GetDriverReservationsAsync(int driverId)
         {
             var model = await _unitOfWork.ReservationRepository.GetDriverReservationsAsync(driverId);
