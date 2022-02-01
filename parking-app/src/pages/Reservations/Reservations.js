@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 
 import Card from "../../components/UI/Card/Card";

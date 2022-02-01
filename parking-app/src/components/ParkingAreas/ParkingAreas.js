@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useEffect, useState } from 'react';
 import * as actionCreators from "../../store/actions";
 import { connect } from "react-redux";

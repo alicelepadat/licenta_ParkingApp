@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from "react";
+/* eslint-disable */
+
+import React, { useEffect, useState } from "react";
 
 import Card from '../../UI/Card/Card';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
-
-import {ArrowLeft, Eye, EyeOff} from "react-feather";
+import { ArrowLeft, Eye, EyeOff } from "react-feather";
 
 import classes from "./Register.module.css";
 import * as actionCreators from "../../../store/actions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as validate from '../../../utility/validateHandler';
-import {Link, useHistory} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Modal from "../../UI/Modal/Modal";
 import Loading from "../../UI/Loading/Loading";
 
@@ -220,7 +221,7 @@ const Register = (props) => {
                 >
                     <button onClick={handleShowPassword} title="Arata parola">
                         {
-                            showPassword ? <EyeOff/> : <Eye/>
+                            showPassword ? <EyeOff /> : <Eye />
                         }
                     </button>
                 </Input>
@@ -240,7 +241,7 @@ const Register = (props) => {
                 >
                     <button onClick={handleShowVerifyPassword} title="Arata parola">
                         {
-                            showPassword ? <EyeOff/> : <Eye/>
+                            showPassword ? <EyeOff /> : <Eye />
                         }
                     </button>
                 </Input>
@@ -257,14 +258,14 @@ const Register = (props) => {
         <Card className={classes.register}>
             <Link to={props.role === 220 ? "/parking-areas" : "/login"}>
                 <button title={props.role === 220 ? "Inapoi la zonele de parcare" : "Mergi la autentificare"}
-                        className={classes["go-back"]}>
-                    <ArrowLeft/>
+                    className={classes["go-back"]}>
+                    <ArrowLeft />
                 </button>
             </Link>
 
             <div className={`${classes["register-header"]} d-flex flex-column text-center`}>
                 {
-                    props.loading ? <Loading/>
+                    props.loading ? <Loading />
                         : <div className={classes["login-header"]}>
                             <div>
                                 <img
@@ -279,7 +280,7 @@ const Register = (props) => {
                 }
             </div>
             {registerData}
-            {props.error && <Modal title="A aparut o eroare" message={props.error.data} onConfirm={props.onErrorClose}/>}
+            {props.error && <Modal title="A aparut o eroare" message={props.error.data} onConfirm={props.onErrorClose} />}
         </Card>
     );
 };
