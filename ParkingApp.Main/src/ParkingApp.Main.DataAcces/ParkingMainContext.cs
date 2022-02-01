@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkingApp.Main.DomainModels;
-using System;
 
 namespace ParkingApp.Main.DataAcces
 {
@@ -17,7 +16,7 @@ namespace ParkingApp.Main.DataAcces
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.SeedDatabase();
+            //builder.SeedDatabase();
         }
     }
 }

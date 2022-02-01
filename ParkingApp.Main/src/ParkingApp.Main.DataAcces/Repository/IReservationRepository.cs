@@ -10,8 +10,6 @@ namespace ParkingApp.Main.DataAcces.Repository
 
         Task<IEnumerable<Reservation>> GetDriverReservationsAsync(int driverId);
         
-        Task<IEnumerable<Reservation>> GetReservationsFromAreaAsync(int parkinAreaId);
-
         Task<IEnumerable<Reservation>> GetVehicleReservationsAsync(string licensePlate);
 
         Task<IEnumerable<Reservation>> GetParkingAreaReservationsAsync(int areaId);

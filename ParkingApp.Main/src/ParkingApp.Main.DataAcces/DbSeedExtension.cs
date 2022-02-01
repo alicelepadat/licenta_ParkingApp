@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using ExcelDataReader;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,7 @@ namespace ParkingApp.Main.DataAcces
 {
    public static class DbSeedExtension
     {
-        private static readonly string file = @"..\ParkingApp.Main.Common\Files\lista_parcari.xlsx";
+        private static readonly string file = @"C:\facultate\ParkingApp\ParkingApp.Main\src\ParkingApp.Main.Common\Files\lista_parcari.xlsx";
         private static int id = 100;
 
         public static void SeedDatabase(this ModelBuilder builder)
