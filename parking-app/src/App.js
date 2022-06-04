@@ -1,20 +1,20 @@
-import {Route, Switch, withRouter} from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import Home from './pages/Home/Home';
 import Navigation from "./components/Navigation/Navigation";
 import Vehicles from "./pages/Vehicles/Vehicles";
 import Reservations from "./pages/Reservations/Reservations";
 import Register from './components/Auth/Register/Register';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as actionsCreators from './store/actions/index';
-import {useEffect} from "react";
+import { useEffect } from "react";
 import Login from "./components/Auth/Login/Login";
 import Profile from "./pages/Profile/Driver/Driver";
 import * as actionCreators from "./store/actions";
 import Admin from "./pages/Profile/Admin/Admin";
 import Administrator from "./pages/Profile/Administrator/Administrator";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
-import ParkingAreas from "./pages/ParkingAreas/ParkingAreas";
+import ParkingAreasList from "./pages/ParkingAreasList/ParkingAreasList";
 
 function App(props) {
 
@@ -30,27 +30,27 @@ function App(props) {
 
     return (
         <div>
-            <Navigation/>
+            <Navigation />
             <Switch>
-                <Route exact path="/"><Home/></Route>
+                <Route exact path="/"><Home /></Route>
                 {
-                    props.role !== 210 && <Route exact path="/register"><Register/></Route>
+                    props.role !== 210 && <Route exact path="/register"><Register /></Route>
                 }
-                <Route exact path="/login"><Login/></Route>
+                <Route exact path="/login"><Login /></Route>
                 {
-                    props.role === 200 && <Route exact path="/profile"><Profile/></Route>
-                }
-                {
-                    props.role === 210 && <Route exact path="/admin-dashboard"><Admin/></Route>
+                    props.role === 200 && <Route exact path="/profile"><Profile /></Route>
                 }
                 {
-                    props.role === 220 && <Route exact path="/administrator-dashboard"><Administrator/></Route>
+                    props.role === 210 && <Route exact path="/admin-dashboard"><Admin /></Route>
                 }
                 {
-                    props.role === 220 && <Route exact path="/parking-areas"><ParkingAreas/></Route>
+                    props.role === 220 && <Route exact path="/administrator-dashboard"><Administrator /></Route>
                 }
-                <Route exact path="/reservations"><Reservations/></Route>
-                <Route exact path="/vehicles"><Vehicles/></Route>
+                {
+                    props.role === 220 && <Route exact path="/parking-areas"><ParkingAreasList /></Route>
+                }
+                <Route exact path="/reservations"><Reservations /></Route>
+                <Route exact path="/vehicles"><Vehicles /></Route>
                 <Route component={PageNotFound} />
             </Switch>
         </div>

@@ -28,6 +28,27 @@ export const fetchAreaFail = (error) => {
     };
 };
 
+export const deleteAdminAccountStart = (adminId) => {
+    return {
+        type: actionTypes.DELETE_ADMIN_ACCOUNT_SUCCESS,
+        adminId: adminId
+    };
+};
+
+export const deleteAdminAccountSuccess = (adminId) => {
+    return {
+        type: actionTypes.DELETE_ADMIN_ACCOUNT_SUCCESS,
+        adminId: adminId
+    };
+};
+
+export const deleteAdminAccountFailed = (error) => {
+    return {
+        type: actionTypes.DELETE_ADMIN_ACCOUNT_FAIL,
+        error: error,
+    };
+};
+
 export const fetchParkingArea = (name) => {
     return dispatch => {
         dispatch(fetchAreaStart());
@@ -35,9 +56,9 @@ export const fetchParkingArea = (name) => {
             .then(response => {
                 dispatch(fetchAreaSuccess(response.data));
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchAreaFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchAreaFail(response));
+            });
     };
 };
 
@@ -55,8 +76,21 @@ export const fetchParkingAreas = () => {
             .then(response => {
                 dispatch(fetchAllAreasSuccess(response.data));
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchAreaFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchAreaFail(response));
+            });
+    };
+};
+
+export const deleteAdminAccount = (adminId) => {
+    return dispatch => {
+        dispatch(deleteAdminAccountStart(adminId));
+        axios.delete(`/admin/${adminId}`)
+            .then(response => {
+                dispatch(deleteAdminAccountSuccess(adminId));
+            }).catch(error => {
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(deleteAdminAccountFailed(response));
+            });
     };
 };

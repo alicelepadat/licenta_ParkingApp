@@ -71,11 +71,6 @@ namespace ParkingApp.Main.API.Controllers
 
                 var allReservations = await _reservationService.GetDriverReservationsAsync(driver.Id);
 
-                foreach (var r in allReservations)
-                {
-                    await _reservationService.UpdateReservationStateAsync(r);
-
-                }
 
                 return Ok(allReservations);
             }
@@ -104,12 +99,6 @@ namespace ParkingApp.Main.API.Controllers
 
                 var reservations = vehicle.DriverReservations;
 
-                foreach (var r in reservations)
-                {
-                    await _reservationService.UpdateReservationStateAsync(r);
-
-                }
-
                 return Ok(reservations);
             }
             catch (Exception)
@@ -129,12 +118,6 @@ namespace ParkingApp.Main.API.Controllers
                 }
 
                 var reservations = await _reservationService.GetParkingAreaReservationsAsync(areaId);
-
-                foreach (var r in reservations)
-                {
-                    await _reservationService.UpdateReservationStateAsync(r);
-
-                }
 
                 return Ok(reservations);
             }
@@ -335,12 +318,12 @@ namespace ParkingApp.Main.API.Controllers
 
         [HttpPut]
         [Route("updateState")]
-        public async Task<IActionResult> UpdateReservtionsState()
+        public async Task<IActionResult> UpdateReservationsState()
         {
             try
             {
                 var reservations = await this._reservationService.GetReservationsAsync();
-                
+
                 foreach(var reservation in reservations)
                 {
                     await this._reservationService.UpdateReservationStateAsync(reservation);

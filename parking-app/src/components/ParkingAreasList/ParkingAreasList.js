@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import LoadingSpinner from "../UI/Loading/Loading";
 import * as utility from '../../utility/dataUtility';
 
-import classes from './ParkingAreas.module.css'
-import { Plus } from "react-feather";
+import classes from './ParkingAreasList.module.css'
+import { Plus, UserX } from "react-feather";
 import Input from "../UI/Input/Input";
 import { useHistory } from "react-router-dom";
 
@@ -48,6 +48,13 @@ const ParkingAreasContainer = (props) => {
         />
     );
 
+    const renderAdminWithActions = (admin) => {
+        return <div className={classes["admin-delete"]}>
+            <span>{admin.user?.name}</span>
+            <button title="Elimina admin" onClick={() => props.onDeleteAdminAccount(admin.id)}><UserX /></button>
+        </div>
+    }
+
     const parkingAreasData = (
         <table>
             <thead>
@@ -65,7 +72,8 @@ const ParkingAreasContainer = (props) => {
                             <td>{utility.getAreaZone(area.pricePerHour)}</td>
                             <td>
                                 {
-                                    area.admin !== null ? area.admin.user.name :
+                                    area.admin !== null ?
+                                        renderAdminWithActions(area.admin) :
                                         <button title="Adauga admin"
                                             onClick={() => {
                                                 handleAddAdminClick(area)
@@ -110,6 +118,7 @@ const mapDispatchToProps = dispatch => {
         onFetchAdministratorData: (userId) => dispatch(actionCreators.fetchAdministratorData(userId)),
         onFetchAllAreas: () => dispatch(actionCreators.fetchParkingAreas()),
         onSelectArea: (area) => dispatch(actionCreators.fetchAreaSuccess(area)),
+        onDeleteAdminAccount: (adminId) => dispatch(actionCreators.deleteAdminAccount(adminId))
     };
 };
 
