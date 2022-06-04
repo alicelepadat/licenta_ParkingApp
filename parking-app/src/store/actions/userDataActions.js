@@ -60,9 +60,9 @@ export const fetchDriverData = (userId) => {
             .then(response => {
                 dispatch(fetchUserDataSuccess(response.data));
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchUserDataFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchUserDataFail(response));
+            });
     };
 };
 
@@ -73,9 +73,9 @@ export const fetchAdminData = (userId) => {
             .then(response => {
                 dispatch(fetchUserDataSuccess(response.data));
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchUserDataFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchUserDataFail(response));
+            });
     };
 };
 
@@ -86,9 +86,9 @@ export const fetchAdministratorData = (userId) => {
             .then(response => {
                 dispatch(fetchUserDataSuccess(response.data));
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchUserDataFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchUserDataFail(response));
+            });
     };
 };
 
@@ -100,9 +100,9 @@ export const addDriverLicense = (driverId, licenseData) => {
                 console.log(response.data)
                 dispatch(addDrivingLicenseSuccess(response.data));
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchUserDataFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchUserDataFail(response));
+            });
     };
 };
 
@@ -113,9 +113,9 @@ export const updateDriver = (driverId, driverUpdateData) => {
             .then(response => {
                 dispatch(updateDriverSuccess(response.data));
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchUserDataFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchUserDataFail(response));
+            });
     };
 };
 
@@ -126,9 +126,8 @@ export const updateUserPassword = (userId, data) => {
             .then(response => {
                 dispatch(updateUserPasswordSuccess());
             }).catch(error => {
-            const response = error.response ? error.response : {data:'Network error'};
-            dispatch(fetchUserDataFail(response));
-        });
+                const response = error.response ? error.response : { data: 'Network error' };
+                dispatch(fetchUserDataFail(response));
+            });
     };
 };
-

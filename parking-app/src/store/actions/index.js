@@ -41,6 +41,7 @@ export {
     closeAreaSelection,
     fetchParkingAreas,
     fetchAreaSuccess,
+    deleteAdminAccount
 } from './parkingAreaActions';
 
 export {

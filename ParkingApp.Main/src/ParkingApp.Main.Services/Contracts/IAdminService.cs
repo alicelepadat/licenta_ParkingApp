@@ -7,6 +7,7 @@ namespace ParkingApp.Main.Services.Contracts
     {
 
         Task<AdminDto> GetAdminByUserIdAsync(int userId);
+        Task DeleteAdminAccountAsync(int adminId);
         
     }
 }

@@ -1,4 +1,4 @@
-import {updateObject} from "../utility";
+import { updateObject } from "../utility";
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
@@ -8,7 +8,7 @@ const initialState = {
     loading: false,
 };
 
-const fetchAreaStart = (state, action) => {
+const actionStart = (state, action) => {
     return updateObject(state, {
         error: null,
         loading: true,
@@ -31,7 +31,18 @@ const fetchAllAreasSuccess = (state, action) => {
     });
 };
 
-const fetchAreaFail = (state, action) => {
+const deleteAdminAccountSuccess = (state, action) => {
+    const updatedList = state.parkingAreas.filter(item => {
+        return item.id !== action.adminId
+    });
+    return updateObject(state, {
+        parkingAreas: updatedList,
+        error: null,
+        loading: false,
+    });
+};
+
+const actionFail = (state, action) => {
     return updateObject(state, {
         error: action.error,
         loading: false,
@@ -47,13 +58,19 @@ const closeAreaSelectionSuccess = (state, action) => {
 const parkingAreaReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_AREA_START:
-            return fetchAreaStart(state, action);
+            return actionStart(state, action);
         case actionTypes.FETCH_AREA_SUCCESS:
             return fetchAreaSuccess(state, action);
         case actionTypes.FETCH_AREAS_SUCCESS:
             return fetchAllAreasSuccess(state, action);
         case actionTypes.FETCH_AREA_FAIL:
-            return fetchAreaFail(state, action);
+            return actionFail(state, action);
+        case actionTypes.DELETE_ADMIN_ACCOUNT_FAIL:
+            return actionFail(state, action);
+        case actionTypes.DELETE_ADMIN_ACCOUNT_START:
+            return actionStart(state, action);
+        case actionTypes.DELETE_ADMIN_ACCOUNT_SUCCESS:
+            return deleteAdminAccountSuccess(state, action);
         case actionTypes.CLOSE_AREA_SELECTION:
             return closeAreaSelectionSuccess(state, action);
         default:

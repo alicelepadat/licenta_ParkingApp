@@ -43,5 +43,20 @@ namespace ParkingApp.Main.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpDelete("{adminId}")]
+        public async Task<IActionResult> DeleteAdminAccount(int adminId)
+        {
+            try
+            {
+                await this._adminService.DeleteAdminAccountAsync(adminId);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
     }
 }

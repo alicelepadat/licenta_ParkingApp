@@ -1,18 +1,18 @@
 import React from 'react';
-import ParkingAreasContainer from "../../components/ParkingAreas/ParkingAreas";
+import ParkingAreasContainer from "../../components/ParkingAreasList/ParkingAreasList";
 import Card from "../../components/UI/Card/Card";
-import classes from "./ParkingAreas.module.css";
+import classes from "./ParkingAreasList.module.css";
 
-const ParkingAreas = () => {
+const ParkingAreasList = () => {
 
     return (
         <div className="container mt-4 mb-4 justify-content-center">
             <Card className={classes["areas-card"]}>
-                <ParkingAreasContainer/>
+                <ParkingAreasContainer />
             </Card>
         </div>
     );
 };
 
 
-export default ParkingAreas;
+export default ParkingAreasList;
